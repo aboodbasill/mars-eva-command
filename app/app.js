@@ -729,10 +729,21 @@
     setBadge('Local files', 'ok', 'Opened from disk: every library and dataset is local; no network needed.');
   } else if ('serviceWorker' in navigator) {
     setBadge('Caching…', 'warn', 'Installing the offline cache');
+    const hadController = !!navigator.serviceWorker.controller;
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      if (!hadController) return;            // first install: nothing stale on screen
+      setBadge('Update ready — tap to reload', 'warn', 'A newer build has been cached; reload to use it');
+      badge.style.cursor = 'pointer';
+      badge.setAttribute('role', 'button');
+      badge.tabIndex = 0;
+      badge.onclick = () => location.reload();
+      badge.onkeydown = (e) => { if (e.key === 'Enter' || e.key === ' ') location.reload(); };
+    });
     navigator.serviceWorker.register('service-worker.js').then(() => navigator.serviceWorker.ready).then((reg) => {
       const ask = () => (navigator.serviceWorker.controller || reg.active).postMessage({ type: 'status' });
       navigator.serviceWorker.addEventListener('message', (e) => {
         if (e.data?.type !== 'status') return;
+        if (badge.textContent.startsWith('Update ready')) return;
         if (e.data.ready && e.data.build === D.manifest.build_id) setBadge('Offline ready ✓', 'ok', `${e.data.cached}/${e.data.total} files cached & verified for build ${e.data.build}`);
         else { setBadge(`Caching ${e.data.cached}/${e.data.total}`, 'warn', 'Not all files are cached yet'); setTimeout(ask, 1500); }
       });
