@@ -1,3 +1,4 @@
+/* SI disclosure: generated with the help of an AI coding assistant (Claude, Anthropic) from the team's plan; reviewed by the team. See SI_DISCLOSURE.md. */
 /* Versioned offline cache. "Offline ready" is reported only after every listed asset is in the cache. */
 importScripts('precache.js');
 const CACHE = 'mec-' + self.MEC_BUILD;

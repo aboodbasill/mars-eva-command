@@ -1,3 +1,4 @@
+# SI disclosure: generated with the help of an AI coding assistant (Claude, Anthropic) from the team's plan; reviewed by the team. See SI_DISCLOSURE.md.
 """Shared configuration, coordinate handling, and I/O helpers for the Mars EVA Command pipeline."""
 from __future__ import annotations
 

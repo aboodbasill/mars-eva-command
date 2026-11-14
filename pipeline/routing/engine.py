@@ -1,3 +1,4 @@
+# SI disclosure: generated with the help of an AI coding assistant (Claude, Anthropic) from the team's plan; reviewed by the team. See SI_DISCLOSURE.md.
 """Routing engine — explicit A* and Dijkstra on an 8-neighbour grid (plan §10.2–10.3).
 
 Edge semantics (cost model 'symmetric-max-v1'):

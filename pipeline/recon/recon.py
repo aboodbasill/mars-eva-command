@@ -1,3 +1,4 @@
+# SI disclosure: generated with the help of an AI coding assistant (Claude, Anthropic) from the team's plan; reviewed by the team. See SI_DISCLOSURE.md.
 """Phase 8 — AI-assisted reconnaissance (optional system), plan §10.5 and §12.
 
 Step 1 (01_features): 100 m analysis blocks; property-specific coverage; target + independent predictors.

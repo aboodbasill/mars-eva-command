@@ -106,3 +106,23 @@ walkback:
 recon:
   block_m: 100              # analysis scale for coverage gaps and the optional AI experiment
   weights: { science: 0.35, gap: 0.30, uncertainty: 0.15, route: 0.20, access: 0.10 }
+
+# NASEM (2026) A Science Strategy for the Human Exploration of Mars, doi:10.17226/28594 — numbering checked 14 Nov 2026
+nasem_objectives:
+  1: "Habitability and evidence of past or present life in the exploration zone"
+  3: "Geologic record and niche-habitat mapping"
+  5: "Onset and evolution of major dust storms"
+  9: "Effects of martian dust on human physiology and hardware"
+  11: "Primary and secondary radiation at key locations"
+
+challenge:
+  name: "Interplanetary Survival Guide: Martian Map"
+  url: "https://www.spaceappschallenge.org/2026/challenges/interplanetary-survival-guide-martian-map/"
+  listed_resources_used: ["USGS-NASA Planetary Geologic Mapping Program (SIM 3464)", "Mars Perseverance Raw Images Gallery"]
+
+si_acknowledgement: >-
+  Super Intelligence (SI) disclosure: the data pipeline, tests, web app code and documentation in this project were
+  generated with the help of an AI coding assistant (Claude, Anthropic) from the team's own written plan. The mission
+  concept and plan are the team's. All scientific data come from the cited NASA/USGS archives; every number shown is
+  computed by the pipeline and logged in docs/validation.md. No images, audio or video in the app are AI-generated
+  (all imagery is NASA/USGS spacecraft or rover data).

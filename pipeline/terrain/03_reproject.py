@@ -1,3 +1,4 @@
+# SI disclosure: generated with the help of an AI coding assistant (Claude, Anthropic) from the team's plan; reviewed by the team. See SI_DISCLOSURE.md.
 """Phase 2 — reproject every product onto shared, snapped local grids (local eqc, lat_ts = 18.45).
 
 Continuous elevation: bilinear, then any destination cell whose bilinear footprint touched a void is

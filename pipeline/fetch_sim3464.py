@@ -1,3 +1,4 @@
+# SI disclosure: generated with the help of an AI coding assistant (Claude, Anthropic) from the team's plan; reviewed by the team. See SI_DISCLOSURE.md.
 """Extract only the geodatabase, THEMIS rasters, coordinate systems and metadata
 from the remote USGS SIM 3464 zip using HTTP range requests (avoids the 349 MB download)."""
 import urllib.request, zipfile, os, sys, shutil

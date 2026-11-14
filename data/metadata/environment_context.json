@@ -3,25 +3,25 @@
   "id": "radiation",
   "title": "Ionizing radiation \u2014 reference only",
   "evidence_class": "direct_surface_measurement (different site)",
-  "label": "VERIFY",
+  "label": "LIMITED",
   "site": "Gale crater (Curiosity RAD), ~3,700 km from Jezero",
   "period": "Aug 2012 \u2013 Jun 2013 (~300 sols, near solar maximum)",
   "values": [
    {
-    "quantity": "absorbed dose rate",
+    "quantity": "absorbed dose rate (tissue)",
     "value": 0.21,
-    "units": "mGy/day",
-    "as_cited_by": "team build plan v2 (PDF p.7)"
+    "uncertainty": 0.04,
+    "units": "mGy/day"
    },
    {
-    "quantity": "dose equivalent rate (GCR)",
+    "quantity": "dose equivalent rate",
     "value": 0.64,
-    "units": "mSv/day",
-    "as_cited_by": "team build plan v2 (PDF p.7)"
+    "uncertainty": 0.12,
+    "units": "mSv/day"
    }
   ],
-  "source": "Hassler et al. 2014, Science 343, 1244797, doi:10.1126/science.1244797",
-  "verification_note": "Numeric values not yet checked against the paper full text during this build; a secondary news summary quotes ~0.67 mSv/day. Detector/quantity definitions (silicon vs tissue) must be confirmed before quoting. Gray and sievert are different quantities.",
+  "source": "Hassler et al. 2014, Science 343, 1244797, doi:10.1126/science.1244797; values as tabulated with citation in Space Weather and Space Climate (2016), article swsc150074, Table 2",
+  "verification_note": "Checked 14 Nov 2026 against a peer-reviewed table citing Hassler et al. 2014 (tissue dose 0.21 \u00b1 0.04 mGy/day; dose equivalent 0.64 \u00b1 0.12 mSv/day). The paper full text itself was not accessible during the build. Gray and sievert are different quantities.",
   "limitations": [
    "Not measured at Jezero; not a forecast for this route.",
    "Do not multiply by EVA duration to obtain a crew dose: shielding, solar events and atmosphere matter.",

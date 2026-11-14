@@ -1,3 +1,4 @@
+# SI disclosure: generated with the help of an AI coding assistant (Claude, Anthropic) from the team's plan; reviewed by the team. See SI_DISCLOSURE.md.
 """Phase 3 — terrain and evidence grids.
 
 slope (deg) = atan(sqrt((dz/dx)^2 + (dz/dy)^2)) using Horn's 3x3 kernel on local metres (no scale fudge).

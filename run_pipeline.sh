@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# SI disclosure: generated with the help of an AI coding assistant (Claude, Anthropic) from the team's plan; reviewed by the team. See SI_DISCLOSURE.md.
 # Reproduce the full Mars EVA Command build from the original archives.
 set -euo pipefail
 cd "$(dirname "$0")"
@@ -20,6 +21,7 @@ $P pipeline/terrain/04_derive_terrain.py
 $P pipeline/routing/06_routes.py
 $P pipeline/environment/01_process_meda.py
 $P pipeline/environment/02_context.py
+$P pipeline/rover/fetch_pov.py
 $P pipeline/recon/recon.py
 $P pipeline/08_validate.py
 $P pipeline/09_export.py

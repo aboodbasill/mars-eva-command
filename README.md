@@ -1,7 +1,11 @@
 # Mars EVA Command — Marswalk 1 (Jezero Crater)
 
 **Human EVA Exploration Planner · Mars Environmental Intelligence · AI-Assisted Reconnaissance**
-NASA Space Apps Challenge 2026 demonstration. Code: Apache-2.0.
+NASA Space Apps Challenge 2026 — challenge **[Interplanetary Survival Guide: Martian Map](https://www.spaceappschallenge.org/2026/challenges/interplanetary-survival-guide-martian-map/)**. Code: Apache-2.0.
+
+**Live app:** https://aboodbasill.github.io/mars-eva-command/
+
+> **Use of SI:** the code and docs were generated with the help of an AI coding assistant (Claude, Anthropic) from the team's own plan. All data are NASA/USGS archive data, and no imagery is AI-generated. See [SI_DISCLOSURE.md](SI_DISCLOSURE.md).
 
 > Where could a hypothetical crew walk, what supports that route, what environmental information actually exists here, and where should robots look next?
 
@@ -25,7 +29,7 @@ Rebuild everything from the original NASA/USGS products (about 140 MB of HTTP ra
 
 | System | Status | What you see |
 |---|---|---|
-| 1. EVA Planner | **MVP complete** | HiRISE 1 m terrain, three slope scenarios (15/20/25°), confidence-aware A* routes, return-budget envelope (0.5/1/2/10 km-equivalent), station cards with 25 cm HiRISE chips, profile, printable briefing |
+| 1. EVA Planner | **MVP complete** | HiRISE 1 m terrain, three slope scenarios (15/20/25°), confidence-aware A* routes, return-budget envelope (0.5/1/2/10 km-equivalent), station cards with 25 cm HiRISE chips **and Perseverance point-of-view images**, profile, printable briefing |
 | 2. Environmental Intelligence | **MVP complete** | Real MEDA pressure and air temperature for 5 sols at the depot (sols 656–684), with Ls, UTC, quality filters and nulls kept as null. Gale RAD reference (VERIFY), light-time, "no feed" space-weather slot, limits card |
 | 3. Recon | **Gap map shipped; AI not released** | Deterministic coverage gaps and ranked follow-up candidates. The AI slope estimator was trained and tested on held-out geography but **failed its release gate** (interval coverage 0.65 < 0.70), so its predictions are not shown as a product layer |
 
@@ -58,6 +62,6 @@ docs/                        methods, validation, submission text, demo script
 - Every displayed number has units, source, time and scale. Missing values stay `null`, never zero.
 - The default route uses measured and derived terrain only. AI never alters routing. Environment never silently alters cost.
 - Geology is interpretive (offsets of 100–200 m). DTM slope does not resolve rocks smaller than about 1–2 m. Gale RAD values are not a Jezero dose.
-- Remaining VERIFY items: RAD numbers against the paper's full text, NASEM objective numbering, per-image acquisition dates, depot tube positions, and current Space Apps rules. See `ASSUMPTIONS.md`.
+- Verified on 14 Nov 2026: the RAD values, the NASEM objective numbering, the challenge and its Resources-tab match, and the 2026 submission rules. Still open: per-image acquisition dates, individual depot tube positions, and your Local Lead's cutoff. See `ASSUMPTIONS.md`.
 
 See `REFERENCES.md` for every dataset, paper and library.

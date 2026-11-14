@@ -1,0 +1,80 @@
+{
+ "L0": {
+  "file": "pov_L0.jpg",
+  "sol": 14,
+  "imageid": "NLF_0014_0668191860_522ECM_N0030110NCAM00304_01_195J",
+  "camera": "NAVCAM_LEFT",
+  "date_taken_utc": "2021-03-05T04:52:41.828",
+  "mast_az_deg": "336.76",
+  "mast_el_deg": "-45.3111",
+  "source_url": "https://mars.nasa.gov/mars2020-raw-images/pub/ods/surface/sol/00014/ids/edr/browse/ncam/NLF_0014_0668191860_522ECM_N0030110NCAM00304_01_195J01_1200.jpg",
+  "gallery": "https://mars.nasa.gov/mars2020/multimedia/raw-images/",
+  "credit": "NASA/JPL-Caltech",
+  "note": "Raw, unprocessed rover image taken at this stop; a rover camera is ~2 m above ground, not an astronaut eye line."
+ },
+ "S1": {
+  "file": "pov_S1.jpg",
+  "sol": 490,
+  "imageid": "NLF_0490_0710456117_926ECM_N0261004NCAM00709_01_095J",
+  "camera": "NAVCAM_LEFT",
+  "date_taken_utc": "2022-07-07T09:02:42.128",
+  "mast_az_deg": "336.952",
+  "mast_el_deg": "-45.108",
+  "source_url": "https://mars.nasa.gov/mars2020-raw-images/pub/ods/surface/sol/00490/ids/edr/browse/ncam/NLF_0490_0710456117_926ECM_N0261004NCAM00709_01_095J02_1200.jpg",
+  "gallery": "https://mars.nasa.gov/mars2020/multimedia/raw-images/",
+  "credit": "NASA/JPL-Caltech",
+  "note": "Raw, unprocessed rover image taken at this stop; a rover camera is ~2 m above ground, not an astronaut eye line."
+ },
+ "S2": {
+  "file": "pov_S2.jpg",
+  "sol": 509,
+  "imageid": "NLF_0509_0712140650_691ECM_N0261222NCAM00709_01_095J",
+  "camera": "NAVCAM_LEFT",
+  "date_taken_utc": "2022-07-26T20:58:19.033",
+  "mast_az_deg": "336.764",
+  "mast_el_deg": "-45.1051",
+  "source_url": "https://mars.nasa.gov/mars2020-raw-images/pub/ods/surface/sol/00509/ids/edr/browse/ncam/NLF_0509_0712140650_691ECM_N0261222NCAM00709_01_095J01_1200.jpg",
+  "gallery": "https://mars.nasa.gov/mars2020/multimedia/raw-images/",
+  "credit": "NASA/JPL-Caltech",
+  "note": "Raw, unprocessed rover image taken at this stop; a rover camera is ~2 m above ground, not an astronaut eye line."
+ },
+ "S3": {
+  "file": "pov_S3.jpg",
+  "sol": 622,
+  "imageid": "ZL0_0622_0722178363_223EBY_N0301172ZCAM08626_1100LMJ",
+  "camera": "MCZ_LEFT",
+  "date_taken_utc": "2022-11-20T01:14:58.610",
+  "mast_az_deg": "4.97211",
+  "mast_el_deg": "-47.9745",
+  "source_url": "https://mars.nasa.gov/mars2020-raw-images/pub/ods/surface/sol/00622/ids/edr/browse/zcam/ZL0_0622_0722178363_223EBY_N0301172ZCAM08626_1100LMJ01_1200.jpg",
+  "gallery": "https://mars.nasa.gov/mars2020/multimedia/raw-images/",
+  "credit": "NASA/JPL-Caltech/ASU",
+  "note": "Raw, unprocessed rover image taken at this stop; a rover camera is ~2 m above ground, not an astronaut eye line."
+ },
+ "S4": {
+  "file": "pov_S4.jpg",
+  "sol": 575,
+  "imageid": "NLF_0575_0717997335_774ECM_N0290000NCAM00709_01_095J",
+  "camera": "NAVCAM_LEFT",
+  "date_taken_utc": "2022-10-02T15:50:31.205",
+  "mast_az_deg": "336.954",
+  "mast_el_deg": "-45.3181",
+  "source_url": "https://mars.nasa.gov/mars2020-raw-images/pub/ods/surface/sol/00575/ids/edr/browse/ncam/NLF_0575_0717997335_774ECM_N0290000NCAM00709_01_095J01_1200.jpg",
+  "gallery": "https://mars.nasa.gov/mars2020/multimedia/raw-images/",
+  "credit": "NASA/JPL-Caltech",
+  "note": "Raw, unprocessed rover image taken at this stop; a rover camera is ~2 m above ground, not an astronaut eye line."
+ },
+ "D1": {
+  "file": "pov_D1.jpg",
+  "sol": 690,
+  "imageid": "ZL0_0690_0728197956_034EBY_N0321184ZCAM08692_0340LMJ",
+  "camera": "MCZ_LEFT",
+  "date_taken_utc": "2023-01-28T17:22:26.073",
+  "mast_az_deg": "155.887",
+  "mast_el_deg": "-8.61193",
+  "source_url": "https://mars.nasa.gov/mars2020-raw-images/pub/ods/surface/sol/00690/ids/edr/browse/zcam/ZL0_0690_0728197956_034EBY_N0321184ZCAM08692_0340LMJ01_1200.jpg",
+  "gallery": "https://mars.nasa.gov/mars2020/multimedia/raw-images/",
+  "credit": "NASA/JPL-Caltech/ASU",
+  "note": "Raw, unprocessed rover image taken at this stop; a rover camera is ~2 m above ground, not an astronaut eye line."
+ }
+}

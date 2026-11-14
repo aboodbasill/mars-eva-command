@@ -1,7 +1,7 @@
 {
  "schema_version": "1.0.0",
- "build_id": "mec-a90dceeed792",
- "built_utc": "2026-11-14T02:01:51+00:00",
+ "build_id": "mec-7a82cb9a5bbd",
+ "built_utc": "2026-11-14T02:45:26+00:00",
  "mission": {
   "id": "marswalk-1",
   "name": "Marswalk 1",
@@ -251,8 +251,8 @@
   },
   {
    "id": "A-09",
-   "label": "VERIFY",
-   "text": "NASEM objective numbers 1 and 3 on station cards are carried from the team plan and need confirmation in the NASEM report."
+   "label": "CONFIRMED",
+   "text": "NASEM (2026) objective numbers 1 (habitability/life) and 3 (geologic record) on station cards checked against the report, doi:10.17226/28594, on 14 Nov 2026."
   },
   {
    "id": "A-10",
@@ -270,11 +270,27 @@
    "text": "Scout score weights and normalisations are design choices; access uses the crew cost graph as a proxy (no robot mobility model)."
   }
  ],
+ "nasem_objectives": {
+  "1": "Habitability and evidence of past or present life in the exploration zone",
+  "3": "Geologic record and niche-habitat mapping",
+  "5": "Onset and evolution of major dust storms",
+  "9": "Effects of martian dust on human physiology and hardware",
+  "11": "Primary and secondary radiation at key locations"
+ },
+ "challenge": {
+  "name": "Interplanetary Survival Guide: Martian Map",
+  "url": "https://www.spaceappschallenge.org/2026/challenges/interplanetary-survival-guide-martian-map/",
+  "listed_resources_used": [
+   "USGS-NASA Planetary Geologic Mapping Program (SIM 3464)",
+   "Mars Perseverance Raw Images Gallery"
+  ]
+ },
+ "si_acknowledgement": "Super Intelligence (SI) disclosure: the data pipeline, tests, web app code and documentation in this project were generated with the help of an AI coding assistant (Claude, Anthropic) from the team's own written plan. The mission concept and plan are the team's. All scientific data come from the cited NASA/USGS archives; every number shown is computed by the pipeline and logged in docs/validation.md. No images, audio or video in the app are AI-generated (all imagery is NASA/USGS spacecraft or rover data).",
  "assets": [
   {
    "file": "bundle.js",
-   "bytes": 653094,
-   "sha256": "e6a5551ee621ab33f42834ac1fb184bc01b75f43eb071574a776f305934f8300"
+   "bytes": 657951,
+   "sha256": "45d52559e50f32aaff105ecce1f569e098eba3b6523a05e6abc371d8935c4c51"
   },
   {
    "file": "chip_D1.jpg",
@@ -313,8 +329,8 @@
   },
   {
    "file": "environment.json",
-   "bytes": 211754,
-   "sha256": "b38cc09d81634b95109eb54904aa919ec57df8a1dd2d3f32746a045a8bb9827f"
+   "bytes": 211826,
+   "sha256": "3f20bc5e4af6ac32117971c906a26e753330e9df7ff63943f9fac74798060074"
   },
   {
    "file": "geology_local.json",
@@ -340,6 +356,36 @@
    "file": "layers.json",
    "bytes": 8915,
    "sha256": "9d9d370ea32eac52b23749a61251aac38a52581119021e0bbfb16bdd8e8e2c9a"
+  },
+  {
+   "file": "pov_D1.jpg",
+   "bytes": 206555,
+   "sha256": "55f19c8a2c60d02f42b8fd003d9fdfe5ccff8ff531e7ed018ab4bbbac879eeac"
+  },
+  {
+   "file": "pov_L0.jpg",
+   "bytes": 108639,
+   "sha256": "2b68f17944b9c36bc2fbba7d756ac749ef50603b2f72670d2c86eae0473f1838"
+  },
+  {
+   "file": "pov_S1.jpg",
+   "bytes": 171095,
+   "sha256": "691e8aed36efdc07bea818c91276fa6a6e45eeacfab7a140606b4f36a1b919e0"
+  },
+  {
+   "file": "pov_S2.jpg",
+   "bytes": 211825,
+   "sha256": "e15a610bcb1b9128e9e7c3eefda574118d3185c3f66f0cc1f090a3151a8a7f3c"
+  },
+  {
+   "file": "pov_S3.jpg",
+   "bytes": 151155,
+   "sha256": "7d99e4b05ae86750f75f57864a50b896a2a6e69910b171a9743694acabe9f5f0"
+  },
+  {
+   "file": "pov_S4.jpg",
+   "bytes": 195371,
+   "sha256": "43eb667f50588de012d1f6d57b78262dcd01703195a0ab56dbf0d07039c30b91"
   },
   {
    "file": "profiles.json",
@@ -399,7 +445,7 @@
   {
    "file": "validation.json",
    "bytes": 8702,
-   "sha256": "980163b2c182bb92ba80b4d6bcb70eff9b8a2b4aba037541c504c468d3d085ef"
+   "sha256": "7b054aeafde0e3d2dfe6203f28940d47aac6642ab6e79290e8d75013e8589506"
   },
   {
    "file": "walkback_15.png",
@@ -422,5 +468,5 @@
    "sha256": "edc8b420e747b1752b34d84e3e47759fb872bc739cb72c336310d061f855542c"
   }
  ],
- "total_bytes": 18536643
+ "total_bytes": 19586212
 }

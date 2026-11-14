@@ -1,3 +1,4 @@
+# SI disclosure: generated with the help of an AI coding assistant (Claude, Anthropic) from the team's plan; reviewed by the team. See SI_DISCLOSURE.md.
 """Phase 1/2 — derive mission sites from the rover waypoint archive, build the AOI, fetch source windows.
 
 * Lander / stations / depot come from M20_waypoints.json (no hand-typed coordinates).

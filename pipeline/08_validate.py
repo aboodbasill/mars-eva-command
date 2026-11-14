@@ -1,3 +1,4 @@
+# SI disclosure: generated with the help of an AI coding assistant (Claude, Anthropic) from the team's plan; reviewed by the team. See SI_DISCLOSURE.md.
 """Phase 7 — reproducible validation. Every number written here is computed from this build; nothing is pre-filled.
 
 Writes data/intermediate/validation.json and docs/validation.md.

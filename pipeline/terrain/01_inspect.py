@@ -1,3 +1,4 @@
+# SI disclosure: generated with the help of an AI coding assistant (Claude, Anthropic) from the team's plan; reviewed by the team. See SI_DISCLOSURE.md.
 """Phase 1 — inspect source products: CRS, extent, nodata, resolution, checksums, longitude convention.
 
 Writes data/metadata/inspect.json. Remote HiRISE products are inspected via HTTP (header only).

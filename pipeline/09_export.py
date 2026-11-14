@@ -1,3 +1,4 @@
+# SI disclosure: generated with the help of an AI coding assistant (Claude, Anthropic) from the team's plan; reviewed by the team. See SI_DISCLOSURE.md.
 """Phase 7/9 — export compact release artefacts for the static app (plan §8 data contracts).
 
 Writes app/data/*.json (contracts), image overlays, compact binary grids, a JS bundle (so the app also runs from
@@ -28,7 +29,7 @@ ASSUMPTIONS = [
     {'id': 'A-06', 'label': 'ASSUMPTION', 'text': '5 m routing cell slope = maximum 1 m Horn slope; cell HiRISE-supported only if ≥ 90 % of 1 m slopes valid.'},
     {'id': 'A-07', 'label': 'LIMITED', 'text': 'Station positions = last Perseverance waypoint at or before the sampling sol (Herd et al. 2025), ±5 m assumed.'},
     {'id': 'A-08', 'label': 'VERIFY', 'text': 'Depot inspection point = centroid of 21 depot-build waypoints; individual tube positions not transcribed.'},
-    {'id': 'A-09', 'label': 'VERIFY', 'text': 'NASEM objective numbers 1 and 3 on station cards are carried from the team plan and need confirmation in the NASEM report.'},
+    {'id': 'A-09', 'label': 'CONFIRMED', 'text': 'NASEM (2026) objective numbers 1 (habitability/life) and 3 (geologic record) on station cards checked against the report, doi:10.17226/28594, on 14 Nov 2026.'},
     {'id': 'A-10', 'label': 'ASSUMPTION', 'text': 'Snapping a blocked stop to the nearest traversable cell within 15 m is disclosed with its displacement; the requested point is preserved.'},
     {'id': 'A-11', 'label': 'ASSUMPTION', 'text': 'Ascent/descent use a 5-vertex (~25 m) moving average of 5 m-cell elevation; raw values reported alongside.'},
     {'id': 'A-12', 'label': 'ASSUMPTION', 'text': 'Scout score weights and normalisations are design choices; access uses the crew cost graph as a proxy (no robot mobility model).'},
@@ -363,8 +364,12 @@ def main():
                               for k, v in insp['products'].items()},
         'conventions': insp['conventions'],
         'assumptions': ASSUMPTIONS,
+        'nasem_objectives': {str(k): v for k, v in cfg['nasem_objectives'].items()},
+        'challenge': cfg['challenge'],
+        'si_acknowledgement': cfg['si_acknowledgement'],
     }
-    bundle = {'manifest': manifest, 'layers': layers, 'routes': routes, 'stations': stations, 'profiles': profiles,
+    pov = read_json(os.path.join(META, 'pov.json')) if os.path.exists(os.path.join(META, 'pov.json')) else {}
+    bundle = {'manifest': manifest, 'pov': pov, 'layers': layers, 'routes': routes, 'stations': stations, 'profiles': profiles,
               'walkback': walk, 'environment': environment, 'validation': validation, 'recon': rec,
               'geology': read_json(os.path.join(APPDATA, 'geology_local.json')), 'rover': read_json(os.path.join(APPDATA, 'rover_local.json'))}
     with open(os.path.join(APPDATA, 'bundle.js'), 'w') as fh:

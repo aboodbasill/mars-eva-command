@@ -1,3 +1,4 @@
+# SI disclosure: generated with the help of an AI coding assistant (Claude, Anthropic) from the team's plan; reviewed by the team. See SI_DISCLOSURE.md.
 """Phases 4–5 — itineraries for each slope scenario, return-budget field, route statistics, station tags.
 
 Outputs (data/intermediate):
