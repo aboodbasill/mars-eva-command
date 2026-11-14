@@ -12,3 +12,4 @@ jobs:
       - run: python -m pytest -q tests
       - run: node tests/test_mars24.js
       - run: node tests/test_hazard.js
+      - run: node tests/test_thermal.js

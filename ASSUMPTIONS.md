@@ -40,6 +40,7 @@ The same register ships inside the app (Data & Limits) from `pipeline/09_export.
 | G-13 | ASSUMPTION | Planner times use the Apollo pace on each 5 m step of the route (uphill slows you, downhill does not speed you up). Task times: 25 min per outcrop, 30 min at the depot, 15 min at Perseverance, 10 min at a free point. |
 | G-14 | ASSUMPTION | Suit sounds are synthesised. Breathing rate follows the work rate (12 breaths/min at rest, +1 per 30 W). |
 | G-15 | ASSUMPTION | Hazard alert distances (Caution 50 m, Warning 20 m, Critical 5 m by default) and the sharp-step rule (≥ 4 m in a 3 × 3 window of the 5 m DEM) are gameplay settings, not NASA safety distances. "Clear" means nothing was found in the 5 m data, not that the ground is safe. No-data cells are flagged as unverified, not as known hazards. |
+| G-16 | LIMITED | Thermal map values are THEMIS band-9 brightness temperatures from two single images (2014-05-06 17:49 LTST, Ls 127°; 2019-01-26 05:48 LTST, Ls 331°), resampled from 100 m to a 20 m grid. They are not kinetic temperatures and not a forecast for an EVA. The SIM 3464 THEMIS mosaics are shown as relative brightness only. |
 
 ## Findings recorded during the build
 

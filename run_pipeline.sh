@@ -23,7 +23,8 @@ $P pipeline/routing/06_routes.py
 $P pipeline/routing/07_rover.py
 $P pipeline/environment/01_process_meda.py
 $P pipeline/environment/02_context.py
-$P pipeline/environment/03_space_weather.py   # set NASA_API_KEY to avoid the DEMO_KEY rate limit
+$P pipeline/environment/03_space_weather.py
+$P pipeline/environment/04_thermal.py   # THEMIS brightness temperature (PDS IRPBT2), THEMIS mosaics, MEDA TIRS, MCD model   # set NASA_API_KEY to avoid the DEMO_KEY rate limit
 $P pipeline/rover/fetch_pov.py
 $P pipeline/recon/recon.py
 $P pipeline/08_validate.py

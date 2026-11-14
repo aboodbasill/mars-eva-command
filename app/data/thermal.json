@@ -1,0 +1,2490 @@
+{
+ "datasets": {
+  "pbt_day": {
+   "id": "pbt_day",
+   "kind": "brightness_temperature",
+   "evidence": "orbital_observation",
+   "units": "K",
+   "title": "THEMIS brightness temperature \u00b7 afternoon",
+   "daynight": "day",
+   "instrument": "2001 Mars Odyssey THEMIS, IR band 9 (12.57 \u00b5m)",
+   "product_id": "I54976031PBT",
+   "data_set": "ODY-M-THM-5-IRGEO-V2.0 (IRPBT2, projected brightness temperature)",
+   "source_url": "https://static.mars.asu.edu/pds/ODTGEO_v2/data/odtip2_0050/i549xxpbt/I54976031PBT.IMG",
+   "observation_utc": "2014-05-06T13:27:47.019",
+   "local_true_solar_time_h": 17.81,
+   "solar_longitude_deg": 126.663,
+   "native_resolution_m": 100,
+   "map_scale_km_per_px": "0.100",
+   "label_projection": "SINUSOIDAL",
+   "sample": "PC_REAL BRIGHTNESS_TEMPERATURE [KELVIN], null = 0",
+   "footprint_lonlat": [
+    76.6675,
+    15.22,
+    79.145,
+    27.27
+   ],
+   "encoding_vmin": 198.0,
+   "encoding_vmax": 250.0,
+   "stats_study_area": {
+    "min": 221.58056640625,
+    "max": 231.0982208251953,
+    "p2": 223.69619201660157,
+    "median": 226.43844604492188,
+    "p98": 229.06143249511717,
+    "valid_fraction": 1.0
+   },
+   "stats_footprint": {
+    "min": 198.27166748046875,
+    "max": 249.91600036621094,
+    "p2": 211.3818518066406,
+    "median": 224.95049285888672,
+    "p98": 235.08114379882812,
+    "valid_fraction": 0.2424442388132194
+   },
+   "study_area_grid_m": 20,
+   "resampling": "bilinear to the 20 m local grid; cells touching no-data are masked",
+   "registration": {
+    "r_before": 0.7085325592276309,
+    "r_after": 0.8000377725399056,
+    "shift_px_100m": [
+     -1,
+     4
+    ],
+    "applied_shift_m": [
+     -100.0,
+     -400.0
+    ],
+    "reference": "nili_THEMIS_DayIR_Controlled_oct2018 (USGS SIM 3464, controlled mosaic)"
+   },
+   "limitations": [
+    "Brightness temperature at 12.57 \u00b5m, not kinetic surface temperature (emissivity ~0.9\u20131 not removed).",
+    "A single moment: the date, local time and season above; not the temperature during a future EVA.",
+    "100 m pixels: boulders, shadows and slopes smaller than the pixel are averaged.",
+    "Atmospheric and dust effects are not corrected in this product."
+   ]
+  },
+  "pbt_night": {
+   "id": "pbt_night",
+   "kind": "brightness_temperature",
+   "evidence": "orbital_observation",
+   "units": "K",
+   "title": "THEMIS brightness temperature \u00b7 pre-dawn",
+   "daynight": "night",
+   "instrument": "2001 Mars Odyssey THEMIS, IR band 9 (12.57 \u00b5m)",
+   "product_id": "I75929010PBT",
+   "data_set": "ODY-M-THM-5-IRGEO-V2.0 (IRPBT2, projected brightness temperature)",
+   "source_url": "https://static.mars.asu.edu/pds/ODTGEO_v2/data/odtip2_0069/i759xxpbt/I75929010PBT.IMG",
+   "observation_utc": "2019-01-26T06:55:56.383",
+   "local_true_solar_time_h": 5.804,
+   "solar_longitude_deg": 330.575,
+   "native_resolution_m": 100,
+   "map_scale_km_per_px": "0.100",
+   "label_projection": "SINUSOIDAL",
+   "sample": "PC_REAL BRIGHTNESS_TEMPERATURE [KELVIN], null = 0",
+   "footprint_lonlat": [
+    77.1075,
+    17.12,
+    78.135,
+    20.18
+   ],
+   "encoding_vmin": 179.0,
+   "encoding_vmax": 203.0,
+   "stats_study_area": {
+    "min": 182.7180938720703,
+    "max": 192.012451171875,
+    "p2": 184.08112670898439,
+    "median": 187.4754638671875,
+    "p98": 190.6105615234375,
+    "valid_fraction": 1.0
+   },
+   "stats_footprint": {
+    "min": 179.47450256347656,
+    "max": 202.31436157226562,
+    "p2": 183.0375213623047,
+    "median": 188.69095611572266,
+    "p98": 194.5296859741211,
+    "valid_fraction": 0.5665799977736431
+   },
+   "study_area_grid_m": 20,
+   "resampling": "bilinear to the 20 m local grid; cells touching no-data are masked",
+   "registration": {
+    "r_before": 0.5639525226238609,
+    "r_after": 0.9071642232587053,
+    "shift_px_100m": [
+     2,
+     -6
+    ],
+    "applied_shift_m": [
+     200.0,
+     600.0
+    ],
+    "reference": "nili_THEMIS_NightIR_Controlled_oct2018 (USGS SIM 3464, controlled mosaic)"
+   },
+   "limitations": [
+    "Brightness temperature at 12.57 \u00b5m, not kinetic surface temperature (emissivity ~0.9\u20131 not removed).",
+    "A single moment: the date, local time and season above; not the temperature during a future EVA.",
+    "100 m pixels: boulders, shadows and slopes smaller than the pixel are averaged.",
+    "Atmospheric and dust effects are not corrected in this product."
+   ]
+  },
+  "qual_day": {
+   "id": "qual_day",
+   "kind": "relative",
+   "evidence": "orbital_observation (qualitative)",
+   "units": "relative (0\u20131)",
+   "title": "THEMIS day IR mosaic \u00b7 relative",
+   "daynight": "day",
+   "instrument": "2001 Mars Odyssey THEMIS IR",
+   "product_id": "nili_THEMIS_DayIR_Controlled_oct2018",
+   "data_set": "USGS SIM 3464 GIS bundle (THEMIS IR controlled mosaic, Oct 2018)",
+   "source_url": "https://pubs.usgs.gov/sim/3464/",
+   "observation_utc": "mosaic of many orbits (dates not in file)",
+   "local_true_solar_time_h": null,
+   "solar_longitude_deg": null,
+   "native_resolution_m": 100,
+   "footprint_lonlat": [
+    76.795,
+    17.6975,
+    77.8025,
+    18.7025
+   ],
+   "encoding_vmin": 0.0,
+   "encoding_vmax": 1.0,
+   "stats_study_area": {
+    "min": 0.30945655703544617,
+    "max": 0.7902074456214905,
+    "p2": 0.43025766968727114,
+    "median": 0.5812763869762421,
+    "p98": 0.6912656450271606,
+    "valid_fraction": 1.0
+   },
+   "study_area_grid_m": 20,
+   "limitations": [
+    "8-bit display mosaic without calibration in the file: brighter = warmer within this mosaic only; no kelvin values.",
+    "Built from many images taken at different dates and seasons."
+   ]
+  },
+  "qual_night": {
+   "id": "qual_night",
+   "kind": "relative",
+   "evidence": "orbital_observation (qualitative)",
+   "units": "relative (0\u20131)",
+   "title": "THEMIS night IR mosaic \u00b7 relative",
+   "daynight": "night",
+   "instrument": "2001 Mars Odyssey THEMIS IR",
+   "product_id": "nili_THEMIS_NightIR_Controlled_oct2018",
+   "data_set": "USGS SIM 3464 GIS bundle (THEMIS IR controlled mosaic, Oct 2018)",
+   "source_url": "https://pubs.usgs.gov/sim/3464/",
+   "observation_utc": "mosaic of many orbits (dates not in file)",
+   "local_true_solar_time_h": null,
+   "solar_longitude_deg": null,
+   "native_resolution_m": 100,
+   "footprint_lonlat": [
+    76.795,
+    17.6975,
+    77.8025,
+    18.7025
+   ],
+   "encoding_vmin": 0.0,
+   "encoding_vmax": 1.0,
+   "stats_study_area": {
+    "min": 0.06306100636720657,
+    "max": 0.6730129718780518,
+    "p2": 0.1512671282887459,
+    "median": 0.35956674814224243,
+    "p98": 0.6007905805110931,
+    "valid_fraction": 1.0
+   },
+   "study_area_grid_m": 20,
+   "limitations": [
+    "8-bit display mosaic without calibration in the file: brighter = warmer within this mosaic only; no kelvin values.",
+    "Built from many images taken at different dates and seasons."
+   ]
+  }
+ },
+ "grid": {
+  "x0": -3860.0,
+  "y0": 1540.0,
+  "cell_m": 20.0,
+  "ncols": 246,
+  "nrows": 143,
+  "origin": "upper-left",
+  "pixel_convention": "area (value represents cell; centre = origin + (i+0.5)*cell)",
+  "axis": "x east, y north; row increases southward"
+ },
+ "encoding": "value = vmin + R/254*(vmax-vmin); alpha 0 = no data",
+ "alignment": {
+  "method": "Pearson r and phase-correlation shift between each calibrated THEMIS image and the independently controlled THEMIS mosaic of the same time of day, both reprojected to one 100 m local grid over their full overlap (~55 km), AFTER registering each image to that mosaic (see registration). A zero residual shift means the products line up.",
+  "results": {
+   "pbt_night_vs_qual_night": {
+    "pearson_r": 0.9075110384246086,
+    "shift_px_100m": [
+     0,
+     0
+    ],
+    "shift_m": [
+     0,
+     0
+    ],
+    "overlap_km2": 1339.1
+   },
+   "pbt_day_vs_qual_day": {
+    "pearson_r": 0.8002075195566257,
+    "shift_px_100m": [
+     -1,
+     0
+    ],
+    "shift_m": [
+     -100,
+     0
+    ],
+    "overlap_km2": 1928.8
+   }
+  }
+ },
+ "meda_tirs": {
+  "instrument": "Perseverance MEDA TIRS",
+  "variables": {
+   "ground_K": "GROUND_TEMP: ground brightness temperature, footprint not in rover shadow",
+   "air_K": "AIR_TEMP (TIRS)"
+  },
+  "binning": "30-min LMST means within each LMST sol",
+  "evidence": "direct_surface_measurement",
+  "source": "NASA PDS Atmospheres node, mars2020_meda data_calibrated_env (CAL_TIRS)",
+  "sols": [
+   {
+    "sol": 656,
+    "rover_x": -2370.1829441424734,
+    "rover_y": 149.57377173028104,
+    "rover_sol_of_fix": 654,
+    "bins": [
+     {
+      "lmst_h": 0.0,
+      "ground_K": 193.78,
+      "ground_n": 1850,
+      "air_K": 205.17,
+      "air_n": 1850
+     },
+     {
+      "lmst_h": 0.5,
+      "ground_K": 192.93,
+      "ground_n": 1849,
+      "air_K": 206.04,
+      "air_n": 1849
+     },
+     {
+      "lmst_h": 1.0,
+      "ground_K": 192.05,
+      "ground_n": 1582,
+      "air_K": 205.21,
+      "air_n": 1582
+     },
+     {
+      "lmst_h": 1.5,
+      "ground_K": 191.02,
+      "ground_n": 1849,
+      "air_K": 202.53,
+      "air_n": 1849
+     },
+     {
+      "lmst_h": 2.0,
+      "ground_K": 189.9,
+      "ground_n": 1850,
+      "air_K": 200.25,
+      "air_n": 1850
+     },
+     {
+      "lmst_h": 2.5,
+      "ground_K": 188.78,
+      "ground_n": 1849,
+      "air_K": 198.37,
+      "air_n": 1849
+     },
+     {
+      "lmst_h": 3.0,
+      "ground_K": 188.18,
+      "ground_n": 302,
+      "air_K": 197.0,
+      "air_n": 302
+     },
+     {
+      "lmst_h": 3.5,
+      "ground_K": null,
+      "ground_n": 0,
+      "air_K": null,
+      "air_n": 0
+     },
+     {
+      "lmst_h": 4.0,
+      "ground_K": 186.03,
+      "ground_n": 1846,
+      "air_K": 193.93,
+      "air_n": 1846
+     },
+     {
+      "lmst_h": 4.5,
+      "ground_K": 185.18,
+      "ground_n": 1849,
+      "air_K": 192.17,
+      "air_n": 1849
+     },
+     {
+      "lmst_h": 5.0,
+      "ground_K": 184.7,
+      "ground_n": 352,
+      "air_K": 191.17,
+      "air_n": 352
+     },
+     {
+      "lmst_h": 5.5,
+      "ground_K": null,
+      "ground_n": 0,
+      "air_K": null,
+      "air_n": 0
+     },
+     {
+      "lmst_h": 6.0,
+      "ground_K": 183.38,
+      "ground_n": 1846,
+      "air_K": 189.19,
+      "air_n": 1846
+     },
+     {
+      "lmst_h": 6.5,
+      "ground_K": 183.79,
+      "ground_n": 1849,
+      "air_K": 189.77,
+      "air_n": 1849
+     },
+     {
+      "lmst_h": 7.0,
+      "ground_K": 184.78,
+      "ground_n": 345,
+      "air_K": 190.07,
+      "air_n": 345
+     },
+     {
+      "lmst_h": 7.5,
+      "ground_K": null,
+      "ground_n": 0,
+      "air_K": null,
+      "air_n": 0
+     },
+     {
+      "lmst_h": 8.0,
+      "ground_K": 198.82,
+      "ground_n": 1845,
+      "air_K": 191.58,
+      "air_n": 1845
+     },
+     {
+      "lmst_h": 8.5,
+      "ground_K": 208.74,
+      "ground_n": 1850,
+      "air_K": 195.04,
+      "air_n": 1850
+     },
+     {
+      "lmst_h": 9.0,
+      "ground_K": 215.15,
+      "ground_n": 352,
+      "air_K": 195.47,
+      "air_n": 352
+     },
+     {
+      "lmst_h": 9.5,
+      "ground_K": null,
+      "ground_n": 0,
+      "air_K": null,
+      "air_n": 0
+     },
+     {
+      "lmst_h": 10.0,
+      "ground_K": 240.76,
+      "ground_n": 1849,
+      "air_K": 203.62,
+      "air_n": 1849
+     },
+     {
+      "lmst_h": 10.5,
+      "ground_K": 249.99,
+      "ground_n": 1850,
+      "air_K": 209.16,
+      "air_n": 1850
+     },
+     {
+      "lmst_h": 11.0,
+      "ground_K": 254.71,
+      "ground_n": 349,
+      "air_K": 212.1,
+      "air_n": 349
+     },
+     {
+      "lmst_h": 11.5,
+      "ground_K": null,
+      "ground_n": 0,
+      "air_K": null,
+      "air_n": 0
+     },
+     {
+      "lmst_h": 12.0,
+      "ground_K": 267.78,
+      "ground_n": 1845,
+      "air_K": 221.85,
+      "air_n": 1845
+     },
+     {
+      "lmst_h": 12.5,
+      "ground_K": 271.4,
+      "ground_n": 1850,
+      "air_K": 225.13,
+      "air_n": 1850
+     },
+     {
+      "lmst_h": 13.0,
+      "ground_K": 272.65,
+      "ground_n": 352,
+      "air_K": 227.3,
+      "air_n": 352
+     },
+     {
+      "lmst_h": 13.5,
+      "ground_K": null,
+      "ground_n": 0,
+      "air_K": null,
+      "air_n": 0
+     },
+     {
+      "lmst_h": 14.0,
+      "ground_K": 273.42,
+      "ground_n": 1845,
+      "air_K": 235.37,
+      "air_n": 1845
+     },
+     {
+      "lmst_h": 14.5,
+      "ground_K": 271.75,
+      "ground_n": 1850,
+      "air_K": 238.15,
+      "air_n": 1850
+     },
+     {
+      "lmst_h": 15.0,
+      "ground_K": 269.98,
+      "ground_n": 352,
+      "air_K": 240.95,
+      "air_n": 352
+     },
+     {
+      "lmst_h": 15.5,
+      "ground_K": null,
+      "ground_n": 0,
+      "air_K": null,
+      "air_n": 0
+     },
+     {
+      "lmst_h": 16.0,
+      "ground_K": 257.29,
+      "ground_n": 1845,
+      "air_K": 240.27,
+      "air_n": 1845
+     },
+     {
+      "lmst_h": 16.5,
+      "ground_K": 250.29,
+      "ground_n": 1849,
+      "air_K": 240.1,
+      "air_n": 1849
+     },
+     {
+      "lmst_h": 17.0,
+      "ground_K": 245.71,
+      "ground_n": 353,
+      "air_K": 238.99,
+      "air_n": 353
+     },
+     {
+      "lmst_h": 17.5,
+      "ground_K": null,
+      "ground_n": 0,
+      "air_K": null,
+      "air_n": 0
+     },
+     {
+      "lmst_h": 18.0,
+      "ground_K": 226.02,
+      "ground_n": 1846,
+      "air_K": 231.08,
+      "air_n": 1846
+     },
+     {
+      "lmst_h": 18.5,
+      "ground_K": 219.29,
+      "ground_n": 1849,
+      "air_K": 225.71,
+      "air_n": 1849
+     },
+     {
+      "lmst_h": 19.0,
+      "ground_K": 215.96,
+      "ground_n": 341,
+      "air_K": 222.79,
+      "air_n": 341
+     },
+     {
+      "lmst_h": 19.5,
+      "ground_K": null,
+      "ground_n": 0,
+      "air_K": null,
+      "air_n": 0
+     },
+     {
+      "lmst_h": 20.0,
+      "ground_K": 207.66,
+      "ground_n": 1846,
+      "air_K": 218.02,
+      "air_n": 1846
+     },
+     {
+      "lmst_h": 20.5,
+      "ground_K": 205.35,
+      "ground_n": 1849,
+      "air_K": 216.14,
+      "air_n": 1849
+     },
+     {
+      "lmst_h": 21.0,
+      "ground_K": 204.08,
+      "ground_n": 352,
+      "air_K": 215.1,
+      "air_n": 352
+     },
+     {
+      "lmst_h": 21.5,
+      "ground_K": null,
+      "ground_n": 0,
+      "air_K": null,
+      "air_n": 0
+     },
+     {
+      "lmst_h": 22.0,
+      "ground_K": 200.0,
+      "ground_n": 1846,
+      "air_K": 212.14,
+      "air_n": 1846
+     },
+     {
+      "lmst_h": 22.5,
+      "ground_K": 198.9,
+      "ground_n": 1849,
+      "air_K": 211.89,
+      "air_n": 1849
+     },
+     {
+      "lmst_h": 23.0,
+      "ground_K": 198.21,
+      "ground_n": 352,
+      "air_K": 210.99,
+      "air_n": 352
+     },
+     {
+      "lmst_h": 23.5,
+      "ground_K": null,
+      "ground_n": 0,
+      "air_K": null,
+      "air_n": 0
+     }
+    ],
+    "product": "WE__0656___________CAL_TIRS________________P02.CSV"
+   },
+   {
+    "sol": 663,
+    "rover_x": -2357.1768478658614,
+    "rover_y": 163.9354381931068,
+    "rover_sol_of_fix": 663,
+    "bins": [
+     {
+      "lmst_h": 0.0,
+      "ground_K": 194.59,
+      "ground_n": 348,
+      "air_K": 203.21,
+      "air_n": 348
+     },
+     {
+      "lmst_h": 0.5,
+      "ground_K": null,
+      "ground_n": 0,
+      "air_K": null,
+      "air_n": 0
+     },
+     {
+      "lmst_h": 1.0,
+      "ground_K": 192.05,
+      "ground_n": 1846,
+      "air_K": 204.58,
+      "air_n": 1846
+     },
+     {
+      "lmst_h": 1.5,
+      "ground_K": 191.27,
+      "ground_n": 1849,
+      "air_K": 202.15,
+      "air_n": 1849
+     },
+     {
+      "lmst_h": 2.0,
+      "ground_K": 190.76,
+      "ground_n": 352,
+      "air_K": 201.7,
+      "air_n": 352
+     },
+     {
+      "lmst_h": 2.5,
+      "ground_K": null,
+      "ground_n": 0,
+      "air_K": null,
+      "air_n": 0
+     },
+     {
+      "lmst_h": 3.0,
+      "ground_K": 188.61,
+      "ground_n": 1846,
+      "air_K": 199.36,
+      "air_n": 1846
+     },
+     {
+      "lmst_h": 3.5,
+      "ground_K": 187.72,
+      "ground_n": 1849,
+      "air_K": 195.36,
+      "air_n": 1849
+     },
+     {
+      "lmst_h": 4.0,
+      "ground_K": 187.08,
+      "ground_n": 352,
+      "air_K": 193.86,
+      "air_n": 352
+     },
+     {
+      "lmst_h": 4.5,
+      "ground_K": null,
+      "ground_n": 0,
+      "air_K": null,
+      "air_n": 0
+     },
+     {
+      "lmst_h": 5.0,
+      "ground_K": 184.98,
+      "ground_n": 1845,
+      "air_K": 192.04,
+      "air_n": 1845
+     },
+     {
+      "lmst_h": 5.5,
+      "ground_K": 184.57,
+      "ground_n": 1850,
+      "air_K": 193.72,
+      "air_n": 1850
+     },
+     {
+      "lmst_h": 6.0,
+      "ground_K": 184.23,
+      "ground_n": 352,
+      "air_K": 191.52,
+      "air_n": 352
+     },
+     {
+      "lmst_h": 6.5,
+      "ground_K": null,
+      "ground_n": 0,
+      "air_K": null,
+      "air_n": 0
+     },
+     {
+      "lmst_h": 7.0,
+      "ground_K": null,
+      "ground_n": 0,
+      "air_K": 189.93,
+      "air_n": 1845
+     },
+     {
+      "lmst_h": 7.5,
+      "ground_K": null,
+      "ground_n": 0,
+      "air_K": 192.56,
+      "air_n": 1850
+     },
+     {
+      "lmst_h": 8.0,
+      "ground_K": null,
+      "ground_n": 0,
+      "air_K": 195.22,
+      "air_n": 352
+     },
+     {
+      "lmst_h": 8.5,
+      "ground_K": null,
+      "ground_n": 0,
+      "air_K": null,
+      "air_n": 0
+     },
+     {
+      "lmst_h": 9.0,
+      "ground_K": 224.2,
+      "ground_n": 1458,
+      "air_K": 199.84,
+      "air_n": 1845
+     },
+     {
+      "lmst_h": 9.5,
+      "ground_K": 234.07,
+      "ground_n": 1850,
+      "air_K": 205.34,
+      "air_n": 1850
+     },
+     {
+      "lmst_h": 10.0,
+      "ground_K": 240.42,
+      "ground_n": 349,
+      "air_K": 208.66,
+      "air_n": 349
+     },
+     {
+      "lmst_h": 10.5,
+      "ground_K": null,
+      "ground_n": 0,
+      "air_K": null,
+      "air_n": 0
+     },
+     {
+      "lmst_h": 11.0,
+      "ground_K": 260.66,
+      "ground_n": 1845,
+      "air_K": 216.75,
+      "air_n": 1845
+     },
+     {
+      "lmst_h": 11.5,
+      "ground_K": 266.89,
+      "ground_n": 1850,
+      "air_K": 220.81,
+      "air_n": 1850
+     },
+     {
+      "lmst_h": 12.0,
+      "ground_K": 271.71,
+      "ground_n": 1849,
+      "air_K": 225.82,
+      "air_n": 1849
+     },
+     {
+      "lmst_h": 12.5,
+      "ground_K": 274.58,
+      "ground_n": 1586,
+      "air_K": 227.44,
+      "air_n": 1586
+     },
+     {
+      "lmst_h": 13.0,
+      "ground_K": 276.36,
+      "ground_n": 1845,
+      "air_K": 232.02,
+      "air_n": 1845
+     },
+     {
+      "lmst_h": 13.5,
+      "ground_K": 277.03,
+      "ground_n": 1849,
+      "air_K": 234.47,
+      "air_n": 1849
+     },
+     {
+      "lmst_h": 14.0,
+      "ground_K": 276.25,
+      "ground_n": 1850,
+      "air_K": 237.58,
+      "air_n": 1850
+     },
+     {
+      "lmst_h": 14.5,
+      "ground_K": 274.26,
+      "ground_n": 1586,
+      "air_K": 238.67,
+      "air_n": 1586
+     },
+     {
+      "lmst_h": 15.0,
+      "ground_K": 270.83,
+      "ground_n": 1846,
+      "air_K": 241.03,
+      "air_n": 1846
+     },
+     {
+      "lmst_h": 15.5,
+      "ground_K": 267.75,
+      "ground_n": 1418,
+      "air_K": 241.59,
+      "air_n": 1849
+     },
+     {
+      "lmst_h": 16.0,
+      "ground_K": null,
+      "ground_n": 0,
+      "air_K": 241.48,
+      "air_n": 1850
+     },
+     {
+      "lmst_h": 16.5,
+      "ground_K": null,
+      "ground_n": 0,
+      "air_K": 240.65,
+      "air_n": 1582
+     },
+     {
+      "lmst_h": 17.0,
+      "ground_K": null,
+      "ground_n": 0,
+      "air_K": 238.68,
+      "air_n": 1846
+     },
+     {
+      "lmst_h": 17.5,
+      "ground_K": null,
+      "ground_n": 0,
+      "air_K": 235.14,
+      "air_n": 1849
+     },
+     {
+      "lmst_h": 18.0,
+      "ground_K": 220.78,
+      "ground_n": 458,
+      "air_K": 230.38,
+      "air_n": 1850
+     },
+     {
+      "lmst_h": 18.5,
+      "ground_K": 217.43,
+      "ground_n": 1578,
+      "air_K": 227.79,
+      "air_n": 1578
+     },
+     {
+      "lmst_h": 19.0,
+      "ground_K": 212.21,
+      "ground_n": 1846,
+      "air_K": 225.01,
+      "air_n": 1846
+     },
+     {
+      "lmst_h": 19.5,
+      "ground_K": 208.63,
+      "ground_n": 1849,
+      "air_K": 221.67,
+      "air_n": 1849
+     },
+     {
+      "lmst_h": 20.0,
+      "ground_K": 206.02,
+      "ground_n": 1850,
+      "air_K": 220.03,
+      "air_n": 1850
+     },
+     {
+      "lmst_h": 20.5,
+      "ground_K": 204.11,
+      "ground_n": 1585,
+      "air_K": 218.21,
+      "air_n": 1585
+     },
+     {
+      "lmst_h": 21.0,
+      "ground_K": 202.04,
+      "ground_n": 1846,
+      "air_K": 215.39,
+      "air_n": 1846
+     },
+     {
+      "lmst_h": 21.5,
+      "ground_K": 200.07,
+      "ground_n": 1849,
+      "air_K": 213.11,
+      "air_n": 1849
+     },
+     {
+      "lmst_h": 22.0,
+      "ground_K": 198.32,
+      "ground_n": 1849,
+      "air_K": 211.42,
+      "air_n": 1849
+     },
+     {
+      "lmst_h": 22.5,
+      "ground_K": 197.2,
+      "ground_n": 1586,
+      "air_K": 211.15,
+      "air_n": 1586
+     },
+     {
+      "lmst_h": 23.0,
+      "ground_K": 195.84,
+      "ground_n": 1845,
+      "air_K": 208.75,
+      "air_n": 1845
+     },
+     {
+      "lmst_h": 23.5,
+      "ground_K": 194.63,
+      "ground_n": 1850,
+      "air_K": 207.89,
+      "air_n": 1850
+     }
+    ],
+    "product": "WE__0663___________CAL_TIRS________________P01.CSV"
+   },
+   {
+    "sol": 670,
+    "rover_x": -2347.8829234643026,
+    "rover_y": 166.75276456639864,
+    "rover_sol_of_fix": 670,
+    "bins": [
+     {
+      "lmst_h": 0.0,
+      "ground_K": 195.02,
+      "ground_n": 1850,
+      "air_K": 207.43,
+      "air_n": 1850
+     },
+     {
+      "lmst_h": 0.5,
+      "ground_K": 194.07,
+      "ground_n": 1849,
+      "air_K": 205.69,
+      "air_n": 1849
+     },
+     {
+      "lmst_h": 1.0,
+      "ground_K": 193.5,
+      "ground_n": 352,
+      "air_K": 204.43,
+      "air_n": 352
+     },
+     {
+      "lmst_h": 1.5,
+      "ground_K": null,
+      "ground_n": 0,
+      "air_K": null,
+      "air_n": 0
+     },
+     {
+      "lmst_h": 2.0,
+      "ground_K": 191.16,
+      "ground_n": 1845,
+      "air_K": 200.86,
+      "air_n": 1845
+     },
+     {
+      "lmst_h": 2.5,
+      "ground_K": 190.23,
+      "ground_n": 1850,
+      "air_K": 199.32,
+      "air_n": 1850
+     },
+     {
+      "lmst_h": 3.0,
+      "ground_K": 189.68,
+      "ground_n": 352,
+      "air_K": 199.37,
+      "air_n": 352
+     },
+     {
+      "lmst_h": 3.5,
+      "ground_K": null,
+      "ground_n": 0,
+      "air_K": null,
+      "air_n": 0
+     },
+     {
+      "lmst_h": 4.0,
+      "ground_K": 187.77,
+      "ground_n": 1845,
+      "air_K": 193.75,
+      "air_n": 1845
+     },
+     {
+      "lmst_h": 4.5,
+      "ground_K": 186.95,
+      "ground_n": 1850,
+      "air_K": 191.71,
+      "air_n": 1850
+     },
+     {
+      "lmst_h": 5.0,
+      "ground_K": 186.47,
+      "ground_n": 352,
+      "air_K": 190.07,
+      "air_n": 352
+     },
+     {
+      "lmst_h": 5.5,
+      "ground_K": null,
+      "ground_n": 0,
+      "air_K": null,
+      "air_n": 0
+     },
+     {
+      "lmst_h": 6.0,
+      "ground_K": 185.29,
+      "ground_n": 1845,
+      "air_K": 193.98,
+      "air_n": 1845
+     },
+     {
+      "lmst_h": 6.5,
+      "ground_K": 186.34,
+      "ground_n": 1850,
+      "air_K": 194.87,
+      "air_n": 1850
+     },
+     {
+      "lmst_h": 7.0,
+      "ground_K": 187.86,
+      "ground_n": 352,
+      "air_K": 195.05,
+      "air_n": 352
+     },
+     {
+      "lmst_h": 7.5,
+      "ground_K": null,
+      "ground_n": 0,
+      "air_K": null,
+      "air_n": 0
+     },
+     {
+      "lmst_h": 8.0,
+      "ground_K": 206.12,
+      "ground_n": 1550,
+      "air_K": 195.44,
+      "air_n": 1845
+     },
+     {
+      "lmst_h": 8.5,
+      "ground_K": 215.84,
+      "ground_n": 1850,
+      "air_K": 199.42,
+      "air_n": 1850
+     },
+     {
+      "lmst_h": 9.0,
+      "ground_K": 222.35,
+      "ground_n": 352,
+      "air_K": 201.34,
+      "air_n": 352
+     },
+     {
+      "lmst_h": 9.5,
+      "ground_K": null,
+      "ground_n": 0,
+      "air_K": null,
+      "air_n": 0
+     },
+     {
+      "lmst_h": 10.0,
+      "ground_K": 246.94,
+      "ground_n": 1845,
+      "air_K": 212.79,
+      "air_n": 1845
+     },
+     {
+      "lmst_h": 10.5,
+      "ground_K": 255.36,
+      "ground_n": 1849,
+      "air_K": 218.05,
+      "air_n": 1849
+     },
+     {
+      "lmst_h": 11.0,
+      "ground_K": 259.93,
+      "ground_n": 353,
+      "air_K": 220.32,
+      "air_n": 353
+     },
+     {
+      "lmst_h": 11.5,
+      "ground_K": null,
+      "ground_n": 0,
+      "air_K": null,
+      "air_n": 0
+     },
+     {
+      "lmst_h": 12.0,
+      "ground_K": 272.4,
+      "ground_n": 1846,
+      "air_K": 227.25,
+      "air_n": 1846
+     },
+     {
+      "lmst_h": 12.5,
+      "ground_K": 276.11,
+      "ground_n": 1849,
+      "air_K": 230.92,
+      "air_n": 1849
+     },
+     {
+      "lmst_h": 13.0,
+      "ground_K": 279.44,
+      "ground_n": 352,
+      "air_K": 234.83,
+      "air_n": 352
+     },
+     {
+      "lmst_h": 13.5,
+      "ground_K": null,
+      "ground_n": 0,
+      "air_K": null,
+      "air_n": 0
+     },
+     {
+      "lmst_h": 14.0,
+      "ground_K": 274.86,
+      "ground_n": 1209,
+      "air_K": 236.49,
+      "air_n": 1846
+     },
+     {
+      "lmst_h": 14.5,
+      "ground_K": null,
+      "ground_n": 0,
+      "air_K": 239.1,
+      "air_n": 1849
+     },
+     {
+      "lmst_h": 15.0,
+      "ground_K": null,
+      "ground_n": 0,
+      "air_K": 238.85,
+      "air_n": 352
+     },
+     {
+      "lmst_h": 15.5,
+      "ground_K": null,
+      "ground_n": 0,
+      "air_K": null,
+      "air_n": 0
+     },
+     {
+      "lmst_h": 16.0,
+      "ground_K": null,
+      "ground_n": 0,
+      "air_K": 241.44,
+      "air_n": 1846
+     },
+     {
+      "lmst_h": 16.5,
+      "ground_K": null,
+      "ground_n": 0,
+      "air_K": 239.83,
+      "air_n": 1849
+     },
+     {
+      "lmst_h": 17.0,
+      "ground_K": null,
+      "ground_n": 0,
+      "air_K": 239.05,
+      "air_n": 352
+     },
+     {
+      "lmst_h": 17.5,
+      "ground_K": null,
+      "ground_n": 0,
+      "air_K": null,
+      "air_n": 0
+     },
+     {
+      "lmst_h": 18.0,
+      "ground_K": 221.19,
+      "ground_n": 674,
+      "air_K": 231.08,
+      "air_n": 1845
+     },
+     {
+      "lmst_h": 18.5,
+      "ground_K": 217.09,
+      "ground_n": 1850,
+      "air_K": 226.05,
+      "air_n": 1850
+     },
+     {
+      "lmst_h": 19.0,
+      "ground_K": 214.04,
+      "ground_n": 352,
+      "air_K": 224.41,
+      "air_n": 352
+     },
+     {
+      "lmst_h": 19.5,
+      "ground_K": null,
+      "ground_n": 0,
+      "air_K": null,
+      "air_n": 0
+     },
+     {
+      "lmst_h": 20.0,
+      "ground_K": 206.75,
+      "ground_n": 1845,
+      "air_K": 218.21,
+      "air_n": 1845
+     },
+     {
+      "lmst_h": 20.5,
+      "ground_K": 204.74,
+      "ground_n": 1850,
+      "air_K": 215.34,
+      "air_n": 1850
+     },
+     {
+      "lmst_h": 21.0,
+      "ground_K": 203.71,
+      "ground_n": 352,
+      "air_K": 214.52,
+      "air_n": 352
+     },
+     {
+      "lmst_h": 21.5,
+      "ground_K": null,
+      "ground_n": 0,
+      "air_K": null,
+      "air_n": 0
+     },
+     {
+      "lmst_h": 22.0,
+      "ground_K": 200.06,
+      "ground_n": 1845,
+      "air_K": 212.48,
+      "air_n": 1845
+     },
+     {
+      "lmst_h": 22.5,
+      "ground_K": 199.01,
+      "ground_n": 1850,
+      "air_K": 211.79,
+      "air_n": 1850
+     },
+     {
+      "lmst_h": 23.0,
+      "ground_K": 198.4,
+      "ground_n": 352,
+      "air_K": 210.9,
+      "air_n": 352
+     },
+     {
+      "lmst_h": 23.5,
+      "ground_K": null,
+      "ground_n": 0,
+      "air_K": null,
+      "air_n": 0
+     }
+    ],
+    "product": "WE__0670___________CAL_TIRS________________P01.CSV"
+   },
+   {
+    "sol": 677,
+    "rover_x": -2342.691393183293,
+    "rover_y": 161.67351573570042,
+    "rover_sol_of_fix": 674,
+    "bins": [
+     {
+      "lmst_h": 0.0,
+      "ground_K": 193.76,
+      "ground_n": 965,
+      "air_K": 207.9,
+      "air_n": 965
+     },
+     {
+      "lmst_h": 0.5,
+      "ground_K": null,
+      "ground_n": 0,
+      "air_K": null,
+      "air_n": 0
+     },
+     {
+      "lmst_h": 1.0,
+      "ground_K": 191.82,
+      "ground_n": 1845,
+      "air_K": 204.88,
+      "air_n": 1845
+     },
+     {
+      "lmst_h": 1.5,
+      "ground_K": 190.94,
+      "ground_n": 1850,
+      "air_K": 202.82,
+      "air_n": 1850
+     },
+     {
+      "lmst_h": 2.0,
+      "ground_K": 190.34,
+      "ground_n": 352,
+      "air_K": 200.97,
+      "air_n": 352
+     },
+     {
+      "lmst_h": 2.5,
+      "ground_K": null,
+      "ground_n": 0,
+      "air_K": null,
+      "air_n": 0
+     },
+     {
+      "lmst_h": 3.0,
+      "ground_K": 188.59,
+      "ground_n": 1845,
+      "air_K": 200.12,
+      "air_n": 1845
+     },
+     {
+      "lmst_h": 3.5,
+      "ground_K": 187.52,
+      "ground_n": 1850,
+      "air_K": 194.94,
+      "air_n": 1850
+     },
+     {
+      "lmst_h": 4.0,
+      "ground_K": 186.86,
+      "ground_n": 352,
+      "air_K": 192.63,
+      "air_n": 352
+     },
+     {
+      "lmst_h": 4.5,
+      "ground_K": null,
+      "ground_n": 0,
+      "air_K": null,
+      "air_n": 0
+     },
+     {
+      "lmst_h": 5.0,
+      "ground_K": 184.71,
+      "ground_n": 1845,
+      "air_K": 191.76,
+      "air_n": 1845
+     },
+     {
+      "lmst_h": 5.5,
+      "ground_K": 184.12,
+      "ground_n": 1850,
+      "air_K": 191.86,
+      "air_n": 1850
+     },
+     {
+      "lmst_h": 6.0,
+      "ground_K": 183.9,
+      "ground_n": 352,
+      "air_K": 192.07,
+      "air_n": 352
+     },
+     {
+      "lmst_h": 6.5,
+      "ground_K": null,
+      "ground_n": 0,
+      "air_K": null,
+      "air_n": 0
+     },
+     {
+      "lmst_h": 7.0,
+      "ground_K": 189.26,
+      "ground_n": 1846,
+      "air_K": 191.64,
+      "air_n": 1846
+     },
+     {
+      "lmst_h": 7.5,
+      "ground_K": 197.03,
+      "ground_n": 1849,
+      "air_K": 194.2,
+      "air_n": 1849
+     },
+     {
+      "lmst_h": 8.0,
+      "ground_K": 203.04,
+      "ground_n": 352,
+      "air_K": 197.3,
+      "air_n": 352
+     },
+     {
+      "lmst_h": 8.5,
+      "ground_K": null,
+      "ground_n": 0,
+      "air_K": null,
+      "air_n": 0
+     },
+     {
+      "lmst_h": 9.0,
+      "ground_K": 230.04,
+      "ground_n": 1846,
+      "air_K": 203.92,
+      "air_n": 1846
+     },
+     {
+      "lmst_h": 9.5,
+      "ground_K": 240.88,
+      "ground_n": 1849,
+      "air_K": 208.58,
+      "air_n": 1849
+     },
+     {
+      "lmst_h": 10.0,
+      "ground_K": 246.75,
+      "ground_n": 349,
+      "air_K": 211.32,
+      "air_n": 349
+     },
+     {
+      "lmst_h": 10.5,
+      "ground_K": null,
+      "ground_n": 0,
+      "air_K": null,
+      "air_n": 0
+     },
+     {
+      "lmst_h": 11.0,
+      "ground_K": 265.35,
+      "ground_n": 1846,
+      "air_K": 220.22,
+      "air_n": 1846
+     },
+     {
+      "lmst_h": 11.5,
+      "ground_K": 270.7,
+      "ground_n": 1849,
+      "air_K": 222.95,
+      "air_n": 1849
+     },
+     {
+      "lmst_h": 12.0,
+      "ground_K": 274.7,
+      "ground_n": 1850,
+      "air_K": 227.19,
+      "air_n": 1850
+     },
+     {
+      "lmst_h": 12.5,
+      "ground_K": 277.11,
+      "ground_n": 1584,
+      "air_K": 229.55,
+      "air_n": 1584
+     },
+     {
+      "lmst_h": 13.0,
+      "ground_K": 278.61,
+      "ground_n": 1846,
+      "air_K": 233.26,
+      "air_n": 1846
+     },
+     {
+      "lmst_h": 13.5,
+      "ground_K": 278.64,
+      "ground_n": 1849,
+      "air_K": 235.05,
+      "air_n": 1849
+     },
+     {
+      "lmst_h": 14.0,
+      "ground_K": 277.49,
+      "ground_n": 1850,
+      "air_K": 236.82,
+      "air_n": 1850
+     },
+     {
+      "lmst_h": 14.5,
+      "ground_K": 275.35,
+      "ground_n": 1584,
+      "air_K": 237.96,
+      "air_n": 1584
+     },
+     {
+      "lmst_h": 15.0,
+      "ground_K": 271.55,
+      "ground_n": 1845,
+      "air_K": 240.08,
+      "air_n": 1845
+     },
+     {
+      "lmst_h": 15.5,
+      "ground_K": 266.6,
+      "ground_n": 1850,
+      "air_K": 240.53,
+      "air_n": 1850
+     },
+     {
+      "lmst_h": 16.0,
+      "ground_K": 263.09,
+      "ground_n": 349,
+      "air_K": 240.21,
+      "air_n": 349
+     },
+     {
+      "lmst_h": 16.5,
+      "ground_K": null,
+      "ground_n": 0,
+      "air_K": null,
+      "air_n": 0
+     },
+     {
+      "lmst_h": 17.0,
+      "ground_K": 244.65,
+      "ground_n": 1845,
+      "air_K": 236.84,
+      "air_n": 1845
+     },
+     {
+      "lmst_h": 17.5,
+      "ground_K": 235.54,
+      "ground_n": 1850,
+      "air_K": 234.05,
+      "air_n": 1850
+     },
+     {
+      "lmst_h": 18.0,
+      "ground_K": 230.17,
+      "ground_n": 352,
+      "air_K": 233.61,
+      "air_n": 352
+     },
+     {
+      "lmst_h": 18.5,
+      "ground_K": null,
+      "ground_n": 0,
+      "air_K": null,
+      "air_n": 0
+     },
+     {
+      "lmst_h": 19.0,
+      "ground_K": 213.13,
+      "ground_n": 1845,
+      "air_K": 220.98,
+      "air_n": 1845
+     },
+     {
+      "lmst_h": 19.5,
+      "ground_K": 209.13,
+      "ground_n": 1850,
+      "air_K": 218.98,
+      "air_n": 1850
+     },
+     {
+      "lmst_h": 20.0,
+      "ground_K": 207.31,
+      "ground_n": 352,
+      "air_K": 217.45,
+      "air_n": 352
+     },
+     {
+      "lmst_h": 20.5,
+      "ground_K": null,
+      "ground_n": 0,
+      "air_K": null,
+      "air_n": 0
+     },
+     {
+      "lmst_h": 21.0,
+      "ground_K": 201.49,
+      "ground_n": 1845,
+      "air_K": 212.62,
+      "air_n": 1845
+     },
+     {
+      "lmst_h": 21.5,
+      "ground_K": 199.71,
+      "ground_n": 1850,
+      "air_K": 212.41,
+      "air_n": 1850
+     },
+     {
+      "lmst_h": 22.0,
+      "ground_K": 198.87,
+      "ground_n": 352,
+      "air_K": 212.38,
+      "air_n": 352
+     },
+     {
+      "lmst_h": 22.5,
+      "ground_K": null,
+      "ground_n": 0,
+      "air_K": null,
+      "air_n": 0
+     },
+     {
+      "lmst_h": 23.0,
+      "ground_K": 195.73,
+      "ground_n": 1845,
+      "air_K": 209.92,
+      "air_n": 1845
+     },
+     {
+      "lmst_h": 23.5,
+      "ground_K": 194.67,
+      "ground_n": 1849,
+      "air_K": 209.08,
+      "air_n": 1849
+     }
+    ],
+    "product": "WE__0677___________CAL_TIRS________________P01.CSV"
+   },
+   {
+    "sol": 684,
+    "rover_x": -2336.391046948028,
+    "rover_y": 199.46587738264526,
+    "rover_sol_of_fix": 684,
+    "bins": [
+     {
+      "lmst_h": 0.0,
+      "ground_K": 192.22,
+      "ground_n": 1849,
+      "air_K": 205.72,
+      "air_n": 1849
+     },
+     {
+      "lmst_h": 0.5,
+      "ground_K": 190.91,
+      "ground_n": 1850,
+      "air_K": 202.74,
+      "air_n": 1850
+     },
+     {
+      "lmst_h": 1.0,
+      "ground_K": 190.34,
+      "ground_n": 352,
+      "air_K": 203.33,
+      "air_n": 352
+     },
+     {
+      "lmst_h": 1.5,
+      "ground_K": null,
+      "ground_n": 0,
+      "air_K": null,
+      "air_n": 0
+     },
+     {
+      "lmst_h": 2.0,
+      "ground_K": 188.93,
+      "ground_n": 733,
+      "air_K": 202.33,
+      "air_n": 733
+     },
+     {
+      "lmst_h": 2.5,
+      "ground_K": null,
+      "ground_n": 0,
+      "air_K": null,
+      "air_n": 0
+     },
+     {
+      "lmst_h": 3.0,
+      "ground_K": 187.86,
+      "ground_n": 122,
+      "air_K": 198.93,
+      "air_n": 122
+     },
+     {
+      "lmst_h": 3.5,
+      "ground_K": null,
+      "ground_n": 0,
+      "air_K": null,
+      "air_n": 0
+     },
+     {
+      "lmst_h": 4.0,
+      "ground_K": 185.92,
+      "ground_n": 733,
+      "air_K": 194.69,
+      "air_n": 733
+     },
+     {
+      "lmst_h": 4.5,
+      "ground_K": null,
+      "ground_n": 0,
+      "air_K": null,
+      "air_n": 0
+     },
+     {
+      "lmst_h": 5.0,
+      "ground_K": 184.06,
+      "ground_n": 122,
+      "air_K": 188.35,
+      "air_n": 122
+     },
+     {
+      "lmst_h": 5.5,
+      "ground_K": null,
+      "ground_n": 0,
+      "air_K": null,
+      "air_n": 0
+     },
+     {
+      "lmst_h": 6.0,
+      "ground_K": 182.38,
+      "ground_n": 1846,
+      "air_K": 193.48,
+      "air_n": 1846
+     },
+     {
+      "lmst_h": 6.5,
+      "ground_K": 183.27,
+      "ground_n": 1018,
+      "air_K": 195.93,
+      "air_n": 1849
+     },
+     {
+      "lmst_h": 7.0,
+      "ground_K": null,
+      "ground_n": 0,
+      "air_K": 192.35,
+      "air_n": 341
+     },
+     {
+      "lmst_h": 7.5,
+      "ground_K": null,
+      "ground_n": 0,
+      "air_K": null,
+      "air_n": 0
+     },
+     {
+      "lmst_h": 8.0,
+      "ground_K": null,
+      "ground_n": 0,
+      "air_K": 195.77,
+      "air_n": 1846
+     },
+     {
+      "lmst_h": 8.5,
+      "ground_K": null,
+      "ground_n": 0,
+      "air_K": 199.36,
+      "air_n": 1849
+     },
+     {
+      "lmst_h": 9.0,
+      "ground_K": null,
+      "ground_n": 0,
+      "air_K": 201.88,
+      "air_n": 352
+     },
+     {
+      "lmst_h": 9.5,
+      "ground_K": null,
+      "ground_n": 0,
+      "air_K": null,
+      "air_n": 0
+     },
+     {
+      "lmst_h": 10.0,
+      "ground_K": 250.66,
+      "ground_n": 1846,
+      "air_K": 211.45,
+      "air_n": 1846
+     },
+     {
+      "lmst_h": 10.5,
+      "ground_K": 259.12,
+      "ground_n": 1849,
+      "air_K": 215.28,
+      "air_n": 1849
+     },
+     {
+      "lmst_h": 11.0,
+      "ground_K": 263.46,
+      "ground_n": 349,
+      "air_K": 218.21,
+      "air_n": 349
+     },
+     {
+      "lmst_h": 11.5,
+      "ground_K": null,
+      "ground_n": 0,
+      "air_K": null,
+      "air_n": 0
+     },
+     {
+      "lmst_h": 12.0,
+      "ground_K": 274.71,
+      "ground_n": 1845,
+      "air_K": 224.4,
+      "air_n": 1845
+     },
+     {
+      "lmst_h": 12.5,
+      "ground_K": 277.47,
+      "ground_n": 1850,
+      "air_K": 227.42,
+      "air_n": 1850
+     },
+     {
+      "lmst_h": 13.0,
+      "ground_K": 278.59,
+      "ground_n": 352,
+      "air_K": 230.51,
+      "air_n": 352
+     },
+     {
+      "lmst_h": 13.5,
+      "ground_K": null,
+      "ground_n": 0,
+      "air_K": null,
+      "air_n": 0
+     },
+     {
+      "lmst_h": 14.0,
+      "ground_K": 278.46,
+      "ground_n": 1845,
+      "air_K": 236.47,
+      "air_n": 1845
+     },
+     {
+      "lmst_h": 14.5,
+      "ground_K": 276.28,
+      "ground_n": 1850,
+      "air_K": 239.7,
+      "air_n": 1850
+     },
+     {
+      "lmst_h": 15.0,
+      "ground_K": 274.38,
+      "ground_n": 352,
+      "air_K": 243.06,
+      "air_n": 352
+     },
+     {
+      "lmst_h": 15.5,
+      "ground_K": 268.07,
+      "ground_n": 1846,
+      "air_K": 283.06,
+      "air_n": 1846
+     },
+     {
+      "lmst_h": 16.0,
+      "ground_K": 261.86,
+      "ground_n": 1849,
+      "air_K": 282.11,
+      "air_n": 1849
+     },
+     {
+      "lmst_h": 16.5,
+      "ground_K": 254.33,
+      "ground_n": 1850,
+      "air_K": 261.71,
+      "air_n": 1850
+     },
+     {
+      "lmst_h": 17.0,
+      "ground_K": 249.41,
+      "ground_n": 351,
+      "air_K": 248.81,
+      "air_n": 351
+     },
+     {
+      "lmst_h": 17.5,
+      "ground_K": null,
+      "ground_n": 0,
+      "air_K": null,
+      "air_n": 0
+     },
+     {
+      "lmst_h": 18.0,
+      "ground_K": 226.94,
+      "ground_n": 1845,
+      "air_K": 228.53,
+      "air_n": 1845
+     },
+     {
+      "lmst_h": 18.5,
+      "ground_K": 219.12,
+      "ground_n": 1850,
+      "air_K": 224.14,
+      "air_n": 1850
+     },
+     {
+      "lmst_h": 19.0,
+      "ground_K": 215.34,
+      "ground_n": 341,
+      "air_K": 222.18,
+      "air_n": 341
+     },
+     {
+      "lmst_h": 19.5,
+      "ground_K": null,
+      "ground_n": 0,
+      "air_K": null,
+      "air_n": 0
+     },
+     {
+      "lmst_h": 20.0,
+      "ground_K": 206.0,
+      "ground_n": 1845,
+      "air_K": 216.55,
+      "air_n": 1845
+     },
+     {
+      "lmst_h": 20.5,
+      "ground_K": 203.25,
+      "ground_n": 1849,
+      "air_K": 213.57,
+      "air_n": 1849
+     },
+     {
+      "lmst_h": 21.0,
+      "ground_K": 201.83,
+      "ground_n": 353,
+      "air_K": 213.37,
+      "air_n": 353
+     },
+     {
+      "lmst_h": 21.5,
+      "ground_K": null,
+      "ground_n": 0,
+      "air_K": null,
+      "air_n": 0
+     },
+     {
+      "lmst_h": 22.0,
+      "ground_K": 197.28,
+      "ground_n": 1846,
+      "air_K": 211.88,
+      "air_n": 1846
+     },
+     {
+      "lmst_h": 22.5,
+      "ground_K": 195.91,
+      "ground_n": 1849,
+      "air_K": 211.31,
+      "air_n": 1849
+     },
+     {
+      "lmst_h": 23.0,
+      "ground_K": 195.14,
+      "ground_n": 352,
+      "air_K": 209.77,
+      "air_n": 352
+     },
+     {
+      "lmst_h": 23.5,
+      "ground_K": null,
+      "ground_n": 0,
+      "air_K": null,
+      "air_n": 0
+     }
+    ],
+    "product": "WE__0684___________CAL_TIRS________________P01.CSV"
+   }
+  ]
+ },
+ "mcd": {
+  "model": "Mars Climate Database v6.2 (LMD/ESA/CNES), web interface",
+  "scenario": "climatology, average solar EUV (dust=1)",
+  "point": {
+   "lat": 18.44,
+   "lon_e": 77.45
+  },
+  "air_height_m": 2,
+  "time": "local true solar time (h) as requested by the interface",
+  "resolution": "GCM grid ~5.625\u00b0 lon \u00d7 3.75\u00b0 lat with high-resolution topography correction; one value for the whole study area",
+  "variables": {
+   "tsurf_K": "surface temperature (K)",
+   "tair_2m_K": "atmospheric temperature 2 m above the surface (K)"
+  },
+  "seasons_ls_deg": {
+   "0": [
+    {
+     "ltst_h": 0,
+     "tsurf_K": 196.79,
+     "tair_2m_K": 202.01
+    },
+    {
+     "ltst_h": 1,
+     "tsurf_K": 194.71,
+     "tair_2m_K": 199.99
+    },
+    {
+     "ltst_h": 2,
+     "tsurf_K": 193.04,
+     "tair_2m_K": 198.18
+    },
+    {
+     "ltst_h": 3,
+     "tsurf_K": 191.45,
+     "tair_2m_K": 196.4
+    },
+    {
+     "ltst_h": 4,
+     "tsurf_K": 190.13,
+     "tair_2m_K": 194.91
+    },
+    {
+     "ltst_h": 5,
+     "tsurf_K": 188.86,
+     "tair_2m_K": 193.48
+    },
+    {
+     "ltst_h": 6,
+     "tsurf_K": 192.57,
+     "tair_2m_K": 194.65
+    },
+    {
+     "ltst_h": 7,
+     "tsurf_K": 197.26,
+     "tair_2m_K": 196.32
+    },
+    {
+     "ltst_h": 8,
+     "tsurf_K": 214.12,
+     "tair_2m_K": 204.71
+    },
+    {
+     "ltst_h": 9,
+     "tsurf_K": 233.37,
+     "tair_2m_K": 214.56
+    },
+    {
+     "ltst_h": 10,
+     "tsurf_K": 248.88,
+     "tair_2m_K": 221.95
+    },
+    {
+     "ltst_h": 11,
+     "tsurf_K": 263.67,
+     "tair_2m_K": 228.88
+    },
+    {
+     "ltst_h": 12,
+     "tsurf_K": 270.12,
+     "tair_2m_K": 234.62
+    },
+    {
+     "ltst_h": 13,
+     "tsurf_K": 274.94,
+     "tair_2m_K": 240.03
+    },
+    {
+     "ltst_h": 14,
+     "tsurf_K": 271.36,
+     "tair_2m_K": 242.51
+    },
+    {
+     "ltst_h": 15,
+     "tsurf_K": 266.15,
+     "tair_2m_K": 244.46
+    },
+    {
+     "ltst_h": 16,
+     "tsurf_K": 253.43,
+     "tair_2m_K": 242.06
+    },
+    {
+     "ltst_h": 17,
+     "tsurf_K": 239.24,
+     "tair_2m_K": 238.82
+    },
+    {
+     "ltst_h": 18,
+     "tsurf_K": 227.08,
+     "tair_2m_K": 230.4
+    },
+    {
+     "ltst_h": 19,
+     "tsurf_K": 215.31,
+     "tair_2m_K": 220.98
+    },
+    {
+     "ltst_h": 20,
+     "tsurf_K": 209.63,
+     "tair_2m_K": 215.44
+    },
+    {
+     "ltst_h": 21,
+     "tsurf_K": 205.12,
+     "tair_2m_K": 210.64
+    },
+    {
+     "ltst_h": 22,
+     "tsurf_K": 201.94,
+     "tair_2m_K": 207.27
+    },
+    {
+     "ltst_h": 23,
+     "tsurf_K": 199.01,
+     "tair_2m_K": 204.17
+    }
+   ],
+   "90": [
+    {
+     "ltst_h": 0,
+     "tsurf_K": 201.42,
+     "tair_2m_K": 205.43
+    },
+    {
+     "ltst_h": 1,
+     "tsurf_K": 199.42,
+     "tair_2m_K": 203.44
+    },
+    {
+     "ltst_h": 2,
+     "tsurf_K": 197.8,
+     "tair_2m_K": 201.92
+    },
+    {
+     "ltst_h": 3,
+     "tsurf_K": 196.26,
+     "tair_2m_K": 200.47
+    },
+    {
+     "ltst_h": 4,
+     "tsurf_K": 194.98,
+     "tair_2m_K": 199.2
+    },
+    {
+     "ltst_h": 5,
+     "tsurf_K": 193.76,
+     "tair_2m_K": 197.98
+    },
+    {
+     "ltst_h": 6,
+     "tsurf_K": 200.56,
+     "tair_2m_K": 201.18
+    },
+    {
+     "ltst_h": 7,
+     "tsurf_K": 208.94,
+     "tair_2m_K": 205.25
+    },
+    {
+     "ltst_h": 8,
+     "tsurf_K": 224.96,
+     "tair_2m_K": 212.79
+    },
+    {
+     "ltst_h": 9,
+     "tsurf_K": 242.47,
+     "tair_2m_K": 220.91
+    },
+    {
+     "ltst_h": 10,
+     "tsurf_K": 255.38,
+     "tair_2m_K": 226.31
+    },
+    {
+     "ltst_h": 11,
+     "tsurf_K": 267.39,
+     "tair_2m_K": 231.53
+    },
+    {
+     "ltst_h": 12,
+     "tsurf_K": 272.41,
+     "tair_2m_K": 235.36
+    },
+    {
+     "ltst_h": 13,
+     "tsurf_K": 276.07,
+     "tair_2m_K": 238.57
+    },
+    {
+     "ltst_h": 14,
+     "tsurf_K": 273.15,
+     "tair_2m_K": 240.45
+    },
+    {
+     "ltst_h": 15,
+     "tsurf_K": 268.95,
+     "tair_2m_K": 241.99
+    },
+    {
+     "ltst_h": 16,
+     "tsurf_K": 258.47,
+     "tair_2m_K": 241.08
+    },
+    {
+     "ltst_h": 17,
+     "tsurf_K": 246.77,
+     "tair_2m_K": 239.4
+    },
+    {
+     "ltst_h": 18,
+     "tsurf_K": 233.74,
+     "tair_2m_K": 232.61
+    },
+    {
+     "ltst_h": 19,
+     "tsurf_K": 220.45,
+     "tair_2m_K": 224.76
+    },
+    {
+     "ltst_h": 20,
+     "tsurf_K": 214.33,
+     "tair_2m_K": 219.17
+    },
+    {
+     "ltst_h": 21,
+     "tsurf_K": 209.61,
+     "tair_2m_K": 214.02
+    },
+    {
+     "ltst_h": 22,
+     "tsurf_K": 206.44,
+     "tair_2m_K": 210.68
+    },
+    {
+     "ltst_h": 23,
+     "tsurf_K": 203.57,
+     "tair_2m_K": 207.68
+    }
+   ],
+   "180": [
+    {
+     "ltst_h": 0,
+     "tsurf_K": 200.5,
+     "tair_2m_K": 206.04
+    },
+    {
+     "ltst_h": 1,
+     "tsurf_K": 198.27,
+     "tair_2m_K": 203.79
+    },
+    {
+     "ltst_h": 2,
+     "tsurf_K": 196.47,
+     "tair_2m_K": 201.78
+    },
+    {
+     "ltst_h": 3,
+     "tsurf_K": 194.75,
+     "tair_2m_K": 199.8
+    },
+    {
+     "ltst_h": 4,
+     "tsurf_K": 193.31,
+     "tair_2m_K": 198.18
+    },
+    {
+     "ltst_h": 5,
+     "tsurf_K": 191.93,
+     "tair_2m_K": 196.61
+    },
+    {
+     "ltst_h": 6,
+     "tsurf_K": 196.43,
+     "tair_2m_K": 198.15
+    },
+    {
+     "ltst_h": 7,
+     "tsurf_K": 202.09,
+     "tair_2m_K": 200.29
+    },
+    {
+     "ltst_h": 8,
+     "tsurf_K": 221.05,
+     "tair_2m_K": 209.71
+    },
+    {
+     "ltst_h": 9,
+     "tsurf_K": 242.62,
+     "tair_2m_K": 220.71
+    },
+    {
+     "ltst_h": 10,
+     "tsurf_K": 259.18,
+     "tair_2m_K": 228.83
+    },
+    {
+     "ltst_h": 11,
+     "tsurf_K": 274.76,
+     "tair_2m_K": 236.41
+    },
+    {
+     "ltst_h": 12,
+     "tsurf_K": 281.31,
+     "tair_2m_K": 242.55
+    },
+    {
+     "ltst_h": 13,
+     "tsurf_K": 286.1,
+     "tair_2m_K": 248.28
+    },
+    {
+     "ltst_h": 14,
+     "tsurf_K": 282.1,
+     "tair_2m_K": 250.9
+    },
+    {
+     "ltst_h": 15,
+     "tsurf_K": 276.39,
+     "tair_2m_K": 252.98
+    },
+    {
+     "ltst_h": 16,
+     "tsurf_K": 262.53,
+     "tair_2m_K": 250.41
+    },
+    {
+     "ltst_h": 17,
+     "tsurf_K": 247.09,
+     "tair_2m_K": 246.93
+    },
+    {
+     "ltst_h": 18,
+     "tsurf_K": 233.59,
+     "tair_2m_K": 237.39
+    },
+    {
+     "ltst_h": 19,
+     "tsurf_K": 220.48,
+     "tair_2m_K": 226.67
+    },
+    {
+     "ltst_h": 20,
+     "tsurf_K": 214.27,
+     "tair_2m_K": 220.57
+    },
+    {
+     "ltst_h": 21,
+     "tsurf_K": 209.39,
+     "tair_2m_K": 215.35
+    },
+    {
+     "ltst_h": 22,
+     "tsurf_K": 205.99,
+     "tair_2m_K": 211.73
+    },
+    {
+     "ltst_h": 23,
+     "tsurf_K": 202.87,
+     "tair_2m_K": 208.47
+    }
+   ],
+   "270": [
+    {
+     "ltst_h": 0,
+     "tsurf_K": 194.8,
+     "tair_2m_K": 194.79
+    },
+    {
+     "ltst_h": 1,
+     "tsurf_K": 192.97,
+     "tair_2m_K": 192.96
+    },
+    {
+     "ltst_h": 2,
+     "tsurf_K": 191.48,
+     "tair_2m_K": 191.47
+    },
+    {
+     "ltst_h": 3,
+     "tsurf_K": 190.06,
+     "tair_2m_K": 194.21
+    },
+    {
+     "ltst_h": 4,
+     "tsurf_K": 188.91,
+     "tair_2m_K": 192.63
+    },
+    {
+     "ltst_h": 5,
+     "tsurf_K": 187.82,
+     "tair_2m_K": 191.15
+    },
+    {
+     "ltst_h": 6,
+     "tsurf_K": 188.39,
+     "tair_2m_K": 190.78
+    },
+    {
+     "ltst_h": 7,
+     "tsurf_K": 189.28,
+     "tair_2m_K": 190.64
+    },
+    {
+     "ltst_h": 8,
+     "tsurf_K": 203.24,
+     "tair_2m_K": 196.93
+    },
+    {
+     "ltst_h": 9,
+     "tsurf_K": 219.75,
+     "tair_2m_K": 204.53
+    },
+    {
+     "ltst_h": 10,
+     "tsurf_K": 236.0,
+     "tair_2m_K": 211.61
+    },
+    {
+     "ltst_h": 11,
+     "tsurf_K": 252.2,
+     "tair_2m_K": 218.57
+    },
+    {
+     "ltst_h": 12,
+     "tsurf_K": 259.42,
+     "tair_2m_K": 224.55
+    },
+    {
+     "ltst_h": 13,
+     "tsurf_K": 264.89,
+     "tair_2m_K": 230.32
+    },
+    {
+     "ltst_h": 14,
+     "tsurf_K": 260.66,
+     "tair_2m_K": 233.18
+    },
+    {
+     "ltst_h": 15,
+     "tsurf_K": 254.54,
+     "tair_2m_K": 235.49
+    },
+    {
+     "ltst_h": 16,
+     "tsurf_K": 241.1,
+     "tair_2m_K": 232.41
+    },
+    {
+     "ltst_h": 17,
+     "tsurf_K": 226.23,
+     "tair_2m_K": 228.26
+    },
+    {
+     "ltst_h": 18,
+     "tsurf_K": 217.3,
+     "tair_2m_K": 221.6
+    },
+    {
+     "ltst_h": 19,
+     "tsurf_K": 209.53,
+     "tair_2m_K": 214.44
+    },
+    {
+     "ltst_h": 20,
+     "tsurf_K": 205.33,
+     "tair_2m_K": 210.37
+    },
+    {
+     "ltst_h": 21,
+     "tsurf_K": 201.82,
+     "tair_2m_K": 206.88
+    },
+    {
+     "ltst_h": 22,
+     "tsurf_K": 199.19,
+     "tair_2m_K": 204.27
+    },
+    {
+     "ltst_h": 23,
+     "tsurf_K": 196.74,
+     "tair_2m_K": 196.73
+    }
+   ]
+  },
+  "url": "https://www-mars.lmd.jussieu.fr/mcd_python/",
+  "evidence": "model"
+ }
+}

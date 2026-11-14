@@ -226,3 +226,30 @@ body.phase-play #view { cursor: default; }
   .hz-row { flex-wrap: wrap; row-gap: 2px; } .hz-title { order: 5; flex-basis: 100%; font-size: 12.5px; white-space: normal; } .hz-dist { font-size: 14px; } .hz-detail { font-size: 11.5px; } .hz-level { font-size: 12px; }
   body.hz-on #hud .alerts { top: 178px; }
 }
+
+/* ---------------- thermal intelligence (thermal.js) ---------------- */
+.thermal { position: fixed; right: 16px; top: 62px; width: 320px; max-height: calc(100vh - 80px); overflow-y: auto; padding: 12px 14px; z-index: 6; font-size: 13px; }
+.thermal .th-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.thermal .th-head b { letter-spacing: .14em; text-transform: uppercase; font-size: 13px; }
+.thermal .ghostx { background: none; border: 0; color: var(--mute); font-size: 20px; cursor: pointer; }
+.thermal select { width: 100%; background: #2b2723; color: var(--ink); border: 0; border-radius: 1px; padding: 6px 8px; font: 600 13px var(--f); margin: 6px 0; }
+.th-row { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin: 4px 0; }
+.th-row input[type=range] { flex: 1; accent-color: var(--amber); }
+.sw-t { display: flex; gap: 7px; align-items: center; cursor: pointer; margin: 4px 0; } .sw-t input { accent-color: var(--amber); }
+.seg.sm button { padding: 3px 9px; font-size: 11.5px; } .seg button:disabled { opacity: .35; cursor: default; }
+.th-legend { margin: 8px 0 6px; } .th-legend i { display: block; height: 10px; border-radius: 1px; background: linear-gradient(90deg, rgb(20,40,140), rgb(90,170,235), rgb(245,230,90), rgb(245,140,40), rgb(205,30,30)); }
+.th-legend div { display: flex; justify-content: space-between; font-size: 11.5px; color: var(--mute); margin-top: 2px; font-variant-numeric: tabular-nums; }
+.th-read { background: var(--pan2); padding: 7px 9px; border-radius: 2px; margin: 6px 0; display: flex; flex-direction: column; }
+.th-read b { font-size: 18px; font-variant-numeric: tabular-nums; } .th-read b.warn { font-size: 14px; color: var(--warn); } .th-read small { color: var(--mute); }
+.th-read .mut, .mut { color: var(--mute); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; }
+.th-kv { display: grid; grid-template-columns: auto 1fr; gap: 3px 10px; margin: 8px 0; font-size: 12px; } .th-kv dt { color: var(--mute); } .th-kv dd { margin: 0; text-align: right; }
+.thermal details { margin: 8px 0 0; border-top: 1px solid var(--line); padding-top: 6px; } .thermal summary { cursor: pointer; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; font-size: 12px; }
+.th-cv { width: 100%; height: 110px; display: block; margin: 6px 0 2px; background: #15120f; border-radius: 1px; }
+.k { display: inline-block; padding-left: 12px; position: relative; } .k::before { content: ""; position: absolute; left: 0; top: 50%; width: 9px; height: 2px; }
+.k.g::before { background: #e0863a; } .k.a::before { background: #5aa4c8; }
+.th-chip { margin-top: 4px; font-size: 11.5px; color: #f3c49a; text-transform: none; letter-spacing: .02em; } .th-chip b { font-size: 11px; color: var(--amber); margin-right: 4px; letter-spacing: .1em; }
+.ibtn.on { background: rgba(224, 134, 58, .45); }
+#globe-th.on { background: #8a3a17; color: #fff; }
+.th-open { text-align: left; font-size: 12.5px; letter-spacing: .06em; color: #f0a46e; padding: 6px 0; }
+.gsite.meda i { border-color: #5aa4c8; background: #5aa4c8; }
+@media (max-width: 860px) { .thermal { left: 8px; right: 8px; width: auto; top: auto; bottom: 8px; max-height: 55vh; } }

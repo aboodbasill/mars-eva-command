@@ -1,7 +1,7 @@
 {
  "schema_version": "1.0.0",
- "build_id": "mec-f5ef160c2226",
- "built_utc": "2026-11-14T11:53:56+00:00",
+ "build_id": "mec-68b99317fc02",
+ "built_utc": "2026-11-14T12:54:47+00:00",
  "mission": {
   "id": "marswalk-1",
   "name": "Marswalk 1",
@@ -290,8 +290,8 @@
  "assets": [
   {
    "file": "bundle.js",
-   "bytes": 667191,
-   "sha256": "eaeff7758d4096da5fad7f8d226df48df99e1afd1f3fa369ebed234acc96cd05"
+   "bytes": 698338,
+   "sha256": "39bfb889cef8a80fa8824cbfaf2963fb6b65c286881ff9b780ebbbc6fb20e88b"
   },
   {
    "file": "chip_D1.jpg",
@@ -514,6 +514,51 @@
    "sha256": "a021b92fcdbe3a36928e33ddb12a8140d8e33f762cd7cff7043a78334db51436"
   },
   {
+   "file": "thermal.json",
+   "bytes": 48224,
+   "sha256": "4ad178f4d3d21b22951cd121b78e12476702cdf77c664a8c3864f6bed634b9c7"
+  },
+  {
+   "file": "thermal_pbt_day.png",
+   "bytes": 8716,
+   "sha256": "ac9c24b343b127c8198580349a4eb5da0ba4261470868cb0ddba37853f0ae92a"
+  },
+  {
+   "file": "thermal_pbt_day_geo.png",
+   "bytes": 982496,
+   "sha256": "b3ff803276e2ceb9878f102d388101a923a2364ca715159876baa48c955c3363"
+  },
+  {
+   "file": "thermal_pbt_night.png",
+   "bytes": 13591,
+   "sha256": "feb1db5283a2bfa836aea1677d119ee967714244d72ac3d2c3fe7933bba3a9f9"
+  },
+  {
+   "file": "thermal_pbt_night_geo.png",
+   "bytes": 317901,
+   "sha256": "458e9f11406bb890dff4e5a0fe00f1dc32082898d0e5b5b46b252db82f46ebe7"
+  },
+  {
+   "file": "thermal_qual_day.png",
+   "bytes": 11310,
+   "sha256": "f850357fbd2e338bc806102d2fa9a537b08d3b4a34b1b28fca9136b0a98b4406"
+  },
+  {
+   "file": "thermal_qual_day_geo.png",
+   "bytes": 148701,
+   "sha256": "34ca2f1d9bdc73b346d86c11b3aa5e5dffc19550b93e15f19c8ddea8d3991c87"
+  },
+  {
+   "file": "thermal_qual_night.png",
+   "bytes": 14185,
+   "sha256": "588fd91cb4b4c9494addb9c3c1267e92fae0b348b9d2a1daa75687f80f18ac5a"
+  },
+  {
+   "file": "thermal_qual_night_geo.png",
+   "bytes": 187963,
+   "sha256": "a09764a238284db5f23a93b931a11324bd4829bdaa643a4acc836e8661a34d2f"
+  },
+  {
    "file": "validation.json",
    "bytes": 8702,
    "sha256": "27a75b0b8e512d1fd2932073cf0e5da27e651e9699a05e2cfdb9106b7fcf76d9"
@@ -539,5 +584,5 @@
    "sha256": "edc8b420e747b1752b34d84e3e47759fb872bc739cb72c336310d061f855542c"
   }
  ],
- "total_bytes": 22424765
+ "total_bytes": 24188999
 }

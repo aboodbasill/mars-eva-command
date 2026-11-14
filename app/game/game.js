@@ -143,6 +143,172 @@
     ctx.putImageData(im, 0, 0); cv.theta = S.theta; hzCanvas = cv; return cv;
   }
 
+  // ============================================================================================ THERMAL INTELLIGENCE (app/game/thermal.js)
+  // Layers: THEMIS calibrated brightness temperature (K) and THEMIS controlled mosaics (relative); MEDA TIRS point
+  // measurements at the rover; Mars Climate Database model values. Never blended, always labelled.
+  const TH = window.MarsThermal, TMETA = D.thermal || null;
+  const THS = { on: false, panel: false, id: 'pbt_day', opacity: 0.7, unit: store.get('tunit', 'K'), route: true, meda: true, inspect: false,
+    layers: {}, tex: {}, geo: {}, hover: null, pin: null, mcdLs: '90', globeMesh: null };
+  const thDs = (id = THS.id) => TMETA?.datasets?.[id] || null;
+  const thLayer = () => THS.layers[THS.id] || null;
+  const THGLSL = `vec3 thermalRamp(float t){ vec3 c0=vec3(20.,40.,140.)/255., c1=vec3(90.,170.,235.)/255., c2=vec3(245.,230.,90.)/255., c3=vec3(245.,140.,40.)/255., c4=vec3(205.,30.,30.)/255.;
+    return t<0.25? mix(c0,c1,t/0.25) : t<0.5? mix(c1,c2,(t-0.25)/0.25) : t<0.75? mix(c2,c3,(t-0.5)/0.25) : mix(c3,c4,(t-0.75)/0.25); }`;
+  const thBlank = new THREE.DataTexture(new Uint8Array([0, 0, 0, 0]), 1, 1); thBlank.needsUpdate = true;
+  const THU = { tThermal: { value: thBlank }, thOn: { value: 0 }, thEnc: { value: new THREE.Vector2(0, 1) }, thRange: { value: new THREE.Vector2(0, 1) },
+    thGrid: { value: new THREE.Vector4(0, 0, 1, 1) } };
+  function thImage(url, cb) { const im = new Image(); im.onload = () => cb(im); im.onerror = () => cb(null); im.src = url; }
+  function thTexture(im) { const t = new THREE.Texture(im); t.minFilter = THREE.LinearFilter; t.magFilter = THREE.LinearFilter; t.generateMipmaps = false; t.needsUpdate = true; return t; }
+  /** lazy-load one dataset (study-area raster for sampling + texture); geo footprint only when the globe asks */
+  function thLoad(id, cb) {
+    if (!TMETA || !TMETA.datasets[id]) return cb && cb(null);
+    if (THS.layers[id]) return cb && cb(THS.layers[id]);
+    thImage(`../data/thermal_${id}.png`, (im) => {
+      if (!im) return cb && cb(null);
+      const cv = document.createElement('canvas'); cv.width = im.width; cv.height = im.height; const cx = cv.getContext('2d'); cx.drawImage(im, 0, 0);
+      const L = TH.makeLayer(TMETA.datasets[id], TMETA.grid, cx.getImageData(0, 0, im.width, im.height).data);
+      THS.layers[id] = L; THS.tex[id] = thTexture(im); cb && cb(L);
+    });
+  }
+  function thApply() {   // push the active dataset into the terrain shader and the globe overlay
+    const ds = thDs(), L = thLayer(), g = TMETA?.grid;
+    THU.thOn.value = THS.on && L ? THS.opacity : 0;
+    if (ds && L && g) { THU.tThermal.value = THS.tex[THS.id]; THU.thEnc.value.set(ds.encoding_vmin, ds.encoding_vmax); const [a, b] = TH.range(ds); THU.thRange.value.set(a, b);
+      THU.thGrid.value.set(g.x0, g.y0, g.ncols * g.cell_m, g.nrows * g.cell_m); }
+    if (THS.globeMesh) { THS.globeMesh.visible = THS.on && S.phase === 'globe'; THS.globeMesh.material.uniforms.thOn.value = THS.opacity; }
+    hzCanvasTh = null; if (!$('#mapview').classList.contains('hidden')) drawMap();
+  }
+  function thSet(patch) {
+    Object.assign(THS, patch); if ('unit' in patch) store.set('tunit', THS.unit);
+    if (THS.on || THS.panel) thLoad(THS.id, () => { thApply(); thGlobe(); thRenderPanel(); });
+    else { thApply(); thRenderPanel(); }
+    $('#thermal').classList.toggle('hidden', !THS.panel); document.body.classList.toggle('th-on', THS.on);
+    $('#b-thermal')?.classList.toggle('on', THS.on); $('#globe-th')?.classList.toggle('on', THS.on);
+  }
+  const thFmt = (v, ds = thDs()) => ds ? TH.fmtValue(v, ds, THS.unit) : '—';
+  function thSampleAt(x, y) { const L = thLayer(); return L ? TH.sample(L, x, y) : { value: null, status: 'off' }; }
+  // globe: overlay only on the dataset's own footprint (lon/lat), never stretched over the planet
+  function thGlobe() {
+    const ds = thDs(); if (!ds || S.phase !== 'globe' && THS.globeMesh) { if (THS.globeMesh) THS.globeMesh.visible = THS.on && S.phase === 'globe'; }
+    if (!ds) return;
+    const build = (tex) => {
+      if (THS.globeMesh) { gScene.remove(THS.globeMesh); THS.globeMesh.geometry.dispose(); THS.globeMesh.material.dispose(); }
+      const [w, so, e, n] = ds.footprint_lonlat, D2 = Math.PI / 180;
+      const geo = new THREE.SphereGeometry(1.0012, 48, 96, (w + 180) * D2, (e - w) * D2, (90 - n) * D2, (n - so) * D2);
+      const f = ds.stats_footprint || ds.stats_study_area, mat = new THREE.ShaderMaterial({ transparent: true, depthWrite: false, polygonOffset: true, polygonOffsetFactor: -2,
+        uniforms: { t: { value: tex }, thOn: { value: THS.opacity }, enc: { value: new THREE.Vector2(ds.encoding_vmin, ds.encoding_vmax) }, rng: { value: new THREE.Vector2(f.min, f.max) } },
+        vertexShader: 'varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }',
+        fragmentShader: `uniform sampler2D t; uniform float thOn; uniform vec2 enc; uniform vec2 rng; varying vec2 vUv; ${THGLSL}
+          void main(){ vec4 s = texture2D(t, vUv); if (s.a < 0.5) discard; float v = enc.x + s.r*255.0/254.0*(enc.y-enc.x);
+            gl_FragColor = vec4(thermalRamp(clamp((v-rng.x)/(rng.y-rng.x),0.,1.)), thOn); }` });
+      THS.globeMesh = new THREE.Mesh(geo, mat); THS.globeMesh.renderOrder = 2; THS.globeMesh.visible = THS.on && S.phase === 'globe'; gScene.add(THS.globeMesh);
+    };
+    if (THS.geo[THS.id]) build(THS.geo[THS.id]);
+    else thImage(`../data/thermal_${THS.id}_geo.png`, (im) => { if (!im) return; THS.geo[THS.id] = thTexture(im); build(THS.geo[THS.id]); });
+  }
+  // charts (small canvases inside the panel)
+  function thChart(cv, series, opts) {
+    const dpr = devicePixelRatio || 1, w = cv.clientWidth || 290, h = cv.clientHeight || 110; cv.width = w * dpr; cv.height = h * dpr;
+    const c = cv.getContext('2d'); c.scale(dpr, dpr); c.clearRect(0, 0, w, h); const pad = { l: 34, r: 6, t: 6, b: 16 };
+    const all = series.flatMap((s) => s.y.filter((v) => v !== null && Number.isFinite(v))); if (!all.length) { c.fillStyle = '#9c968b'; c.fillText('no data', 10, 20); return; }
+    let lo = Math.min(...all), hi = Math.max(...all); if (hi - lo < 1) { lo -= 0.5; hi += 0.5; }
+    const xs = series[0].x, x0 = Math.min(...xs), x1 = Math.max(...xs), X = (v) => pad.l + (v - x0) / (x1 - x0 || 1) * (w - pad.l - pad.r), Y = (v) => pad.t + (1 - (v - lo) / (hi - lo)) * (h - pad.t - pad.b);
+    c.strokeStyle = 'rgba(255,255,255,.08)'; c.fillStyle = '#9c968b'; c.font = '10px RC, sans-serif'; c.lineWidth = 1;
+    for (const v of [lo, (lo + hi) / 2, hi]) { c.beginPath(); c.moveTo(pad.l, Y(v)); c.lineTo(w - pad.r, Y(v)); c.stroke(); c.fillText(opts.fmtY(v), 2, Y(v) + 3); }
+    c.fillText(opts.xLabel(x0), pad.l, h - 3); const lx = opts.xLabel(x1); c.fillText(lx, w - pad.r - c.measureText(lx).width, h - 3);
+    for (const s of series) { c.strokeStyle = s.color; c.lineWidth = 1.8; c.beginPath(); let on = false;
+      s.x.forEach((xv, i) => { const v = s.y[i]; if (v === null || !Number.isFinite(v)) { on = false; return; } on ? c.lineTo(X(xv), Y(v)) : c.moveTo(X(xv), Y(v)); on = true; }); c.stroke(); }
+    if (opts.marks) for (const [xv, v, col] of opts.marks) { c.fillStyle = col; c.beginPath(); c.arc(X(xv), Y(v), 3.5, 0, 7); c.fill(); }
+  }
+  const tUnitV = (k) => THS.unit === 'C' ? k - 273.15 : k, tUnitS = () => THS.unit === 'C' ? '°C' : 'K';
+  function thMedaCurve() {   // mean over the depot sols, per 30-min LMST bin
+    const sols = TMETA?.meda_tirs?.sols || []; if (!sols.length) return null;
+    const x = sols[0].bins.map((b) => b.lmst_h), avg = (k) => x.map((_, i) => { const v = sols.map((s) => s.bins[i][k]).filter((q) => q !== null); return v.length ? v.reduce((a, b) => a + b, 0) / v.length : null; });
+    return { x, ground: avg('ground_K'), air: avg('air_K'), sols: sols.map((s) => s.sol), at: [sols[0].rover_x, sols[0].rover_y] };
+  }
+  function thRenderPanel() {
+    const P0 = $('#thermal'); if (!P0 || !THS.panel) return;
+    if (!TMETA) { P0.innerHTML = '<h3>Thermal intelligence</h3><p class="note">No thermal data in this build.</p>'; return; }
+    const ds = thDs(), rel = ds.kind !== 'brightness_temperature', [lo, hi] = TH.range(ds), al = TMETA.alignment?.results || {};
+    const alK = Object.entries(al).find(([k]) => k.startsWith(THS.id.replace('qual', 'pbt'))) || Object.entries(al)[0];
+    const opt = Object.values(TMETA.datasets).map((d) => `<option value="${d.id}" ${d.id === THS.id ? 'selected' : ''}>${esc(d.title)}</option>`).join('');
+    const lt = ds.local_true_solar_time_h, ltS = lt === null || lt === undefined ? '—' : `${M24.fmtH(lt)} LTST (${ds.daynight === 'day' ? 'daytime' : 'night'})`;
+    const medaC = thMedaCurve(), mcd = TMETA.mcd?.seasons_ls_deg;
+    P0.innerHTML = `<div class="th-head"><b>Thermal intelligence</b><button class="ghostx" id="th-x" aria-label="Close">×</button></div>
+      <div class="th-row"><label class="sw-t"><input type="checkbox" id="th-on" ${THS.on ? 'checked' : ''}> Thermal map</label>
+        <div class="seg sm" id="th-unit">${['K', 'C'].map((u) => `<button data-u="${u}" class="${THS.unit === u ? 'on' : ''}" ${rel ? 'disabled' : ''}>${u === 'K' ? 'K' : '°C'}</button>`).join('')}</div></div>
+      <select id="th-ds">${opt}</select>
+      <div class="th-row"><span class="mut">Opacity</span><input type="range" id="th-op" min="0.15" max="1" step="0.05" value="${THS.opacity}"></div>
+      <div class="th-legend"><i></i><div><span>${rel ? 'cooler' : thFmt(lo, ds)}</span><span>${rel ? 'relative brightness (no °)' : (ds.kind === 'brightness_temperature' ? 'brightness temperature' : '')}</span><span>${rel ? 'warmer' : thFmt(hi, ds)}</span></div></div>
+      <div class="th-read" id="th-read">${thReadHtml()}</div>
+      <dl class="th-kv"><dt>Evidence</dt><dd>${esc(ds.evidence)}</dd><dt>Instrument</dt><dd>${esc(ds.instrument)}</dd><dt>Product</dt><dd>${esc(ds.product_id)}</dd>
+        <dt>Observed</dt><dd>${esc(String(ds.observation_utc).replace('T', ' ').slice(0, 19))}${ds.observation_utc?.length > 12 ? ' UTC' : ''}</dd><dt>Local time</dt><dd>${ltS}</dd>
+        <dt>Season</dt><dd>${ds.solar_longitude_deg === null || ds.solar_longitude_deg === undefined ? '—' : `Ls ${fmt(ds.solar_longitude_deg, 1)}°`}</dd>
+        <dt>Resolution</dt><dd>${ds.native_resolution_m} m pixels (on a ${ds.study_area_grid_m} m grid)</dd><dt>Coverage</dt><dd>${fmt(ds.stats_study_area.valid_fraction * 100, 1)} % of the study area</dd>
+        ${alK ? `<dt>Alignment</dt><dd>shift ${alK[1].shift_m.join(', ')} m vs controlled mosaic (r ${fmt(alK[1].pearson_r, 2)})</dd>` : ''}</dl>
+      ${S.phase === 'site' ? `<label class="sw-t"><input type="checkbox" id="th-insp" ${THS.inspect ? 'checked' : ''}> Click the ground to inspect (instead of setting the route)</label>` : ''}
+      ${S.phase === 'site' && PL.plan?.pts ? `<details open><summary>Along your route</summary><canvas id="th-prof" class="th-cv"></canvas><div class="note" id="th-prof-t"></div></details>` : ''}
+      <details ${THS.meda ? 'open' : ''}><summary>Rover measurements (MEDA)</summary>
+        <label class="sw-t"><input type="checkbox" id="th-meda" ${THS.meda ? 'checked' : ''}> Show the measurement site on the terrain</label>
+        ${medaC ? `<canvas id="th-meda-cv" class="th-cv"></canvas><div class="note">Perseverance MEDA TIRS at the rover, sols ${medaC.sols[0]}–${medaC.sols.at(-1)} (Ls ≈ 359–13°), 30-min LMST means. <span class="k g">ground brightness T</span> <span class="k a">air T</span>. A point measurement: not a map.</div>` : '<p class="note">Not available.</p>'}
+      </details>
+      <details><summary>Model estimate (Mars Climate Database)</summary>
+        ${mcd ? `<div class="seg sm" id="th-ls">${Object.keys(mcd).map((k) => `<button data-ls="${k}" class="${THS.mcdLs === k ? 'on' : ''}">Ls ${k}°</button>`).join('')}</div>
+        <canvas id="th-mcd-cv" class="th-cv"></canvas><div class="note">MODEL, not an observation: ${esc(TMETA.mcd.model)}, ${esc(TMETA.mcd.scenario)}. One value for the whole area (${esc(TMETA.mcd.resolution)}). <span class="k g">surface</span> <span class="k a">air 2 m</span></div>` : '<p class="note">Model values not available in this build.</p>'}
+      </details>
+      <details><summary>Limitations</summary><ul class="note">${(ds.limitations || []).map((l) => `<li>${esc(l)}</li>`).join('')}<li>Historical observations describe the moment shown above, not the temperature during a future EVA. No safety level is derived from temperature.</li></ul></details>`;
+    $('#th-x').onclick = () => thSet({ panel: false });
+    $('#th-on').onchange = (e) => thSet({ on: e.target.checked });
+    $('#th-ds').onchange = (e) => thSet({ id: e.target.value, on: true });
+    $('#th-op').oninput = (e) => { THS.opacity = +e.target.value; thApply(); };
+    $('#th-unit').onclick = (e) => { const b = e.target.closest('button'); if (b && !b.disabled) thSet({ unit: b.dataset.u }); };
+    if ($('#th-insp')) $('#th-insp').onchange = (e) => { THS.inspect = e.target.checked; };
+    if ($('#th-meda')) $('#th-meda').onchange = (e) => { THS.meda = e.target.checked; };
+    if ($('#th-ls')) $('#th-ls').onclick = (e) => { const b = e.target.closest('button'); if (b) { THS.mcdLs = b.dataset.ls; thRenderPanel(); } };
+    const hh = (v) => `${String(Math.floor(v)).padStart(2, '0')}h`;
+    if (medaC && $('#th-meda-cv')) thChart($('#th-meda-cv'), [{ x: medaC.x, y: medaC.ground.map((v) => v === null ? null : tUnitV(v)), color: '#e0863a' }, { x: medaC.x, y: medaC.air.map((v) => v === null ? null : tUnitV(v)), color: '#5aa4c8' }],
+      { fmtY: (v) => `${Math.round(v)}${tUnitS()}`, xLabel: hh });
+    if (mcd && $('#th-mcd-cv')) { const r = mcd[THS.mcdLs]; thChart($('#th-mcd-cv'), [{ x: r.map((q) => q.ltst_h), y: r.map((q) => q.tsurf_K === null ? null : tUnitV(q.tsurf_K)), color: '#e0863a' }, { x: r.map((q) => q.ltst_h), y: r.map((q) => q.tair_2m_K === null ? null : tUnitV(q.tair_2m_K)), color: '#5aa4c8' }],
+      { fmtY: (v) => `${Math.round(v)}${tUnitS()}`, xLabel: hh }); }
+    thRouteProfile();
+  }
+  function thReadHtml() {
+    const ds = thDs(); const at = S.phase === 'play' ? 'At the astronaut' : THS.pin ? 'Pinned point' : 'Under the cursor';
+    const r = S.phase === 'play' ? (() => { const p = Lc(P.X, P.Z); return thSampleAt(p.x, p.y); })() : (THS.pin || THS.hover)?.res;
+    if (!THS.on) return `<span class="mut">${at}</span><b>Thermal map is off</b>`;
+    if (!r) return `<span class="mut">${at}</span><b>${S.phase === 'site' ? 'Move over the terrain' : '—'}</b>`;
+    if (r.status === 'outside') return `<span class="mut">${at}</span><b class="warn">Outside thermal-data coverage</b>`;
+    if (r.status === 'nodata') return `<span class="mut">${at}</span><b class="warn">No data at this point</b>`;
+    const alt = ds.kind === 'brightness_temperature' ? `<small>${THS.unit === 'C' ? `${fmt(r.value, 1)} K` : `${fmt(r.value - 273.15, 1)} °C`}</small>` : '';
+    return `<span class="mut">${at}</span><b>${thFmt(r.value, ds)}</b>${alt}`;
+  }
+  function thRouteProfile() {
+    const cv = $('#th-prof'); if (!cv || !PL.plan?.pts) return; const L = thLayer(), ds = thDs(); if (!L) return;
+    const pr = TH.profile(L, PL.plan.pts, 20); if (!pr) return; const rel = ds.kind !== 'brightness_temperature';
+    thChart(cv, [{ x: pr.d.map((d) => d / 1000), y: pr.v.map((v) => v === null ? null : (rel ? v * 100 : tUnitV(v))), color: '#e0863a' }],
+      { fmtY: (v) => rel ? `${Math.round(v)}%` : `${Math.round(v)}${tUnitS()}`, xLabel: (v) => `${fmt(v, 1)} km`,
+        marks: [pr.iMin >= 0 ? [pr.d[pr.iMin] / 1000, rel ? pr.min * 100 : tUnitV(pr.min), '#5aa4c8'] : null, pr.iMax >= 0 ? [pr.d[pr.iMax] / 1000, rel ? pr.max * 100 : tUnitV(pr.max), '#c9472f'] : null].filter(Boolean) });
+    $('#th-prof-t').innerHTML = `${esc(ds.title)} · range ${thFmt(pr.min, ds)} (blue dot) to ${thFmt(pr.max, ds)} (red dot) · coverage ${fmt(pr.coverage * 100, 0)} %${pr.gaps ? ` · ${pr.gaps} gap samples` : ''}.<br>Observed ${esc(String(ds.observation_utc).slice(0, 10))}${ds.local_true_solar_time_h !== null && ds.local_true_solar_time_h !== undefined ? ` at ${M24.fmtH(ds.local_true_solar_time_h)} LTST` : ''}: a past orbital observation, not the temperature during your EVA.`;
+  }
+  let thLabelEl = null;
+  function thLabels() {   // MEDA measurement site marker (site & play), only when the thermal layer and the option are on
+    const c = thMedaCurve(); if (!c) return; if (!thLabelEl) { thLabelEl = document.createElement('div'); thLabelEl.className = 'gsite meda'; thLabelEl.innerHTML = '<i></i><div><b>MEDA · measured</b><small></small></div>'; $('#labels').appendChild(thLabelEl);
+      thLabelEl.onclick = () => thSet({ panel: true, meda: true }); }
+    const show0 = THS.on && THS.meda && (S.phase === 'site' || S.phase === 'play'); if (!show0) { thLabelEl.style.display = 'none'; return; }
+    const w = W(c.at[0], c.at[1]), v = new THREE.Vector3(w.X, groundY(w.X, w.Z) + 2.5, w.Z); v.project(camera);
+    const show = v.z < 1 && Math.abs(v.x) < 1.2 && Math.abs(v.y) < 1.2; thLabelEl.style.display = show ? '' : 'none'; if (!show) return;
+    thLabelEl.style.left = `${(v.x * 0.5 + 0.5) * innerWidth}px`; thLabelEl.style.top = `${(-v.y * 0.5 + 0.5) * innerHeight}px`; thLabelEl.style.pointerEvents = S.phase === 'site' ? 'auto' : 'none';
+    let sub = `ground T, sols ${c.sols[0]}–${c.sols.at(-1)}`;
+    if (S.phase === 'play') { const lmst = state().lmst, i = Math.floor(lmst * 2) % 48, g = c.ground[i]; sub = g === null ? 'no measurement at this hour' : `ground ${THS.unit === 'C' ? `${fmt(g - 273.15, 0)} °C` : `${fmt(g, 0)} K`} at ${M24.fmtH(i / 2)} LMST (mean)`; }
+    thLabelEl.querySelector('small').textContent = sub;
+  }
+  let hzCanvasTh = null;
+  function thermalCanvas() {   // map overlay of the active dataset with the same colour scale
+    const L = thLayer(), ds = thDs(); if (!L) return null; if (hzCanvasTh && hzCanvasTh.id === THS.id) return hzCanvasTh;
+    const g = L.grid, cv = document.createElement('canvas'); cv.width = g.ncols; cv.height = g.nrows; const ctx = cv.getContext('2d'), im = ctx.createImageData(g.ncols, g.nrows); const [lo, hi] = TH.range(ds);
+    for (let i = 0; i < g.ncols * g.nrows; i++) { const o = i * 4; if (L.alpha[i] < 128) { im.data[o + 3] = 0; continue; } const c = TH.colour((TH.decodeCode(L, L.codes[i]) - lo) / (hi - lo)); im.data[o] = c[0]; im.data[o + 1] = c[1]; im.data[o + 2] = c[2]; im.data[o + 3] = 255; }
+    ctx.putImageData(im, 0, 0); cv.id = THS.id; hzCanvasTh = cv; return cv;
+  }
+
   // ============================================================================================ renderer
   const canvas = $('#view');
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, powerPreference: 'high-performance' });
@@ -280,8 +446,10 @@
     $('#sc-enter').onclick = () => { if (manager.done && worldReady) enterSite(); };
     void lay;
   }
-  $('#globe-ui .seg').addEventListener('click', (e) => { const b = e.target.closest('button'); if (!b) return; GL.layer = b.dataset.g; globeMat.map = globeTex[GL.layer]; globeMat.needsUpdate = true;
-    $('#globe-ui .seg').querySelectorAll('button').forEach((x) => x.classList.toggle('on', x === b)); AU.click(); });
+  $('#globe-ui .seg').addEventListener('click', (e) => { const b = e.target.closest('button'); if (!b) return;
+    if (b.dataset.th) { const on = !THS.on; thSet({ on, panel: on }); if (on) { GL.auto = false; GL.fly = { lon: 77.6, lat: 18.2, dist: 1.32, t: 0 }; } AU.click(); return; }
+    GL.layer = b.dataset.g; globeMat.map = globeTex[GL.layer]; globeMat.needsUpdate = true;
+    $('#globe-ui .seg').querySelectorAll('button[data-g]').forEach((x) => x.classList.toggle('on', x === b)); AU.click(); });
   // globe input
   { let drag = null, pinch = null; const pts = new Map();
     canvas.addEventListener('pointerdown', (e) => { if (S.phase !== 'globe') return; AU.start(); pts.set(e.pointerId, [e.clientX, e.clientY]); GL.auto = false; GL.fly = null;
@@ -355,12 +523,13 @@
       mSand: { value: new THREE.Vector3(...(TEXDEF.sand?.mean_linear || [0.12, 0.07, 0.04])) },
       tRegional: { value: regTex }, regB: { value: reg ? new THREE.Vector4(reg.x0, reg.y0, reg.x1 - reg.x0, reg.y1 - reg.y0) : new THREE.Vector4(0, 0, 1, 1) }, cxy: { value: new THREE.Vector2(CX, CY) } };
     mat.onBeforeCompile = (sh) => {
-      Object.assign(sh.uniforms, U);
+      Object.assign(sh.uniforms, U, THU);
       sh.vertexShader = sh.vertexShader.replace('#include <common>', '#include <common>\nattribute float edge; varying float vEdge; varying vec3 vWPos; varying vec3 vWN;')
         .replace('#include <beginnormal_vertex>', '#include <beginnormal_vertex>\nvWN = normalize(objectNormal);')
         .replace('#include <project_vertex>', '#include <project_vertex>\nvWPos = (modelMatrix * vec4(transformed, 1.0)).xyz; vEdge = edge;');
       sh.fragmentShader = sh.fragmentShader.replace('#include <common>', `#include <common>
         uniform sampler2D tReg, tRegN, tBed, tBedN, tSand, tSandN, tRegional; uniform vec3 mReg, mBed, mSand; uniform vec4 regB; uniform vec2 cxy;
+        uniform sampler2D tThermal; uniform float thOn; uniform vec2 thEnc, thRange; uniform vec4 thGrid; ${THGLSL}
         varying float vEdge; varying vec3 vWPos; varying vec3 vWN;
         vec3 nmap(sampler2D t, vec2 uv){ return texture2D(t, uv).xyz * 2.0 - 1.0; }`)
         .replace('#include <map_fragment>', `#include <map_fragment>
@@ -382,7 +551,19 @@
             vec3 det = aR * wReg + aB * wBed + aS * wSand;
             diffuseColor.rgb = base * mix(vec3(1.0), clamp(det, 0.0, 2.5), near);
             nDet = (nmap(tRegN, q / 3.0) * wReg + nmap(tBedN, q / 4.0) * wBed + nmap(tSandN, q2 / 6.0) * wSand) * near;
-          }` : ''}`)
+          }` : ''}
+          vec3 thermalCol = vec3(0.0); float thermalA = 0.0;
+          if (thOn > 0.0) {
+            vec2 tuv = vec2((lp.x - thGrid.x) / thGrid.z, 1.0 - (thGrid.y - lp.y) / thGrid.w);
+            if (tuv.x >= 0.0 && tuv.x <= 1.0 && tuv.y >= 0.0 && tuv.y <= 1.0) {
+              vec4 ts = texture2D(tThermal, tuv);
+              if (ts.a > 0.5) { float tv = thEnc.x + ts.r * 255.0 / 254.0 * (thEnc.y - thEnc.x); thermalCol = thermalRamp(clamp((tv - thRange.x) / (thRange.y - thRange.x), 0.0, 1.0));
+                thermalA = thOn; diffuseColor.rgb = mix(diffuseColor.rgb, pow(thermalCol, vec3(2.2)) * 0.9, thOn); }
+              else { float hatch = step(0.5, fract((lp.x + lp.y) / 14.0)); diffuseColor.rgb = mix(diffuseColor.rgb, vec3(0.06 + 0.06 * hatch), thOn * 0.85); }
+            }
+          }`)
+        .replace('#include <emissivemap_fragment>', `#include <emissivemap_fragment>
+          totalEmissiveRadiance += pow(thermalCol, vec3(2.2)) * thermalA * 0.35;`)
         .replace('#include <normal_fragment_maps>', `#include <normal_fragment_maps>
           normal = normalize(normal + (mat3(viewMatrix) * vec3(nDet.x, 0.0, -nDet.y)) * 0.9);`);
     };
@@ -716,7 +897,7 @@
     if (res.maxSlope > S.theta - 2) { if (level === 'go') level = 'cond'; issues.push(`Route reaches ${fmt(res.maxSlope, 1)}°, close to the ${S.theta}° suit limit`); }
     const pts = cells.map(xyOfIdx); hazard.setRoute(cells); const hzr = hazard.scanRoute(pts);
     PL.plan = { hzr, cells, pts, out, back, total, o2g, margin, arrive, sun, st, level, issues, maxSlope: res.maxSlope, ms: performance.now() - t0, snapS: a.dispM, snapD: b.dispM };
-    buildRibbon(RT.simplify(pts, 1.5));
+    buildRibbon(RT.simplify(pts, 1.5)); if (THS.panel) setTimeout(thRenderPanel, 0);
   }
   function departUtc() { const sol = M24.at(new Date()).sol; return M24.utcForLtst(sol, PL.dep).getTime(); }
   function renderPlanner() {
@@ -730,6 +911,7 @@
         <dt>Oxygen needed</dt><dd>${fmt(p.o2g)} of ${fmt(CAP.o2kg * 1000)} g</dd><dt>Steepest slope</dt><dd>${fmt(p.maxSlope, 1)}°</dd>
         <dt>Back at</dt><dd>${M24.fmtH(p.arrive)} · sunset ${M24.fmtH(p.sun.sunsetLtst)}</dd></dl>
         ${hzRouteHtml(p.hzr)}
+        <button class="btn ghost th-open" id="pl-th">${THS.on ? 'Thermal map on · open panel' : 'Thermal map (THEMIS / MEDA / model)'}</button>
         <div class="verdict ${p.level}">${v}${p.issues.length ? `<small>${p.issues.map(esc).join('<br>')}</small>` : '<small>Within suit, daylight and slope limits</small>'}</div>`;
     } else if (p?.error) body = `<div class="verdict nogo">No route<small>${esc(p.error)}</small></div>`;
     $('#planner').innerHTML = `<button class="back" id="pl-back">‹ Globe</button>
@@ -746,7 +928,7 @@
     $('#pl-theta').onclick = (e) => { const b = e.target.closest('button'); if (!b) return; S.theta = +b.dataset.t; computePlan(); renderPlanner(); };
     $('#pl-dep').onchange = (e) => { PL.dep = +e.target.value; computePlan(); renderPlanner(); };
     $('#pl-back').onclick = () => toGlobe();
-    $('#pl-go').onclick = () => beginEVA();
+    $('#pl-go').onclick = () => beginEVA(); if ($('#pl-th')) $('#pl-th').onclick = () => thSet({ on: true, panel: true });
     hintPlan();
   }
   function hzRouteHtml(h) {
@@ -766,7 +948,10 @@
       const k = SC.dist / innerHeight * 1.1, cy = Math.cos(SC.yaw), sy = Math.sin(SC.yaw);
       SC.tx = clamp(SC.tx - (dx * cy + dy * sy) * k, AOI.xmin - CX, AOI.xmax - CX); SC.tz = clamp(SC.tz - (-dx * sy + dy * cy) * k, -(AOI.ymax - CY), -(AOI.ymin - CY)); });
     addEventListener('pointerup', (e) => { if (S.phase !== 'site' || !pts.has(e.pointerId)) return; pts.delete(e.pointerId); if (pts.size < 2) pinch = null;
+      if (moved < 6 && e.target === canvas && THS.on && THS.inspect) { const l = pickGround(e.clientX, e.clientY); if (l) { THS.pin = { x: l.x, y: l.y, res: thSampleAt(l.x, l.y) }; const r = $('#th-read'); if (r) r.innerHTML = thReadHtml(); } return; }
       if (moved < 6 && e.target === canvas) { const l = pickGround(e.clientX, e.clientY); if (l) setSlot({ id: null, kind: 'point', x: l.x, y: l.y, name: `Point ${fmt(l.x)} E, ${fmt(l.y)} N` }); } });
+    let hovT = 0; canvas.addEventListener('pointermove', (e) => { if (S.phase !== 'site' || !THS.on || !THS.panel || pts.size || performance.now() - hovT < 120) return; hovT = performance.now();
+      const l = pickGround(e.clientX, e.clientY); THS.hover = l ? { x: l.x, y: l.y, res: thSampleAt(l.x, l.y) } : null; const r = $('#th-read'); if (r) r.innerHTML = thReadHtml(); });
     canvas.addEventListener('wheel', (e) => { if (S.phase !== 'site') return; SC.anim = null; SC.dist = clamp(SC.dist * (e.deltaY > 0 ? 1.12 : 0.89), 150, 9000); }, { passive: true });
     canvas.addEventListener('contextmenu', (e) => e.preventDefault());
   }
@@ -776,6 +961,7 @@
     S.phase = ph; document.body.className = document.body.className.replace(/phase-\w+/g, '').trim() + ` phase-${ph}` + (TOUCH ? ' touch' : '') + (S.view === 'fp' ? ' fp' : '');
     $('#globe-ui').classList.toggle('hidden', ph !== 'globe'); $('#plan-ui').classList.toggle('hidden', ph !== 'site'); $('#hud').classList.toggle('hidden', ph !== 'play');
     showGlobeMarks(ph === 'globe'); if (ph !== 'site' && ph !== 'play') hideLabels(); if (ph !== 'play') hazardOff();
+    if (THS.globeMesh) THS.globeMesh.visible = THS.on && ph === 'globe'; if (thLabelEl && ph !== 'site' && ph !== 'play') thLabelEl.style.display = 'none'; THS.hover = THS.pin = null; thRenderPanel();
   }
   function flashFx(peak = 0.5, ms = 380) { const fx = $('#fx'); fx.style.transition = 'none'; fx.style.opacity = peak; requestAnimationFrame(() => { fx.style.transition = `opacity ${ms}ms ease-out`; fx.style.opacity = 0; }); }
   const seqs = []; // simple timeline runner
@@ -842,7 +1028,7 @@
     if (k === ' ') { e.preventDefault(); jump(); }
     if (k === 'e') interact(); if (k === 'v') toggleView(); if (k === 'm') toggleMap(true); if (k === 'escape' || k === 'p') toggleMenu(true);
     if (k === 'f') toggleAuto(); if (k === 't') cycleSpeed(); if (k === 'r') { SET.guide = !SET.guide; if (ribbon) ribbon.visible = SET.guide; flash(SET.guide ? 'Route guide on' : 'Route guide off', 'info'); }
-    if (k === 'n') setAlarmMute(!SET.alarmMute);
+    if (k === 'n') setAlarmMute(!SET.alarmMute); if (k === 'h') thSet({ on: !THS.on, panel: !THS.on ? true : THS.panel });
     if (k === 'l') { S.headlamp = !S.headlamp; flash(S.headlamp ? 'Helmet lights on' : 'Helmet lights auto', 'info'); }
     if (k === 'shift') P.run = true;
     if (['w', 'a', 's', 'd', 'arrowup', 'arrowdown', 'arrowleft', 'arrowright'].includes(k)) S.lastManual = performance.now();
@@ -867,7 +1053,7 @@
     let dx = (e.clientX - cx) / R, dy = (e.clientY - cy) / R; const m = Math.hypot(dx, dy); if (m > 1) { dx /= m; dy /= m; } joy.x = dx; joy.y = -dy; S.lastManual = performance.now(); knob.style.transform = `translate(${dx * 36}px, ${dy * 36}px)`; }
   const hold = (id, on) => { $(id).addEventListener('pointerdown', (e) => { e.preventDefault(); AU.start(); on(); }); };
   hold('#t-run', () => { P.run = !P.run; $('#t-run').classList.toggle('on', P.run); }); hold('#t-use', () => interact()); hold('#t-auto', () => toggleAuto());
-  $('#b-map').onclick = () => toggleMap(true); $('#b-menu').onclick = () => toggleMenu(true); $('#b-alarm').onclick = () => { AU.start(); setAlarmMute(!SET.alarmMute); };
+  $('#b-map').onclick = () => toggleMap(true); $('#b-menu').onclick = () => toggleMenu(true); $('#b-alarm').onclick = () => { AU.start(); setAlarmMute(!SET.alarmMute); }; $('#b-thermal').onclick = () => thSet({ on: !THS.on, panel: !THS.on ? true : THS.panel });
   function setAlarmMute(m) { SET.alarmMute = m; store.set('alarmMute', m); hzAudio.setMuted(m); $('#b-alarm').classList.toggle('muted', m); flash(m ? 'Hazard alarm muted (visual warnings stay on)' : 'Hazard alarm on', 'info', 2); }
   $('#b-alarm').classList.toggle('muted', SET.alarmMute);
   function toggleAuto() { S.auto = !S.auto; $('#t-auto').classList.toggle('on', S.auto); flash(S.auto ? 'Following the planned route' : 'Manual walking', 'info', 2); }
@@ -1077,7 +1263,9 @@
     h2o: '<svg viewBox="0 0 24 24"><path d="M12 3s6 7 6 11a6 6 0 0 1-12 0c0-4 6-11 6-11z"/></svg>', home: '<svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7M6 9v11h12V9"/></svg>' };
   function updateHUD() {
     const pr = predict(), st = pr.st, T = airTemp(st), now = lifeHours(S.wAvg);
-    $('#clock').innerHTML = `<b>${M24.fmtH(st.ltst)}</b>Sol ${st.sol} · EVA ${hm(pr.evaH)}<span class="x">×${S.speed}</span>`;
+    $('#clock').innerHTML = `<b>${M24.fmtH(st.ltst)}</b>Sol ${st.sol} · EVA ${hm(pr.evaH)}<span class="x">×${S.speed}</span>` + (THS.on ? (() => { const ds = thDs(), p0 = Lc(P.X, P.Z), r = thSampleAt(p0.x, p0.y);
+      return `<div class="th-chip"><b>THERMAL</b> ${r.status === 'ok' ? thFmt(r.value, ds) : r.status === 'outside' ? 'outside data coverage' : 'no data here'} · ${esc(ds.product_id.slice(0, 10))} ${esc(String(ds.observation_utc).slice(0, 10))}${ds.local_true_solar_time_h !== null && ds.local_true_solar_time_h !== undefined ? ' ' + M24.fmtH(ds.local_true_solar_time_h) : ''} (observed)</div>`; })() : '');
+    if (THS.panel) { const r0 = $('#th-read'); if (r0) r0.innerHTML = thReadHtml(); }
     const pwrH = S.res.wh / (PHYS.powerW * 0.6 + 0.08 * S.wAvg + heaterW(T, st));
     const h2oH = S.res.h2o / (Math.max(30, S.wAvg + (st.elev > 0 ? 60 * Math.sin(st.elev * D2R) : 0) - Math.max(0, 250 - T) * 0.8) * 3600 / PHYS.Lsub);
     const col = (f) => f <= 0.15 ? 'var(--bad)' : f <= 0.35 ? 'var(--warn)' : 'var(--ok)';
@@ -1203,7 +1391,7 @@
     const [x0, y0] = toScr(AOI.xmin, AOI.ymax), ww = W_AOI * MV.s, hh = H_AOI * MV.s;
     const lay = (f, a = 1, smooth = true) => { const im = img(f); if (im.complete && im.naturalWidth) { c.globalAlpha = a; c.imageSmoothingEnabled = smooth; c.drawImage(im, x0, y0, ww, hh); c.globalAlpha = 1; c.imageSmoothingEnabled = true; } };
     if (MV.lay.optical) lay('hirise_ortho_1m.jpg'); else lay('ctx_ortho_6m.jpg');
-    if (MV.lay.thermal) lay('themis_night_20m.jpg', 0.75);
+    if (MV.lay.thermal) { const tc = thermalCanvas(); if (tc) { c.globalAlpha = 0.8; c.drawImage(tc, x0, y0, ww, hh); c.globalAlpha = 1; } else lay('themis_night_20m.jpg', 0.75); }
     if (MV.lay.slope) lay('slope_classes_5m.png', 0.6, false);
     if (MV.lay.hazards) { c.globalAlpha = 0.75; c.imageSmoothingEnabled = false; c.drawImage(hazardCanvas(), x0, y0, ww, hh); c.imageSmoothingEnabled = true; c.globalAlpha = 1; }
     if (MV.lay.safe) { c.imageSmoothingEnabled = false; c.drawImage(safeZone(), x0, y0, ww, hh); c.imageSmoothingEnabled = true; }
@@ -1222,7 +1410,7 @@
   function renderMapSide() {
     const pr = predict(), st = pr.st, T = airTemp(st), Pm = medaAt('P', st.lmst), near = cmeNear(S.sim);
     const v = { go: 'Go', cond: 'Caution', nogo: 'Return now' }[pr.level];
-    const L = [['optical', 'Optical', 'HiRISE 25 cm→1 m · MRO', '#bbb'], ['thermal', 'Thermal', 'THEMIS night IR · Odyssey', '#ddd'], ['slope', 'Slope', 'HiRISE DTM 5 m', '#86a94a'], ['hazards', 'Terrain hazards', 'Steep · steps · no data', '#e12d1e'],
+    const L = [['optical', 'Optical', 'HiRISE 25 cm→1 m · MRO', '#bbb'], ['thermal', 'Thermal', THS.on ? thDs().title : 'THEMIS night IR · Odyssey', '#e0863a'], ['slope', 'Slope', 'HiRISE DTM 5 m', '#86a94a'], ['hazards', 'Terrain hazards', 'Steep · steps · no data', '#e12d1e'],
       ['safe', 'Beyond safe return', 'From your O₂ now', '#782014'], ['geology', 'Geology', 'USGS SIM 3464', '#a885d6'], ['track', 'Perseverance track', 'NASA M20 waypoints', '#5aa4c8']];
     $('#map-side').innerHTML = `<div class="verdict ${pr.level}">${v}<small>Turn back in ${pr.margin === null ? '—' : hm(pr.margin)} · walk home ${pr.h ? km(pr.h.phys) : '—'}</small></div>
       <h3>Suit</h3><dl class="stats"><dt>Oxygen</dt><dd>${fmt(S.res.o2 * 1000)} / ${fmt(CAP.o2kg * 1000)} g</dd><dt>CO₂ absorbed</dt><dd>${fmt(S.res.co2 * 1000)} g</dd><dt>Power</dt><dd>${fmt(S.res.wh)} Wh</dd>
@@ -1253,11 +1441,11 @@
     if (S.phase === 'site') { siteCamUpdate(dt); night = updateSky(M24.at(new Date(departUtc())), new THREE.Vector3(SC.tx, groundY(SC.tx, SC.tz), SC.tz));
       ribbonMat.depthTest = false; ribbonMat.uniforms.uW.value = clamp(SC.dist * 0.0065, 1.5, 60); ribbonMat.uniforms.uO.value = 0.95; ribbonMat.uniforms.uT.value = t * SC.dist * 0.02;
       for (const f of [flagS, flagD]) { f.userData.beam.visible = true; f.userData.beam.material.opacity = 0.2; f.scale.setScalar(clamp(SC.dist / 400, 1, 14)); }
-      labelT += dt; if (labelT > 0.03) { labelT = 0; updateLabels(); } }
+      labelT += dt; if (labelT > 0.03) { labelT = 0; updateLabels(); thLabels(); } }
     else if (S.phase === 'switch') { for (const f of [flagS, flagD]) f.scale.setScalar(1); night = updatePlay(0, false); }
     else if (S.phase === 'play') { for (const f of [flagS, flagD]) f.scale.setScalar(1);
       if (!S.paused && !S.over) step(dt); night = updatePlay(S.paused ? 0 : dt); if (!S.over) hazardTick(S.paused ? 0 : dt, t);
-      hudT += dt; if (hudT > 0.15) { hudT = 0; updateHUD(); } labelT += dt; if (labelT > 0.05) { labelT = 0; updateLabels(); }
+      hudT += dt; if (hudT > 0.15) { hudT = 0; updateHUD(); } labelT += dt; if (labelT > 0.05) { labelT = 0; updateLabels(); thLabels(); }
       AU.update(dt, S.wNow || PHYS.W_rest, 0.5, S.paused || S.over); }
     render(scene, camera, t, sunWorld, night);
   }
@@ -1299,6 +1487,7 @@
     if (H.theta && [15, 20, 25].includes(+H.theta)) S.theta = +H.theta;
     if (H.ltst && Number.isFinite(+H.ltst)) PL.dep = +H.ltst;
     if (H.hz) { const v = H.hz.split(',').map(Number); if (v.length === 3 && v.every((x) => x > 0) && v[0] > v[1] && v[1] > v[2]) setHzLevels({ caution: v[0], warning: v[1], critical: v[2] }); }
+    if ('thermal' in H) setTimeout(() => thSet({ on: true, panel: true, ...(H.thermal && TMETA?.datasets?.[H.thermal] ? { id: H.thermal } : {}), ...('celsius' in H ? { unit: 'C' } : {}) }), 200);
     if ('rm' in H) { SET.reduced = true; hzHud.reduced = true; } if ('mute' in H) setAlarmMute(true);
     buildGlobe(); $('#boot-msg').textContent = 'Building Jezero terrain';
     setTimeout(() => {
@@ -1315,7 +1504,7 @@
         } else { setPhase('globe'); if ('jezero' in H) selectSite((GA.globe_sites || [])[0]); }
       };
       if (manager.done) go(); else { const prev = manager.onLoad; manager.onLoad = () => { prev(); go(); }; setTimeout(() => { if (S.phase === 'boot') go(); }, 15000); }
-      window.MEC_GAME = { S, P, PL, GL, SC, hazard, alertMgr, hzAudio, hzHud, HZRUN, setHzLevels, scene, sun, post, ribbonMat, get terrain() { return terrain; }, get ribbon() { return ribbon; }, PHYS, CAP, camera, get astro() { return astro; }, predict, lifeHours, metabolic, groundY, Lc, W, toggleMap, interact, endGame, setQuality, beginEVA, computePlan, pickPOI, selectSite, enterSite, toggleAuto };
+      window.MEC_GAME = { S, P, PL, GL, SC, THS, thSet, thSampleAt, TMETA, hazard, alertMgr, hzAudio, hzHud, HZRUN, setHzLevels, scene, sun, post, ribbonMat, get terrain() { return terrain; }, get ribbon() { return ribbon; }, PHYS, CAP, camera, get astro() { return astro; }, predict, lifeHours, metabolic, groundY, Lc, W, toggleMap, interact, endGame, setQuality, beginEVA, computePlan, pickPOI, selectSite, enterSite, toggleAuto };
     }, 30);
     offline(); loop();
   } catch (e) { $('#boot-msg').textContent = 'Could not start 3D: ' + e.message; console.error(e); }

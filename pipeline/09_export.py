@@ -403,7 +403,7 @@ def main():
         if f not in ('bundle.js', 'manifest.json'):
             h.update(f.encode()); h.update(sha256(os.path.join(APPDATA, f)).encode())
     for f in ('index.html', 'app.js', 'style.css', 'service-worker.js', 'mars24.js', 'game/index.html', 'game/game.js', 'game/game.css',
-              'game/route.js', 'game/audio.js', 'game/hazard.js'):
+              'game/route.js', 'game/audio.js', 'game/hazard.js', 'game/thermal.js'):
         h.update(sha256(os.path.join(ROOT, 'app', f)).encode())
     h.update(json.dumps([layers, routes, stations, rec['model'], ASSUMPTIONS], sort_keys=True, default=str).encode())
     bid = 'mec-' + h.hexdigest()[:12]
@@ -428,7 +428,8 @@ def main():
     bundle = {'manifest': manifest, 'pov': pov, 'depot_tubes': depot_tubes, 'rover': rover, 'layers': layers, 'routes': routes, 'stations': stations, 'profiles': profiles,
               'walkback': walk, 'environment': environment, 'validation': validation, 'recon': rec,
               'geology': read_json(os.path.join(APPDATA, 'geology_local.json')), 'rover_track': read_json(os.path.join(APPDATA, 'rover_local.json')),
-              'game': read_json(os.path.join(APPDATA, 'game_assets.json')) if os.path.exists(os.path.join(APPDATA, 'game_assets.json')) else None}
+              'game': read_json(os.path.join(APPDATA, 'game_assets.json')) if os.path.exists(os.path.join(APPDATA, 'game_assets.json')) else None,
+              'thermal': read_json(os.path.join(APPDATA, 'thermal.json')) if os.path.exists(os.path.join(APPDATA, 'thermal.json')) else None}
     with open(os.path.join(APPDATA, 'bundle.js'), 'w') as fh:
         fh.write('window.MEC_DATA=' + json.dumps(bundle, separators=(',', ':'), allow_nan=False) + ';\n')
     files = sorted(f for f in os.listdir(APPDATA) if f != 'manifest.json')
@@ -439,7 +440,7 @@ def main():
     app_root = os.path.join(ROOT, 'app')
     static = ['./', 'index.html', 'app.js', 'style.css', 'mars24.js', 'lib/leaflet.min.js', 'lib/leaflet.min.css', 'lib/chart.umd.min.js',
               'lib/three.min.js', 'lib/fonts/RobotoCondensed-latin.woff2', 'game/', 'game/index.html', 'game/game.js', 'game/game.css',
-              'game/route.js', 'game/audio.js', 'game/hazard.js']
+              'game/route.js', 'game/audio.js', 'game/hazard.js', 'game/thermal.js']
     with open(os.path.join(app_root, 'precache.js'), 'w') as fh:
         fh.write(f"self.MEC_BUILD={json.dumps(bid)};\nself.MEC_ASSETS={json.dumps(static + ['data/' + f for f in files] + ['data/manifest.json'])};\n")
     print('exported', len(files), 'files,', round(manifest['total_bytes'] / 1e6, 2), 'MB; build', bid)
