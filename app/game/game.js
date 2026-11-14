@@ -1218,8 +1218,18 @@
   function offline() {
     if (!('serviceWorker' in navigator) || location.protocol === 'file:') return;
     if (location.hostname === 'localhost' && !/[#&]sw\b/.test(location.hash)) return;   // local development: no offline cache unless #sw
-    navigator.serviceWorker.register('../service-worker.js?build=' + encodeURIComponent(D.manifest.build_id), { updateViaCache: 'none' }).catch(() => {});
-    fetch('../data/manifest.json?version-check=' + Date.now(), { cache: 'no-store' }).then((r) => r.ok ? r.json() : null).then((m) => { if (m && m.build_id !== D.manifest.build_id) S.updateReady = true; }).catch(() => {});
+    const sw = (id) => '../service-worker.js?build=' + encodeURIComponent(id);
+    const hadCtrl = !!navigator.serviceWorker.controller; let reloaded = false;
+    // a new build's worker precaches everything, takes over, and we reload once (unless you are mid-EVA)
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      if (!hadCtrl || reloaded) return;
+      if (S.phase === 'play' || S.phase === 'switch') { S.updateReady = true; return; }
+      reloaded = true; location.reload();
+    });
+    navigator.serviceWorker.register(sw(D.manifest.build_id), { updateViaCache: 'none' }).catch(() => {});
+    fetch('../data/manifest.json?version-check=' + Date.now(), { cache: 'no-store' }).then((r) => r.ok ? r.json() : null).then((m) => {
+      if (m && m.build_id !== D.manifest.build_id) { S.updateReady = true; navigator.serviceWorker.register(sw(m.build_id), { updateViaCache: 'none' }).catch(() => {}); }
+    }).catch(() => {});
   }
   const H = Object.fromEntries(location.hash.replace(/^#/, '').split('&').filter(Boolean).map((kv) => { const [k, v] = kv.split('='); return [decodeURIComponent(k), v === undefined ? '' : decodeURIComponent(v)]; }));
   manager.onProgress = (_, n, total) => { $('#boot-fill').style.width = `${Math.round(n / total * 100)}%`; const b = $('#sc-enter'); if (b && !manager.done) b.textContent = `Loading terrain ${Math.round(n / total * 100)}%`; };
