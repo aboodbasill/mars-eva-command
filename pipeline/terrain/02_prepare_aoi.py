@@ -43,14 +43,41 @@ def sites(cfg, co):
                         source=f"M20_waypoints.json RMC {w['RMC']} (sol {w['sol']}, last fix before sampling sol {s['sample_sol']})",
                         position_uncertainty_m=5.0))
     d = cfg['depot']
-    dw = [w for w in wps if d['sol_range'][0] <= int(w['sol']) <= d['sol_range'][1]]
-    lon, lat = float(np.mean([w['lon'] for w in dw])), float(np.mean([w['lat'] for w in dw]))
-    xs, ys = co.lonlat_to_local([w['lon'] for w in dw], [w['lat'] for w in dw])
-    spread = float(max(np.ptp(xs), np.ptp(ys)))
-    out.append(dict(kind='depot', id=d['id'], name=d['name'], lon=lon, lat=lat,
-                    rover_elev_m=float(np.mean([w['elev_geoid'] for w in dw])), tubes=d['tubes'], note=d['note'],
-                    source=f"centroid of {len(dw)} M20 waypoints, sols {d['sol_range'][0]}-{d['sol_range'][1]}",
-                    position_uncertainty_m=round(spread / 2 + 5, 1)))
+    tubes_csv = os.path.join(RAW, 'depot', 'sample_tube_locations.csv')
+    if os.path.exists(tubes_csv):
+        # PDS: urn:nasa:pds:mars2020_sample_depot_three_forks:miscellaneous:sample_tube_locations (v1.0)
+        import csv
+        with open(tubes_csv) as f:
+            rows = list(csv.DictReader(f))
+        tubes = []
+        for r in rows:
+            tx, ty = co.lonlat_to_local(float(r['Rover Longitude']), float(r['Rover Latitude']))
+            tubes.append({'designation': r['Sample Designation'], 'name': r['Sample Name'], 'drop_sol': int(r['Dropoff Sol']),
+                          'rmc': f"{r['Site']}_{r['Drive']}", 'lat': float(r['Rover Latitude']), 'lon': float(r['Rover Longitude']),
+                          'rover_elev_m': float(r['Rover Elevation']), 'tube_azimuth_deg': int(r['Sample Tube Azimuth']),
+                          'x': round(tx, 2), 'y': round(ty, 2)})
+        write_json(os.path.join(META, 'depot_tubes.json'), {
+            'source': 'NASA PDS Geosciences Node, Mars 2020 Three Forks sample depot bundle, sample_tube_locations.csv (v1.0)',
+            'url': 'https://pds-geosciences.wustl.edu/m2020/urn-nasa-pds-mars2020_sample_depot_three_forks/miscellaneous/sample_metadata/',
+            'position_meaning': 'Rover position during each tube drop (planetocentric). The tube is released beneath the rover, '
+                                'so it lies within ~1-2 m of this point (ASSUMPTION); azimuth = seal end to glove end, clockwise from north.',
+            'tubes': tubes})
+        lon, lat = float(np.mean([t['lon'] for t in tubes])), float(np.mean([t['lat'] for t in tubes]))
+        xs, ys = [t['x'] for t in tubes], [t['y'] for t in tubes]
+        spread = float(max(np.ptp(xs), np.ptp(ys)))
+        src = f'centroid of the {len(tubes)} PDS tube-drop positions (sols {tubes[0]["drop_sol"]}-{tubes[-1]["drop_sol"]})'
+        elev = float(np.mean([t['rover_elev_m'] for t in tubes]))
+        ntubes = len(tubes)
+    else:
+        dw = [w for w in wps if d['sol_range'][0] <= int(w['sol']) <= d['sol_range'][1]]
+        lon, lat = float(np.mean([w['lon'] for w in dw])), float(np.mean([w['lat'] for w in dw]))
+        xs, ys = co.lonlat_to_local([w['lon'] for w in dw], [w['lat'] for w in dw])
+        spread = float(max(np.ptp(xs), np.ptp(ys)))
+        src = f"centroid of {len(dw)} M20 waypoints, sols {d['sol_range'][0]}-{d['sol_range'][1]}"
+        elev = float(np.mean([w['elev_geoid'] for w in dw]))
+        ntubes = d['tubes']
+    out.append(dict(kind='depot', id=d['id'], name=d['name'], lon=lon, lat=lat, rover_elev_m=elev, tubes=ntubes, note=d['note'],
+                    source=src, position_uncertainty_m=round(spread / 2 + 2, 1)))
     for s in out:
         s['x'], s['y'] = co.lonlat_to_local(s['lon'], s['lat'])
     return out

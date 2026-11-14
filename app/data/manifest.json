@@ -1,7 +1,7 @@
 {
  "schema_version": "1.0.0",
- "build_id": "mec-a7b5988db499",
- "built_utc": "2026-11-14T03:06:14+00:00",
+ "build_id": "mec-b44876ff3e36",
+ "built_utc": "2026-11-14T03:33:21+00:00",
  "mission": {
   "id": "marswalk-1",
   "name": "Marswalk 1",
@@ -216,8 +216,8 @@
   },
   {
    "id": "A-02",
-   "label": "ASSUMPTION",
-   "text": "Hard slope limits 15/20/25\u00b0 (default 20\u00b0) and \u03b8pref 15\u00b0 are lunar-derived exploratory values, not Mars suit limits."
+   "label": "LIMITED",
+   "text": "Slope limits 15/20/25\u00b0 (default 20\u00b0) and \u03b8pref 15\u00b0 are lunar-derived (20\u00b0: NASA 2020 Lunar Surface EVA ConOps; 15\u00b0: Pe\u00f1a-Asensio et al. 2023), not Mars suit limits."
   },
   {
    "id": "A-03",
@@ -232,7 +232,7 @@
   {
    "id": "A-05",
    "label": "LIMITED",
-   "text": "Return budgets 0.5/1/2/10 km-equivalent are demonstration presets; lunar walking/walk-back distances do not validate a weighted budget."
+   "text": "Return budgets 0.5/1/2/10 km-equivalent are demonstration presets (2 km: Artemis EVA ConOps radius; 10 km: Walkback Test, SAE 2007-01-3133); they do not validate a weighted budget or life support."
   },
   {
    "id": "A-06",
@@ -246,8 +246,8 @@
   },
   {
    "id": "A-08",
-   "label": "VERIFY",
-   "text": "Depot inspection point = centroid of 21 depot-build waypoints; individual tube positions not transcribed."
+   "label": "LIMITED",
+   "text": "Depot inspection point = centroid of the 10 tube-drop rover positions from the PDS depot bundle; each tube lies within ~1-2 m of its rover position (assumed)."
   },
   {
    "id": "A-09",
@@ -289,13 +289,13 @@
  "assets": [
   {
    "file": "bundle.js",
-   "bytes": 657951,
-   "sha256": "7d410e354c7a60c77a8e11f2bac8c7e07c24f4851360c38bd1c7ee018c11219c"
+   "bytes": 661474,
+   "sha256": "eda35c8203f4c30369240d8de991e8f6a2c72a398683029a8badc6588fd7ac00"
   },
   {
    "file": "chip_D1.jpg",
-   "bytes": 99220,
-   "sha256": "571b9b63129d279060bd47639e9f6955d93b1b0b3872950e520fe9c295cc68a3"
+   "bytes": 99321,
+   "sha256": "76e9841cd72ac73ccb24a31533538e6761824a074aeef7e0dc0907b19aa31404"
   },
   {
    "file": "chip_L0.jpg",
@@ -329,8 +329,8 @@
   },
   {
    "file": "environment.json",
-   "bytes": 211826,
-   "sha256": "3f20bc5e4af6ac32117971c906a26e753330e9df7ff63943f9fac74798060074"
+   "bytes": 211815,
+   "sha256": "85ea811a9cbbe7fdf2d397997162e727b989d7b4babddeb24ec801ff36c4d70b"
   },
   {
    "file": "geology_local.json",
@@ -354,8 +354,8 @@
   },
   {
    "file": "layers.json",
-   "bytes": 8915,
-   "sha256": "9d9d370ea32eac52b23749a61251aac38a52581119021e0bbfb16bdd8e8e2c9a"
+   "bytes": 9904,
+   "sha256": "ee5fc7fbe893245f72d74619fc7e81e22de0eac98a59a47fb6103dd25b4f2c68"
   },
   {
    "file": "pov_D1.jpg",
@@ -400,7 +400,7 @@
   {
    "file": "recon.json",
    "bytes": 6276,
-   "sha256": "65f082f91a6e3f3f5039d3bb0d2f43d4488dc6ce6c93844ca0dfd73401acdbd7"
+   "sha256": "0e41c3a54e30c6ca0388dac4018d809e8e499836784c6b4f489b2306ae4cdc1e"
   },
   {
    "file": "recon_coverage.png",
@@ -434,8 +434,8 @@
   },
   {
    "file": "stations_local.json",
-   "bytes": 6447,
-   "sha256": "e4d6454d71c3d9a4d16978a4a83a9982b39802c3c9f30314ab5bdd30b7d704aa"
+   "bytes": 6556,
+   "sha256": "7ac3fe5e47b722eb27730a4a74226cdcdd7b649590a1ad1950ab28b800568f82"
   },
   {
    "file": "themis_night_20m.jpg",
@@ -445,7 +445,7 @@
   {
    "file": "validation.json",
    "bytes": 8702,
-   "sha256": "7b054aeafde0e3d2dfe6203f28940d47aac6642ab6e79290e8d75013e8589506"
+   "sha256": "224596112636587cf4292ad8bf91c4e753c8a4cb700937e8f0f6b00197e1ab0a"
   },
   {
    "file": "walkback_15.png",
@@ -468,5 +468,5 @@
    "sha256": "edc8b420e747b1752b34d84e3e47759fb872bc739cb72c336310d061f855542c"
   }
  ],
- "total_bytes": 19586212
+ "total_bytes": 19590923
 }

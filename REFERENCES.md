@@ -10,6 +10,7 @@
 | D4 | Mars 2020 TRN HiRISE orthomosaic `JEZ_hirise_soc_006_orthoMosaic_25cm_..._first`, doi:10.5066/P9QJDP48 | MRO HiRISE | ~1 m display basemap; native 25 cm station chips | https://doi.org/10.5066/P9QJDP48 |
 | D5 | Sun & Stack 2020, *Geologic map of Jezero crater and the Nili Planum region*, USGS SIM 3464, doi:10.3133/sim3464 (GeoUnits_v1) | USGS PGM | interpretive geology layer | https://pubs.usgs.gov/sim/3464/ |
 | D6 | THEMIS Day/Night IR controlled mosaics (Oct 2018), inside the SIM 3464 GIS bundle | 2001 Mars Odyssey THEMIS | qualitative thermal layer, AI predictor | same as D5 |
+| D8 | Three Forks sample depot bundle, `sample_tube_locations.csv` v1.0 (urn:nasa:pds:mars2020_sample_depot_three_forks) | Mars 2020 | depot inspection point and 10 tube markers | https://pds-geosciences.wustl.edu/m2020/urn-nasa-pds-mars2020_sample_depot_three_forks/ |
 | D7 | Perseverance traverse and waypoints `M20_traverse.json`, `M20_waypoints.json` | Mars 2020 | lander/station/depot positions, registration and plausibility checks | https://mars.nasa.gov/mmgis-maps/M20/Layers/json/ |
 | E2 | Perseverance raw images (Mastcam-Z, Navcam) at each stop, chosen by a documented rule; image IDs shown in the app | Mars 2020 | point-of-view images on station cards | https://mars.nasa.gov/mars2020/multimedia/raw-images/ (challenge Resources tab) |
 | E1 | MEDA CAL_PS, CAL_ATS, DER_TIRS, DER_ANCILLARY, sols 656/663/670/677/684 | Mars 2020 MEDA | historical pressure and air temperature at the depot | https://atmos.nmsu.edu/PDS/data/PDS4/Mars2020/mars2020_meda/ |
@@ -26,7 +27,10 @@ Credit: NASA/JPL-Caltech/University of Arizona/MSSS/ASU/USGS Astrogeology Scienc
 - Allison, M., McEwen, M. (2000) A post-Pathfinder evaluation of areocentric solar coordinates. *Planet. Space Sci.* 48, 215–235 (Ls algorithm).
 - Horn, B.K.P. (1981) Hill shading and the reflectance map. *Proc. IEEE* 69, 14–47 (slope kernel).
 - National Academies of Sciences, Engineering, and Medicine (2026) *A Science Strategy for the Human Exploration of Mars*. doi:10.17226/28594 (objectives 1, 3, 5, 9, 11 cited).
-- Lunar EVA slope and walk-back studies cited in the team plan (NTRS identifiers VERIFY).
+- NASA (2020) *Topic 1: EVA Lunar Surface Concept of Operations* — suit walks up/down/across slopes up to 20° on traverses up to 2 km from the lander. https://www.nasa.gov/wp-content/uploads/2020/01/topic_1-_eva_lunar_surface_concept_of_operations.pdf
+- Vos, J.R., Gernhardt, M.L., Lee, L.R. (2007) *The Walkback Test*. SAE Technical Paper 2007-01-3133 — suited 10 km return-walk study (basis of the optional 10 km preset).
+- Kring, D.A. (2023, interview) — early Artemis traverses on slopes < 20°, within ~2 km of the lander (phys.org, Oct 2023).
+- Peña-Asensio, E., et al. (2023) — lunar south-pole traverse planning with a 15° slope cap (basis of the 15° scenario).
 
 ## Software
 

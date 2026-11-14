@@ -4,10 +4,10 @@
   "evidence_class": "direct_surface_measurement",
   "site": {
    "name": "Three Forks depot area (Perseverance stationary during depot build)",
-   "lon": 77.40824113333333,
-   "lat": 18.45283058714286,
-   "x": -2348.0171209322366,
-   "y": 167.7821967063523,
+   "lon": 77.408206855,
+   "lat": 18.452829254,
+   "x": -2349.94452270286,
+   "y": 167.70317506660444,
    "support": "single rover position \u00b1~50 m over the period; NOT a map of Jezero weather"
   },
   "archive": {

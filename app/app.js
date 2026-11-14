@@ -87,6 +87,17 @@
       for (const s of D.rover.traverse) L.polyline(s.xy.map(yx), { pane: 'vectors', color: '#ffffff', weight: 2, opacity: 0.85, dashArray: '1 4' }).addTo(obj);
       for (const w of D.rover.waypoints) L.circleMarker([w.y, w.x], { pane: 'vectors', radius: 2.5, color: '#fff', weight: 1, fillOpacity: 0.6 })
         .bindTooltip(`Perseverance waypoint · sol ${w.sol} · RMC ${esc(w.rmc)}<br>${w.lat.toFixed(5)}°N ${w.lon.toFixed(5)}°E`).addTo(obj);
+    } else if (l.kind === 'vector' && l.id === 'depot_tubes') {
+      obj = L.layerGroup();
+      const twins = new Set(D.stations.filter((x) => x.sample).flatMap((x) => x.sample.split('/').map((t) => t.trim().split(' ')[0])));
+      for (const t of D.depot_tubes.tubes) {
+        const a = (t.tube_azimuth_deg * Math.PI) / 180;
+        L.polyline([[t.y, t.x], [t.y + 2.5 * Math.cos(a), t.x + 2.5 * Math.sin(a)]], { pane: 'vectors', color: '#c77dff', weight: 2 }).addTo(obj);
+        L.circleMarker([t.y, t.x], { pane: 'vectors', radius: 4, color: '#fff', weight: 1, fillColor: twins.has(t.name) ? '#ff9f43' : '#c77dff', fillOpacity: 1 })
+          .bindTooltip(`<b>${esc(t.name)}</b> · ${esc(t.designation)}<br>dropped sol ${t.drop_sol} · tube azimuth ${t.tube_azimuth_deg}°` +
+            `${twins.has(t.name) ? '<br>Twin of a sample from a station on this walk' : ''}<br><span class="muted">Rover position at drop (PDS); tube within ~1–2 m</span>`)
+          .addTo(obj);
+      }
     } else {
       obj = L.imageOverlay(`data/${l.file}`, l.bounds, { pane: paneFor[l.group] || 'terrain', opacity: l.id === 'provenance' ? 0.85 : 1, interactive: false });
     }
@@ -421,7 +432,7 @@
       ${s.kind === 'station' ? `<div class="small"><b>Sample:</b> ${esc(s.sample)}<br><b>Unit:</b> ${esc(s.formation)} · ${esc(s.rock)} <span class="muted">(Herd et al. 2025, PNAS)</span></div>
         <p class="small">${esc(s.rationale)}</p><p class="small"><b>Crew task:</b> ${esc(s.task)}</p>
         <div class="small"><b>NASEM objectives</b> ${LABEL('CONFIRMED')}<ul class="warn-list">${s.nasem.map((k) => `<li>${k}. ${esc((D.manifest.nasem_objectives || {})[k] || '')}</li>`).join('')}</ul></div>` : ''}
-      ${s.kind === 'depot' ? `<p class="small">${esc(s.note)}</p>` : ''}
+      ${s.kind === 'depot' ? `<p class="small">${esc(s.note)}</p>${D.depot_tubes ? `<table class="small"><thead><tr><th>Tube</th><th>Sample</th><th class="num">Drop sol</th></tr></thead><tbody>${D.depot_tubes.tubes.map((t) => `<tr><td>${esc(t.name)}</td><td class="mono">${esc(t.designation)}</td><td class="num">${t.drop_sol}</td></tr>`).join('')}</tbody></table><div class="muted small">Source: PDS Three Forks depot bundle (rover position at each drop).</div>` : ''}` : ''}
       ${s.kind === 'lander' ? `<p class="small">Hypothetical crew lander at the Perseverance landing site. A rover landing does not certify a human landing site.</p>` : ''}
       <dl class="kv small">
         <dt>Position</dt><dd>${s.lat.toFixed(5)}°N ${s.lon.toFixed(5)}°E (±${fmt(s.position_uncertainty_m, 0)} m)</dd>

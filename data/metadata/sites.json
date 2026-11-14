@@ -103,14 +103,14 @@
   "kind": "depot",
   "id": "D1",
   "name": "Three Forks sample depot (inspection only)",
-  "lon": 77.40824113333333,
-  "lat": 18.45283058714286,
-  "rover_elev_m": -2545.2719047619053,
+  "lon": 77.408206855,
+  "lat": 18.452829254,
+  "rover_elev_m": -2545.2623,
   "tubes": 10,
-  "note": "Ten tubes were placed between sols 653 and 690. Individual tube positions are not transcribed here; the inspection point is the centroid of the rover's depot-build waypoints (VERIFY against the published depot map before any operational use).",
-  "source": "centroid of 21 M20 waypoints, sols 653-690",
-  "position_uncertainty_m": 30.8,
-  "x": -2348.0171209322366,
-  "y": 167.7821967063523
+  "note": "Ten tubes were placed between sols 653 and 690, 5-15 m apart. Positions come from the PDS depot bundle (rover position at each drop; the tube lies within ~1-2 m). The depot holds the twins of three samples from this walk: Skyland (S1 Skinner Ridge), Bearwallow (S2 Wildcat Ridge) and Mageik (S4 Amalik). Crew task: visual inspection and documentation only.",
+  "source": "centroid of the 10 PDS tube-drop positions (sols 653-690)",
+  "position_uncertainty_m": 27.1,
+  "x": -2349.94452270286,
+  "y": 167.70317506660444
  }
 ]

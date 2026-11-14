@@ -14,6 +14,7 @@ for f in M20_traverse.json M20_waypoints.json; do
   [ -f "data/raw/$f" ] || curl -sSfL -o "data/raw/$f" "https://mars.nasa.gov/mmgis-maps/M20/Layers/json/$f"
 done
 $P pipeline/fetch_sim3464.py
+mkdir -p data/raw/depot && [ -f data/raw/depot/sample_tube_locations.csv ] || curl -sSfL -o data/raw/depot/sample_tube_locations.csv https://pds-geosciences.wustl.edu/m2020/urn-nasa-pds-mars2020_sample_depot_three_forks/miscellaneous/sample_metadata/sample_tube_locations.csv
 $P pipeline/terrain/01_inspect.py
 $P pipeline/terrain/02_prepare_aoi.py
 $P pipeline/terrain/03_reproject.py

@@ -22,13 +22,13 @@ from PIL import Image  # noqa: E402
 SCHEMA = '1.0.0'
 ASSUMPTIONS = [
     {'id': 'A-01', 'label': 'ASSUMPTION', 'text': 'Local projection eqc lat_ts=18.45, lon_0=77.45, R=3,396,190 m; lat_0=18.45 added only to move the origin (no scale change).'},
-    {'id': 'A-02', 'label': 'ASSUMPTION', 'text': 'Hard slope limits 15/20/25° (default 20°) and θpref 15° are lunar-derived exploratory values, not Mars suit limits.'},
+    {'id': 'A-02', 'label': 'LIMITED', 'text': 'Slope limits 15/20/25° (default 20°) and θpref 15° are lunar-derived (20°: NASA 2020 Lunar Surface EVA ConOps; 15°: Peña-Asensio et al. 2023), not Mars suit limits.'},
     {'id': 'A-03', 'label': 'ASSUMPTION', 'text': 'Evidence penalty ×1.5 on CTX-only cells and blocking of no-data cells is a design preference, not measured risk.'},
     {'id': 'A-04', 'label': 'ASSUMPTION', 'text': 'Symmetric edge cost c = d·(1+(max slope/15°)²)·max penalty (model symmetric-max-v1); no uphill/downhill asymmetry.'},
-    {'id': 'A-05', 'label': 'LIMITED', 'text': 'Return budgets 0.5/1/2/10 km-equivalent are demonstration presets; lunar walking/walk-back distances do not validate a weighted budget.'},
+    {'id': 'A-05', 'label': 'LIMITED', 'text': 'Return budgets 0.5/1/2/10 km-equivalent are demonstration presets (2 km: Artemis EVA ConOps radius; 10 km: Walkback Test, SAE 2007-01-3133); they do not validate a weighted budget or life support.'},
     {'id': 'A-06', 'label': 'ASSUMPTION', 'text': '5 m routing cell slope = maximum 1 m Horn slope; cell HiRISE-supported only if ≥ 90 % of 1 m slopes valid.'},
     {'id': 'A-07', 'label': 'LIMITED', 'text': 'Station positions = last Perseverance waypoint at or before the sampling sol (Herd et al. 2025), ±5 m assumed.'},
-    {'id': 'A-08', 'label': 'VERIFY', 'text': 'Depot inspection point = centroid of 21 depot-build waypoints; individual tube positions not transcribed.'},
+    {'id': 'A-08', 'label': 'LIMITED', 'text': 'Depot inspection point = centroid of the 10 tube-drop rover positions from the PDS depot bundle; each tube lies within ~1-2 m of its rover position (assumed).'},
     {'id': 'A-09', 'label': 'CONFIRMED', 'text': 'NASEM (2026) objective numbers 1 (habitability/life) and 3 (geologic record) on station cards checked against the report, doi:10.17226/28594, on 14 Nov 2026.'},
     {'id': 'A-10', 'label': 'ASSUMPTION', 'text': 'Snapping a blocked stop to the nearest traversable cell within 15 m is disclosed with its displacement; the requested point is preserved.'},
     {'id': 'A-11', 'label': 'ASSUMPTION', 'text': 'Ascent/descent use a 5-vertex (~25 m) moving average of 5 m-cell elevation; raw values reported alongside.'},
@@ -207,6 +207,16 @@ def main():
           license='NASA/JPL-Caltech (credit required)',
           limitations='Plausibility reference, not astronaut ground truth. Legacy endpoint; archive copy recommended (PDS Analyst\'s Notebook).')
 
+    # ---- depot tubes (PDS) ----
+    tubes_p = os.path.join(META, 'depot_tubes.json')
+    depot_tubes = read_json(tubes_p) if os.path.exists(tubes_p) else None
+    if depot_tubes:
+        layer(id='depot_tubes', title='Depot sample tubes (PDS)', file='bundle', kind='vector', group='Rover', default=True,
+              mission='Mars 2020', instrument='rover localization at tube drop', product='mars2020_sample_depot_three_forks: sample_tube_locations v1.0',
+              native_resolution_m=None, evidence='direct_surface_measurement', units='position, azimuth',
+              processing='lat/lon (planetocentric) -> local eqc', date='sols 653-690 (Dec 2022 - Jan 2023)',
+              url=depot_tubes['url'], license='NASA PDS (public)', limitations=depot_tubes['position_meaning'])
+
     # ---- walk-back fields ----
     walk = read_json(os.path.join(INTER, 'walkback_local.json'))
     grids = {}
@@ -369,7 +379,7 @@ def main():
         'si_acknowledgement': cfg['si_acknowledgement'],
     }
     pov = read_json(os.path.join(META, 'pov.json')) if os.path.exists(os.path.join(META, 'pov.json')) else {}
-    bundle = {'manifest': manifest, 'pov': pov, 'layers': layers, 'routes': routes, 'stations': stations, 'profiles': profiles,
+    bundle = {'manifest': manifest, 'pov': pov, 'depot_tubes': depot_tubes, 'layers': layers, 'routes': routes, 'stations': stations, 'profiles': profiles,
               'walkback': walk, 'environment': environment, 'validation': validation, 'recon': rec,
               'geology': read_json(os.path.join(APPDATA, 'geology_local.json')), 'rover': read_json(os.path.join(APPDATA, 'rover_local.json'))}
     with open(os.path.join(APPDATA, 'bundle.js'), 'w') as fh:

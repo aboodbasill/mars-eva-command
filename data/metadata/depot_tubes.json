@@ -1,0 +1,127 @@
+{
+ "source": "NASA PDS Geosciences Node, Mars 2020 Three Forks sample depot bundle, sample_tube_locations.csv (v1.0)",
+ "url": "https://pds-geosciences.wustl.edu/m2020/urn-nasa-pds-mars2020_sample_depot_three_forks/miscellaneous/sample_metadata/",
+ "position_meaning": "Rover position during each tube drop (planetocentric). The tube is released beneath the rover, so it lies within ~1-2 m of this point (ASSUMPTION); azimuth = seal end to glove end, clockwise from north.",
+ "tubes": [
+  {
+   "designation": "M2020-00337-08",
+   "name": "Malay",
+   "drop_sol": 653,
+   "rmc": "32_148",
+   "lat": 18.45262651,
+   "lon": 77.40775601,
+   "rover_elev_m": -2545.263,
+   "tube_azimuth_deg": 325,
+   "x": -2375.29,
+   "y": 155.69
+  },
+  {
+   "designation": "M2020-00579-17",
+   "name": "Mageik",
+   "drop_sol": 655,
+   "rmc": "32_250",
+   "lat": 18.4525234,
+   "lon": 77.40784692,
+   "rover_elev_m": -2545.479,
+   "tube_azimuth_deg": 144,
+   "x": -2370.18,
+   "y": 149.57
+  },
+  {
+   "designation": "M2020-00639-21",
+   "name": "Crosswind Lake",
+   "drop_sol": 661,
+   "rmc": "32_378",
+   "lat": 18.45267034,
+   "lon": 77.408056,
+   "rover_elev_m": -2545.309,
+   "tube_azimuth_deg": 117,
+   "x": -2358.43,
+   "y": 158.28
+  },
+  {
+   "designation": "M2020-00164-02",
+   "name": "Roubion",
+   "drop_sol": 666,
+   "rmc": "32_482",
+   "lat": 18.45276569,
+   "lon": 77.40807823,
+   "rover_elev_m": -2545.18,
+   "tube_azimuth_deg": 221,
+   "x": -2357.18,
+   "y": 163.94
+  },
+  {
+   "designation": "M2020-00271-06",
+   "name": "Coulettes",
+   "drop_sol": 668,
+   "rmc": "32_580",
+   "lat": 18.45272365,
+   "lon": 77.4082,
+   "rover_elev_m": -2545.27,
+   "tube_azimuth_deg": 82,
+   "x": -2350.33,
+   "y": 161.44
+  },
+  {
+   "designation": "M2020-00190-03",
+   "name": "Montdenier",
+   "drop_sol": 672,
+   "rmc": "32_672",
+   "lat": 18.45281322,
+   "lon": 77.40824352,
+   "rover_elev_m": -2545.101,
+   "tube_azimuth_deg": 173,
+   "x": -2347.88,
+   "y": 166.75
+  },
+  {
+   "designation": "M2020-00516-15",
+   "name": "Bearwallow",
+   "drop_sol": 675,
+   "rmc": "32_774",
+   "lat": 18.45272753,
+   "lon": 77.40833585,
+   "rover_elev_m": -2545.443,
+   "tube_azimuth_deg": 146,
+   "x": -2342.69,
+   "y": 161.67
+  },
+  {
+   "designation": "M2020-00495-12",
+   "name": "Skyland",
+   "drop_sol": 680,
+   "rmc": "32_896",
+   "lat": 18.45300487,
+   "lon": 77.4085047,
+   "rover_elev_m": -2545.093,
+   "tube_azimuth_deg": 233,
+   "x": -2333.2,
+   "y": 178.11
+  },
+  {
+   "designation": "M2020-00374-10",
+   "name": "Atsah",
+   "drop_sol": 682,
+   "rmc": "32_1038",
+   "lat": 18.45306554,
+   "lon": 77.40860064,
+   "rover_elev_m": -2545.282,
+   "tube_azimuth_deg": 46,
+   "x": -2327.8,
+   "y": 181.71
+  },
+  {
+   "designation": "M2020-00586-18",
+   "name": "Amalik Witness",
+   "drop_sol": 690,
+   "rmc": "32_1184",
+   "lat": 18.45337179,
+   "lon": 77.40844668,
+   "rover_elev_m": -2545.203,
+   "tube_azimuth_deg": 206,
+   "x": -2336.46,
+   "y": 199.86
+  }
+ ]
+}

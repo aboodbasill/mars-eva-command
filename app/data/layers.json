@@ -315,5 +315,34 @@
     1060.0
    ]
   ]
+ },
+ {
+  "id": "depot_tubes",
+  "title": "Depot sample tubes (PDS)",
+  "file": "bundle",
+  "kind": "vector",
+  "group": "Rover",
+  "default": true,
+  "mission": "Mars 2020",
+  "instrument": "rover localization at tube drop",
+  "product": "mars2020_sample_depot_three_forks: sample_tube_locations v1.0",
+  "native_resolution_m": null,
+  "evidence": "direct_surface_measurement",
+  "units": "position, azimuth",
+  "processing": "lat/lon (planetocentric) -> local eqc",
+  "date": "sols 653-690 (Dec 2022 - Jan 2023)",
+  "url": "https://pds-geosciences.wustl.edu/m2020/urn-nasa-pds-mars2020_sample_depot_three_forks/miscellaneous/sample_metadata/",
+  "license": "NASA PDS (public)",
+  "limitations": "Rover position during each tube drop (planetocentric). The tube is released beneath the rover, so it lies within ~1-2 m of this point (ASSUMPTION); azimuth = seal end to glove end, clockwise from north.",
+  "bounds": [
+   [
+    -1320.0,
+    -3860.0
+   ],
+   [
+    1540.0,
+    1060.0
+   ]
+  ]
  }
 ]

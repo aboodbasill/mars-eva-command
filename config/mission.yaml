@@ -78,9 +78,10 @@ depot:
   sol_range: [653, 690]
   tubes: 10
   note: >-
-    Ten tubes were placed between sols 653 and 690. Individual tube positions are not transcribed
-    here; the inspection point is the centroid of the rover's depot-build waypoints (VERIFY against
-    the published depot map before any operational use).
+    Ten tubes were placed between sols 653 and 690, 5-15 m apart. Positions come from the PDS depot bundle
+    (rover position at each drop; the tube lies within ~1-2 m). The depot holds the twins of three samples
+    from this walk: Skyland (S1 Skinner Ridge), Bearwallow (S2 Wildcat Ridge) and Mageik (S4 Amalik).
+    Crew task: visual inspection and documentation only.
 
 aoi:
   margin_m: 1000            # plan §2: bounding box of lander + stops + depot, 1 km margin

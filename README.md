@@ -66,4 +66,4 @@ docs/                        methods, validation, submission text, demo script
 - Geology is interpretive (offsets of 100–200 m). DTM slope does not resolve rocks smaller than about 1–2 m. Gale RAD values are not a Jezero dose.
 - Verified on 14 Nov 2026: the RAD values, the NASEM objective numbering, the challenge and its Resources-tab match, and the 2026 submission rules. Still open: per-image acquisition dates, individual depot tube positions, and your Local Lead's cutoff. See `ASSUMPTIONS.md`.
 
-See `REFERENCES.md` for every dataset, paper and library.
+See `REFERENCES.md` for every dataset, paper and library, and `docs/judge-qa.md` for rehearsed answers to likely judge questions.
