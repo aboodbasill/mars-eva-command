@@ -1,6 +1,6 @@
 {
- "build_id": "mec-bf4d58300dfa",
- "generated_utc": "2026-11-14T09:23:14+00:00",
+ "build_id": "mec-3090424a32ce",
+ "generated_utc": "2026-11-14T11:07:21+00:00",
  "method_note": "All values computed by pipeline/08_validate.py from this build.",
  "projection": {
   "round_trip_error_m": 0.0,
@@ -337,7 +337,7 @@
  },
  "unit_tests": {
   "command": "python -m pytest -q tests",
-  "summary": "45 passed in 0.88s",
+  "summary": "46 passed in 4.38s",
   "exit_code": 0,
   "pass": true
  },

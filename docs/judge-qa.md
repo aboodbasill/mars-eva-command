@@ -24,7 +24,7 @@ Open **Data & Limits**: every layer is labelled measured, orbital, derived, inte
 - **Projection:** we reprojected before computing slopes. Using the source grid directly would have made east–west distances 5.42 % too long. Our error versus great-circle distance is ≤ 0.0024 %.
 - **Registration:** HiRISE elevations versus 268 rover-localized waypoints give a median of −0.00 m. (Rover positions are themselves tied to orbital maps, so this checks our processing chain, not the DTM's absolute accuracy.)
 - **Rover plausibility:** 99.2 % of Perseverance's 17.5 km traverse in the area lies on cells we call passable at 20°.
-- **Algorithms:** 45 automated tests, including A* checked against two independent Dijkstra implementations, no corner cutting, exact cost units, and "tighter limit never lowers cost". They run in CI on every push.
+- **Algorithms:** 46 automated tests, including A* checked against two independent Dijkstra implementations and the in-browser planner checked against the Python engine, no corner cutting, exact cost units, and "tighter limit never lowers cost". They run in CI on every push.
 
 ### "What does AI add?"
 Two separate things:

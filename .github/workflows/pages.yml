@@ -22,5 +22,15 @@ jobs:
       - uses: actions/upload-pages-artifact@v5
         with:
           path: app
-      - id: deployment
+      # the artifact can take a few seconds to become visible to the deploy API; wait, then retry once
+      - run: sleep 15
+      - id: first
+        continue-on-error: true
         uses: actions/deploy-pages@v5
+      - if: steps.first.outcome == 'failure'
+        run: sleep 45
+      - id: retry
+        if: steps.first.outcome == 'failure'
+        uses: actions/deploy-pages@v5
+      - id: deployment
+        run: echo "page_url=${{ steps.first.outputs.page_url || steps.retry.outputs.page_url }}" >> "$GITHUB_OUTPUT"

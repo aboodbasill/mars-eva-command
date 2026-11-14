@@ -39,6 +39,8 @@ def crops():
         'recon': ('recon', (250, 61, 1600, 1000)),
         'profile': ('eva', (250, 772, 1240, 1000)),
         'game': ('game_dusk', (0, 0, 1600, 1000)),
+        'globe': ('game_globe', (0, 0, 1600, 1000)),
+        'plan': ('game_plan', (0, 0, 1600, 1000)),
     }
     for k, (shot, box) in spec.items():
         im = Image.open(os.path.join(SHOTS, f'{shot}.png')).convert('RGB').crop(box)
@@ -62,10 +64,10 @@ def slides_html():
     n_tests = val['unit_tests']['summary'].split(' passed')[0]
     team = f'<div class="team">{TEAM}</div>' if TEAM else ''
     S = []
-    S.append(f'''<section class="s title"><img class="bg" src="img/map.jpg" alt="">
+    S.append(f'''<section class="s title"><img class="bg" src="img/globe.jpg" alt="">
       <div class="veil"></div><div class="tc">
       <div class="kicker">NASA Space Apps 2026 · Interplanetary Survival Guide: Martian Map</div>
-      <h1>Mars EVA Command</h1><h2>Marswalk 1 — an evidence-aware map for a crew's first walk at Jezero Crater</h2>{team}
+      <h1>Mars EVA Command</h1><h2>From NASA's map of Mars to one safe, walkable EVA route at Jezero Crater</h2>{team}
       <div class="links">{APP_URL}</div></div></section>''')
     S.append(f'''<section class="s"><div class="txt"><div class="kicker">The problem</div>
       <h1>3–22 light-minutes from Earth, the crew plans its own walk.</h1>
@@ -73,12 +75,13 @@ def slides_html():
       <li>Mars maps mix 25 cm images, 1 m and 20 m terrain, interpretations and gaps. Each needs its own trust level.</li></ul></div>
       <img class="pic" src="img/eva_full.jpg" alt="App overview"></section>''')
     S.append(f'''<section class="s"><div class="txt"><div class="kicker">What we built</div>
-      <h1>One offline map, three connected systems</h1>
-      <ol><li><b>EVA Planner</b>: slope-limited routes on HiRISE 1 m terrain, return-budget envelope, station cards</li>
-      <li><b>Environment</b>: real Perseverance MEDA weather at the depot, plus a dated radiation reference</li>
-      <li><b>Recon</b>: where the data are missing, and where robots should look next</li></ol>
+      <h1>One offline tool: pick, plan, check, rehearse</h1>
+      <ol><li><b>Pick</b> a start and destination on a NASA Mars Trek globe → HiRISE 1 m terrain</li>
+      <li><b>Plan</b>: slope-limited A* route, walk time, oxygen at NASA's 1,000 Btu/h rate, sunset, Go / No-go</li>
+      <li><b>Check</b>: MEDA weather, RAD radiation, DONKI space weather, data confidence per layer</li>
+      <li><b>Rehearse</b> the walk in 3D, then print the briefing</li></ol>
       <p class="small">Data: MRO HiRISE · CTX · Mars Odyssey THEMIS · USGS geologic map · Perseverance traverse, raw images, MEDA · Curiosity RAD</p></div>
-      <img class="pic tall" src="img/station.jpg" alt="Station card with rover view"></section>''')
+      <img class="pic" src="img/plan.jpg" alt="Site planner: start, destination, route and Go / No-go"></section>''')
     S.append(f'''<section class="s"><div class="txt"><div class="kicker">The route — a real finding</div>
       <h1>{r20["length_m"]/1000:.2f} km round trip; {ex["fraction"]*100:.0f} % beyond a 2 km return budget</h1>
       <ul><li>Lander → 4 sampled delta-front outcrops → Three Forks depot → lander</li>
@@ -94,10 +97,10 @@ def slides_html():
       <img class="pic" src="img/chip.jpg" alt="25 cm HiRISE chip at S1"></section>''')
     S.append(f'''<section class="s"><div class="txt"><div class="kicker">Rehearse it in 3D</div>
       <h1>Walk the plan before you walk Mars</h1>
-      <ul><li>First- or third-person on the real HiRISE terrain, under the Mars24 sun for the chosen sol</li>
-      <li>Oxygen, CO₂, power and cooling from <b>NASA EVA work rates</b> (1,000 Btu/h design) and Mars gravity 3.73 m/s²</li>
-      <li>Live return margin from the same cost-to-home fields as the planner's Go / No-go</li>
-      <li>Runs offline in a browser, phones included</li></ul></div>
+      <ul><li>Drop from orbit to the astronaut, then walk the planned route on real HiRISE terrain under the Mars24 sun</li>
+      <li>Oxygen, CO₂, power and cooling from <b>NASA EVA work rates</b> and Mars gravity 3.73 m/s²</li>
+      <li>Live <b>turn-back margin</b> from the same cost-to-home fields as the Go / No-go</li>
+      <li>Document each outcrop with Perseverance's own photo · works offline, phones included</li></ul></div>
       <img class="pic" src="img/game.jpg" alt="3D field simulator at golden hour"></section>''')
     S.append(f'''<section class="s title"><img class="bg" src="img/chip.jpg" alt=""><div class="veil"></div><div class="tc">
       <div class="kicker">Try it — works offline</div><h1>Mars EVA Command</h1>

@@ -18,21 +18,22 @@
       .title h1{font-size:84px}.links{font-family:ui-monospace,Menlo,monospace;font-size:24px;color:#4cc9f0;margin-top:14px}
       .links.big{font-size:32px}.team{font-size:28px;margin-top:8px}
       @page{size:1600px 900px;margin:0}
-      body.one .s{display:none}body.one .s.on{display:flex}</style></head><body><section class="s title"><img class="bg" src="img/map.jpg" alt="">
+      body.one .s{display:none}body.one .s.on{display:flex}</style></head><body><section class="s title"><img class="bg" src="img/globe.jpg" alt="">
       <div class="veil"></div><div class="tc">
       <div class="kicker">NASA Space Apps 2026 · Interplanetary Survival Guide: Martian Map</div>
-      <h1>Mars EVA Command</h1><h2>Marswalk 1 — an evidence-aware map for a crew's first walk at Jezero Crater</h2>
+      <h1>Mars EVA Command</h1><h2>From NASA's map of Mars to one safe, walkable EVA route at Jezero Crater</h2>
       <div class="links">https://aboodbasill.github.io/mars-eva-command/</div></div></section><section class="s"><div class="txt"><div class="kicker">The problem</div>
       <h1>3–22 light-minutes from Earth, the crew plans its own walk.</h1>
       <ul><li>Global viewers show regions. Astronauts need <b>one route</b>, the <b>evidence behind it</b>, and a <b>way home</b>.</li>
       <li>Mars maps mix 25 cm images, 1 m and 20 m terrain, interpretations and gaps. Each needs its own trust level.</li></ul></div>
       <img class="pic" src="img/eva_full.jpg" alt="App overview"></section><section class="s"><div class="txt"><div class="kicker">What we built</div>
-      <h1>One offline map, three connected systems</h1>
-      <ol><li><b>EVA Planner</b>: slope-limited routes on HiRISE 1 m terrain, return-budget envelope, station cards</li>
-      <li><b>Environment</b>: real Perseverance MEDA weather at the depot, plus a dated radiation reference</li>
-      <li><b>Recon</b>: where the data are missing, and where robots should look next</li></ol>
+      <h1>One offline tool: pick, plan, check, rehearse</h1>
+      <ol><li><b>Pick</b> a start and destination on a NASA Mars Trek globe → HiRISE 1 m terrain</li>
+      <li><b>Plan</b>: slope-limited A* route, walk time, oxygen at NASA's 1,000 Btu/h rate, sunset, Go / No-go</li>
+      <li><b>Check</b>: MEDA weather, RAD radiation, DONKI space weather, data confidence per layer</li>
+      <li><b>Rehearse</b> the walk in 3D, then print the briefing</li></ol>
       <p class="small">Data: MRO HiRISE · CTX · Mars Odyssey THEMIS · USGS geologic map · Perseverance traverse, raw images, MEDA · Curiosity RAD</p></div>
-      <img class="pic tall" src="img/station.jpg" alt="Station card with rover view"></section><section class="s"><div class="txt"><div class="kicker">The route — a real finding</div>
+      <img class="pic" src="img/plan.jpg" alt="Site planner: start, destination, route and Go / No-go"></section><section class="s"><div class="txt"><div class="kicker">The route — a real finding</div>
       <h1>6.67 km round trip; 45 % beyond a 2 km return budget</h1>
       <ul><li>Lander → 4 sampled delta-front outcrops → Three Forks depot → lander</li>
       <li>Max slope 19.6° under a 20° limit; tightening to 15° adds 202 m</li>
@@ -42,15 +43,15 @@
       <ul><li>Provenance layer: 1 m HiRISE vs 20 m CTX vs no data; 25 cm close-ups and the rover's own view of each outcrop</li>
       <li>Real MEDA weather at the depot: 716–769 Pa, -83 to -18 °C</li>
       <li>Terrain vs 268 rover waypoints: median -0.00 m · 99.2 % of the rover's path passable at 20°</li>
-      <li>45 automated tests · our AI model failed its own release gate, so it is not shown as fact</li></ul></div>
+      <li>46 automated tests · our AI model failed its own release gate, so it is not shown as fact</li></ul></div>
       <img class="pic" src="img/chip.jpg" alt="25 cm HiRISE chip at S1"></section><section class="s"><div class="txt"><div class="kicker">Rehearse it in 3D</div>
       <h1>Walk the plan before you walk Mars</h1>
-      <ul><li>First- or third-person on the real HiRISE terrain, under the Mars24 sun for the chosen sol</li>
-      <li>Oxygen, CO₂, power and cooling from <b>NASA EVA work rates</b> (1,000 Btu/h design) and Mars gravity 3.73 m/s²</li>
-      <li>Live return margin from the same cost-to-home fields as the planner's Go / No-go</li>
-      <li>Runs offline in a browser, phones included</li></ul></div>
+      <ul><li>Drop from orbit to the astronaut, then walk the planned route on real HiRISE terrain under the Mars24 sun</li>
+      <li>Oxygen, CO₂, power and cooling from <b>NASA EVA work rates</b> and Mars gravity 3.73 m/s²</li>
+      <li>Live <b>turn-back margin</b> from the same cost-to-home fields as the Go / No-go</li>
+      <li>Document each outcrop with Perseverance's own photo · works offline, phones included</li></ul></div>
       <img class="pic" src="img/game.jpg" alt="3D field simulator at golden hour"></section><section class="s title"><img class="bg" src="img/chip.jpg" alt=""><div class="veil"></div><div class="tc">
       <div class="kicker">Try it — works offline</div><h1>Mars EVA Command</h1>
       <div class="links big">https://aboodbasill.github.io/mars-eva-command/</div><div class="links">https://github.com/aboodbasill/mars-eva-command</div>
-      <p class="small">All imagery is NASA/USGS spacecraft or rover data. Code made with an AI coding assistant from the team's plan (see SI_DISCLOSURE.md). Build mec-6a29006b4834.</p></div></section><script>const n=parseInt((location.hash.match(/slide=(\d+)/)||[])[1]||0,10);
+      <p class="small">All imagery is NASA/USGS spacecraft or rover data. Code made with an AI coding assistant from the team's plan (see SI_DISCLOSURE.md). Build mec-2ae71e7185cd.</p></div></section><script>const n=parseInt((location.hash.match(/slide=(\d+)/)||[])[1]||0,10);
       if(n){document.body.classList.add('one');document.querySelectorAll('.s')[n-1].classList.add('on');}</script></body></html>
