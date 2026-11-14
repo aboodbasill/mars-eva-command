@@ -38,7 +38,10 @@ Mars Trek is a global and regional viewer, and the challenge text says so. We ad
 It is the best-mapped human-scale terrain on Mars: 1 m terrain, 25 cm images, a USGS geologic map, and years of rover ground truth. The stops are four outcrops Perseverance actually sampled (Herd et al. 2025, PNAS), tied to NASEM objectives 1 (life and habitability) and 3 (geologic record). The depot holds the paired samples from three of them. The tube positions come from the PDS depot archive.
 
 ### "Is the game just decoration?"
-No. It runs on the same data as the planner: real HiRISE heights, our slope grid, the cost-to-home fields, the real stop and tube positions, the Mars24 sun for the chosen date, MEDA temperatures and DONKI CMEs. It turns the plan into a rehearsal: the return margin you see while walking is computed from the same fields as the planner's Go / No-go. Gravity, suit work rates (1,000 Btu/h design, 2,200 Btu/h peak), the oxygen chemistry (Weir) and the 8 h limit come from NASA sources listed in the game's Model tab. The curve between those points and the cooling/power terms are declared assumptions. The ×10 travel speed speeds up the clock by the same factor, so oxygen per metre is unchanged.
+No. It is the planner turned into a rehearsal. You pick a start and a destination on the real HiRISE terrain. The browser runs the same A* as our pipeline (a test checks that both give identical costs), and shows the walk time, the oxygen needed at NASA's 1,000 Btu/h rate, the steepest slope and a Go / No-go before you start. During the walk, the turn-back margin comes from the same cost-to-home fields as the planner. Gravity, work rates, oxygen chemistry and the 8 h limit come from NASA sources listed under Model & sources. The rocks, ground detail textures and suit sounds are declared assumptions.
+
+### "Why a globe first?"
+It uses the challenge's own resource, JPL Mars Trek, and shows the gap the challenge describes: global maps exist, but an astronaut needs one hyper-local route. You go from the whole planet to a 5 m routing cell in about ten seconds.
 
 ### "What would you do next?"
 - Mars-specific suit mobility data instead of lunar slope limits.

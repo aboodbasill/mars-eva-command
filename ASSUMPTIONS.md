@@ -32,8 +32,13 @@ The same register ships inside the app (Data & Limits) from `pipeline/09_export.
 | G-05 | LIMITED | Boulders near the player are illustrative (denser on steeper cells). The DTM cannot resolve rocks smaller than about 1–2 m. |
 | G-06 | LIMITED | The terrain colour is a false-colour tint of the grayscale HiRISE orthomosaic. |
 | G-07 | ASSUMPTION | Distance-to-home fields are stored at 10 m, taking the maximum of each 2×2 block of 5 m cells (conservative). |
-| G-08 | ASSUMPTION | "Travel & time speed" ×N (default ×10) speeds up the mission clock and the astronaut's movement together. Consumption is computed from the physical pace (1.0 m/s walk, 2.2 m/s lope) over mission time, so oxygen used per metre is the same at every setting. Gravity stays at the real 3.73 m/s². |
+| G-08 | ASSUMPTION | "Time & travel" ×N (default ×30; ×10/×30/×60) speeds up the mission clock and the astronaut's movement together. Consumption is computed from the physical pace (1.0 m/s walk, 2.2 m/s lope) over mission time, so oxygen used per metre is the same at every setting. Gravity stays at the real 3.73 m/s². |
 | G-09 | LIMITED | Cinematic graphics (bloom, auto-exposure, colour grade, film grain, lens glare) and the sub-metre surface detail are visual effects. The 1 m micro-relief normal map comes from the HiRISE DTM, but rock shapes, dust and footprints are illustrative. |
+| G-10 | ASSUMPTION | Ground-detail textures (regolith with pebbles, layered bedrock, ripple sand, rock surfaces) are procedural. Their colours come from Perseverance Mastcam-Z frames at our stops; where each appears is set by HiRISE brightness and slope. They add sub-metre look, not data. |
+| G-11 | LIMITED | Outside the 4.9 × 2.9 km HiRISE patch the ground is the Viking colour mosaic from Mars Trek (≈325 m/pixel), tinted like the HiRISE map, for context only. You cannot walk there. |
+| G-12 | ASSUMPTION | Perseverance's 3D model is an approximation (3 m long, six 52.5 cm wheels, mast, MMRTG). It stands at its last localized position inside the study area (sol 736, NASA M20 waypoints). The globe marks its latest position in our cached waypoint file. |
+| G-13 | ASSUMPTION | Planner times use the Apollo pace on each 5 m step of the route (uphill slows you, downhill does not speed you up). Task times: 25 min per outcrop, 30 min at the depot, 15 min at Perseverance, 10 min at a free point. |
+| G-14 | ASSUMPTION | Suit sounds are synthesised. Breathing rate follows the work rate (12 breaths/min at rest, +1 per 30 W). |
 
 ## Findings recorded during the build
 

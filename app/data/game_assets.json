@@ -1,0 +1,147 @@
+{
+ "globe_layers": {
+  "globe": {
+   "file": "mars_globe_4k.jpg",
+   "layer": "Mars_Viking_MDIM21_ClrMosaic_global_232m",
+   "source": "NASA/JPL Mars Trek WMTS (Viking MDIM 2.1 colour mosaic, USGS)",
+   "bounds_lonlat": [
+    -180,
+    -90,
+    180,
+    90
+   ]
+  },
+  "mola": {
+   "file": "mars_mola_2k.jpg",
+   "layer": "Mars_MGS_MOLA_ClrShade_merge_global_463m",
+   "source": "NASA/JPL Mars Trek WMTS (MGS MOLA colour shaded relief)",
+   "bounds_lonlat": [
+    -180,
+    -90,
+    180,
+    90
+   ]
+  },
+  "regional": {
+   "file": "jezero_regional.jpg",
+   "layer": "Mars_Viking_MDIM21_ClrMosaic_global_232m",
+   "source": "NASA/JPL Mars Trek WMTS zoom 7",
+   "bounds_lonlat": [
+    74.53125,
+    15.46875,
+    81.5625,
+    22.5
+   ]
+  }
+ },
+ "perseverance": {
+  "latest": {
+   "lon": 77.23322287,
+   "lat": 18.43559434,
+   "sol": 2022,
+   "note": "last waypoint in the cached NASA M20 waypoint layer"
+  },
+  "site": {
+   "x": -3711.7316086940314,
+   "y": 1198.0364764620308,
+   "sol": 736,
+   "yaw_deg": -80.35882846,
+   "lon": 77.38398783,
+   "lat": 18.4702116,
+   "note": "Perseverance's last localized position inside the study area (sol 736), NASA M20 waypoints"
+  }
+ },
+ "ground_textures": {
+  "regolith": {
+   "tile_m": 3.0,
+   "mean_linear": [
+    0.2637,
+    0.1283,
+    0.0583
+   ]
+  },
+  "bedrock": {
+   "tile_m": 4.0,
+   "mean_linear": [
+    0.417,
+    0.2762,
+    0.1569
+   ]
+  },
+  "sand": {
+   "tile_m": 6.0,
+   "mean_linear": [
+    0.121,
+    0.0709,
+    0.0432
+   ]
+  },
+  "note": "Procedural tileable detail (ASSUMPTION); palette from Perseverance Mastcam-Z frames at the study stops."
+ },
+ "globe_sites": [
+  {
+   "id": "jezero",
+   "name": "Jezero Crater",
+   "lon": 77.45,
+   "lat": 18.44,
+   "active": true,
+   "mission": "Perseverance (Mars 2020)"
+  },
+  {
+   "id": "gale",
+   "name": "Gale Crater",
+   "lon": 137.44,
+   "lat": -4.59,
+   "active": false,
+   "mission": "Curiosity (MSL)"
+  },
+  {
+   "id": "utopia",
+   "name": "Utopia Planitia",
+   "lon": 109.93,
+   "lat": 25.07,
+   "active": false,
+   "mission": "Zhurong (CNSA)"
+  },
+  {
+   "id": "meridiani",
+   "name": "Meridiani Planum",
+   "lon": -5.53,
+   "lat": -1.95,
+   "active": false,
+   "mission": "Opportunity (MER)"
+  }
+ ],
+ "globe_labels": [
+  {
+   "name": "Olympus Mons",
+   "lon": -133.8,
+   "lat": 18.65
+  },
+  {
+   "name": "Valles Marineris",
+   "lon": -59.2,
+   "lat": -13.9
+  },
+  {
+   "name": "Hellas Planitia",
+   "lon": 70.0,
+   "lat": -42.4
+  },
+  {
+   "name": "Syrtis Major",
+   "lon": 69.5,
+   "lat": 8.4
+  },
+  {
+   "name": "Isidis Planitia",
+   "lon": 87.0,
+   "lat": 12.9
+  },
+  {
+   "name": "Tharsis",
+   "lon": -112.0,
+   "lat": 0.0
+  }
+ ]
+}

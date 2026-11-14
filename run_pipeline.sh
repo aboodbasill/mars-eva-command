@@ -27,5 +27,6 @@ $P pipeline/environment/03_space_weather.py   # set NASA_API_KEY to avoid the DE
 $P pipeline/rover/fetch_pov.py
 $P pipeline/recon/recon.py
 $P pipeline/08_validate.py
+$P pipeline/game/10_game_assets.py   # Mars Trek globe tiles, Perseverance position, ground textures
 $P pipeline/09_export.py
 echo "Done. Serve with: cd app && python3 -m http.server 8765"

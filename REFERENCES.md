@@ -13,10 +13,11 @@
 | D8 | Three Forks sample depot bundle, `sample_tube_locations.csv` v1.0 (urn:nasa:pds:mars2020_sample_depot_three_forks) | Mars 2020 | depot inspection point and 10 tube markers | https://pds-geosciences.wustl.edu/m2020/urn-nasa-pds-mars2020_sample_depot_three_forks/ |
 | D7 | Perseverance traverse and waypoints `M20_traverse.json`, `M20_waypoints.json` | Mars 2020 | lander/station/depot positions, registration and plausibility checks | https://mars.nasa.gov/mmgis-maps/M20/Layers/json/ |
 | E2 | Perseverance raw images (Mastcam-Z, Navcam) at each stop, chosen by a documented rule; image IDs shown in the app | Mars 2020 | point-of-view images on station cards | https://mars.nasa.gov/mars2020/multimedia/raw-images/ (challenge Resources tab) |
+| E4 | NASA/JPL Mars Trek WMTS: Viking MDIM 2.1 colour mosaic (zoom 3 global, zoom 7 around Jezero) and MGS MOLA colour shaded relief (zoom 2) | NASA/JPL, USGS | the start globe and the regional ground around the HiRISE patch | https://trek.nasa.gov/mars/ (challenge Resources tab) |
 | E3 | NASA CCMC DONKI (WSA-ENLIL simulations, CME list) via api.nasa.gov, 30-day snapshot | NASA CCMC | space-weather card and CME warnings | https://kauai.ccmc.gsfc.nasa.gov/DONKI/ |
 | E1 | MEDA CAL_PS, CAL_ATS, DER_TIRS, DER_ANCILLARY, sols 656/663/670/677/684 | Mars 2020 MEDA | historical pressure and air temperature at the depot | https://atmos.nmsu.edu/PDS/data/PDS4/Mars2020/mars2020_meda/ |
 
-Challenge Resources-tab items used: USGS-NASA Planetary Geologic Mapping Program (SIM 3464), Mars Perseverance Raw Images Gallery.
+Challenge Resources-tab items used: JPL Mars Trek (global mosaics), USGS-NASA Planetary Geologic Mapping Program (SIM 3464), Mars Perseverance Raw Images Gallery. The Curiosity route-map example inspired the planner's route view.
 
 Credit: NASA/JPL-Caltech/University of Arizona/MSSS/ASU/USGS Astrogeology Science Center; MEDA team (CAB, Spain). No NASA logos or mission patches are used.
 
@@ -43,4 +44,4 @@ Credit: NASA/JPL-Caltech/University of Arizona/MSSS/ASU/USGS Astrogeology Scienc
 
 ## Software
 
-Leaflet 1.9.4 (BSD-2-Clause, `app/lib/LICENSE-leaflet.txt`), Three.js r149 (MIT, `app/lib/LICENSE-three.txt`), Chart.js 4.4.1 (MIT, `app/lib/LICENSE-chartjs.md`), GDAL 3.12 via rasterio 1.5 and pyogrio 0.13, PROJ via pyproj 3.8, NumPy, SciPy, pandas, scikit-learn 1.9, shapely, tifffile, Pillow, pytest. Exact versions are in `requirements-lock.txt`.
+Leaflet 1.9.4 (BSD-2-Clause, `app/lib/LICENSE-leaflet.txt`), Roboto Condensed (SIL OFL 1.1, `app/lib/fonts/LICENSE-RobotoCondensed.txt`), Three.js r149 (MIT, `app/lib/LICENSE-three.txt`), Chart.js 4.4.1 (MIT, `app/lib/LICENSE-chartjs.md`), GDAL 3.12 via rasterio 1.5 and pyogrio 0.13, PROJ via pyproj 3.8, NumPy, SciPy, pandas, scikit-learn 1.9, shapely, tifffile, Pillow, pytest. Exact versions are in `requirements-lock.txt`.

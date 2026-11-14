@@ -5,15 +5,14 @@ NASA Space Apps Challenge 2026 — challenge **[Interplanetary Survival Guide: M
 
 **Live app:** https://aboodbasill.github.io/mars-eva-command/ · **Demo:** [30 s video](https://aboodbasill.github.io/mars-eva-command/demo/Mars_EVA_Command_demo_30s.mp4) · [7 slides](https://aboodbasill.github.io/mars-eva-command/demo/) · [PDF](https://aboodbasill.github.io/mars-eva-command/demo/Mars_EVA_Command_demo.pdf)
 
-**🎮 3D field simulator:** https://aboodbasill.github.io/mars-eva-command/game/ (or `game/#play` to jump straight in). Walk the EVA yourself on the real HiRISE terrain in first or third person:
-- **Life support:** manage oxygen, CO₂ scrubber, suit power, cooling water, suit pressure and radiation dose.
-- **Science:** document the four Perseverance sample sites (with the rover's own photos) and inspect the 10 depot tubes.
-- **Rover:** drive the backup rover.
-- **Map (M):** the live **map** shows your safe-return zone, predictions (return margin, Go / No-go), conditions (Mars24 sun, MEDA weather reference, NASA DONKI space weather) and data sources.
-- **Controls:** WASD, mouse, Space, E, V, M, or the on-screen joystick and buttons on phones.
-- **NASA-sourced physics:** Mars gravity 3.73 m/s² (NSSDC). Suit consumption is built from NASA EVA work rates (1,000 Btu/h design, 2,200 Btu/h peak), Weir O₂ chemistry and the 8 h xEVA requirement. The map's **Model** tab lists every equation and its source.
-- **Travel & time speed** (×1 to ×40, default ×10) speeds up your movement and the clock together, so oxygen per metre stays true to NASA rates.
-- **Cinematic graphics:** HDR bloom, auto-exposure, a film-style grade, sun glare, HiRISE 1 m micro-relief and a Golombek–Rapp rock field. Pick Ultra, High or Low (phones) on the start screen.
+**🎮 3D EVA simulator:** https://aboodbasill.github.io/mars-eva-command/game/
+1. **Mars globe** built from NASA/JPL Mars Trek tiles (Viking colour mosaic, MOLA elevation). Turn it, then pick Jezero Crater. Perseverance's latest known position is marked.
+2. **Site planner:** click the HiRISE terrain or a marker to set a **start** and a **destination** (sample sites, the depot, Perseverance, the lander or any point). The browser runs the same A* as our pipeline on the 5 m slope grid (`app/game/route.js`, checked against the Python engine in `tests/test_route_js.py`). It shows distance, round-trip time at the Apollo pace, oxygen needed at NASA's 1,000 Btu/h rate, steepest slope, return time against sunset, and a Go / No-go.
+3. **Descent:** the camera drops from orbit to the astronaut in three steps.
+4. **EVA:** walk or run at real Mars gravity. **F** follows the planned route; **E** documents the outcrop with Perseverance's own photo, then you walk back. The HUD keeps only what NASA would check: turn-back margin, oxygen (and CO₂), power, cooling, the compass and a route minimap. **M** opens the full map with NASA data layers (HiRISE optical, THEMIS thermal, slope, USGS geology, Perseverance track, beyond-safe-return shading).
+- **Speed:** time and travel ×30 by default (×10 / ×30 / ×60 with **T**). Clock and movement scale together, so oxygen per metre stays at NASA rates.
+- **Look:** HiRISE terrain with ground-detail textures (regolith, layered bedrock, ripple sand; colours from Perseverance images), Golombek–Rapp rocks, pebbles, footprints, dust, HDR lighting from the Mars24 sun, and suit sounds. Graphics Auto / Ultra / High / Low in the menu.
+- **Deep links:** `game/#site&to=S2`, `game/#from=L0&to=S4&play`, `&noswitch`, `&auto`, `&ltst=10`, `&theta=15`, `&speed=60`, `&gfx=low`, `&view=fp`, `&map`.
 
 **Merged from Marswalk Planner v4.1:**
 - **Go / No-go** card: daylight via Mars24, 8 h suit limit, dust season, CMEs.

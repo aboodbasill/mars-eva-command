@@ -119,7 +119,7 @@ nasem_objectives:
 challenge:
   name: "Interplanetary Survival Guide: Martian Map"
   url: "https://www.spaceappschallenge.org/2026/challenges/interplanetary-survival-guide-martian-map/"
-  listed_resources_used: ["USGS-NASA Planetary Geologic Mapping Program (SIM 3464)", "Mars Perseverance Raw Images Gallery"]
+  listed_resources_used: ["JPL Mars Trek (Viking colour and MOLA global mosaics)", "USGS-NASA Planetary Geologic Mapping Program (SIM 3464)", "Mars Perseverance Raw Images Gallery"]
 
 si_acknowledgement: >-
   Super Intelligence (SI) disclosure: the data pipeline, tests, web app code and documentation in this project were

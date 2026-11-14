@@ -1,7 +1,7 @@
 {
  "schema_version": "1.0.0",
- "build_id": "mec-6a29006b4834",
- "built_utc": "2026-11-14T10:02:53+00:00",
+ "build_id": "mec-b8fa45e30f4d",
+ "built_utc": "2026-11-14T11:01:03+00:00",
  "mission": {
   "id": "marswalk-1",
   "name": "Marswalk 1",
@@ -281,6 +281,7 @@
   "name": "Interplanetary Survival Guide: Martian Map",
   "url": "https://www.spaceappschallenge.org/2026/challenges/interplanetary-survival-guide-martian-map/",
   "listed_resources_used": [
+   "JPL Mars Trek (Viking colour and MOLA global mosaics)",
    "USGS-NASA Planetary Geologic Mapping Program (SIM 3464)",
    "Mars Perseverance Raw Images Gallery"
   ]
@@ -289,8 +290,8 @@
  "assets": [
   {
    "file": "bundle.js",
-   "bytes": 665109,
-   "sha256": "9dd1e28c91664e91b1d6d96fc1d676fe9fc822c08e56bbbf921352ef749b387c"
+   "bytes": 667191,
+   "sha256": "1ebc78ac52eec0d46056b78fe1c1c173ae274a0c9cef3721f46ef6fc7040bc4f"
   },
   {
    "file": "chip_D1.jpg",
@@ -333,6 +334,11 @@
    "sha256": "75a4cd1db731a60051488640fdd420b49c538d3ac48cb13146ea17b9acfcfd73"
   },
   {
+   "file": "game_assets.json",
+   "bytes": 2648,
+   "sha256": "8d9d7cd6959362b6c78e7459162eb905bf6a1110307664e1ab2712317d9e68d0"
+  },
+  {
    "file": "game_normal.jpg",
    "bytes": 813934,
    "sha256": "fa51dd2b3b698862908f2ef7d88ab59c7e119354e01614c435bc691c30446921"
@@ -363,9 +369,24 @@
    "sha256": "c831d0c81fc021470dc9f6fe3053640ac2c773a891e118bec2b78db1dd0d4ac4"
   },
   {
+   "file": "jezero_regional.jpg",
+   "bytes": 451406,
+   "sha256": "6f52483e0a04ecd2ee785542fce4af13d222c9b99d8fdf6192d441df73bd44ab"
+  },
+  {
    "file": "layers.json",
    "bytes": 9904,
    "sha256": "ee5fc7fbe893245f72d74619fc7e81e22de0eac98a59a47fb6103dd25b4f2c68"
+  },
+  {
+   "file": "mars_globe_4k.jpg",
+   "bytes": 2100690,
+   "sha256": "d0d1a765c3f666272768221ccaaa4bae6419e0a66aa1e5a1045be630b6a1922b"
+  },
+  {
+   "file": "mars_mola_2k.jpg",
+   "bytes": 612574,
+   "sha256": "342eb9b905fa6f757c116322c6d6228022d7320c69ee0cedc414532c1c738800"
   },
   {
    "file": "pov_D1.jpg",
@@ -448,6 +469,46 @@
    "sha256": "7ac3fe5e47b722eb27730a4a74226cdcdd7b649590a1ad1950ab28b800568f82"
   },
   {
+   "file": "tex_bedrock_albedo.jpg",
+   "bytes": 174668,
+   "sha256": "23f154790b64e424931a7c544ac044c2fc089903e86a87ef1e40668ceedad883"
+  },
+  {
+   "file": "tex_bedrock_normal.jpg",
+   "bytes": 497269,
+   "sha256": "dc25336345b03fb2b50de1f2f5f0a8b26f168b6c3e3f00ec431f01a5d57d33d0"
+  },
+  {
+   "file": "tex_regolith_albedo.jpg",
+   "bytes": 190756,
+   "sha256": "de247ebcbaa4ab12848697a7517f6322d16a5a2a8e8a25a98a24e6706a3a4ed1"
+  },
+  {
+   "file": "tex_regolith_normal.jpg",
+   "bytes": 408464,
+   "sha256": "cbf3f5e8558cc164340ccf07c03efe7c968fe1c18761020e0a0959254c27ee2f"
+  },
+  {
+   "file": "tex_rock_albedo.jpg",
+   "bytes": 168858,
+   "sha256": "6d1400532d0c77832b96f0cec0ce01a18408e9721e9763b80caf851f669ffcab"
+  },
+  {
+   "file": "tex_rock_normal.jpg",
+   "bytes": 541602,
+   "sha256": "34843b86219d6e399dedc3974dcdbbec688185df37ce98a4a7c3f5a3a97137a2"
+  },
+  {
+   "file": "tex_sand_albedo.jpg",
+   "bytes": 72985,
+   "sha256": "3568df64428953ba4feaa27eaf17bc5dadad842a0a86a03cabb796500f1b3f35"
+  },
+  {
+   "file": "tex_sand_normal.jpg",
+   "bytes": 219047,
+   "sha256": "e51444e457808f02b69a109204c6f890559a7e43e0e69c73a48609e0742882f2"
+  },
+  {
    "file": "themis_night_20m.jpg",
    "bytes": 4687,
    "sha256": "a021b92fcdbe3a36928e33ddb12a8140d8e33f762cd7cff7043a78334db51436"
@@ -478,5 +539,5 @@
    "sha256": "edc8b420e747b1752b34d84e3e47759fb872bc739cb72c336310d061f855542c"
   }
  ],
- "total_bytes": 16981716
+ "total_bytes": 22424765
 }
