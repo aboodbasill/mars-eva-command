@@ -1,0 +1,11 @@
+# 30-second demo script
+
+| Time | Screen | Voice-over / caption |
+|---|---|---|
+| 0–4 s | Title bar, Jezero map | "Mars EVA Command — team ___, Space Apps 2026." |
+| 4–9 s | EVA mode, route appears | "A crew at Jezero is 3 to 22 light-minutes from Earth. They must plan their own walk." |
+| 9–19 s | Stations S1–S4 → depot; switch return budget 2 km → 10 km | "Real HiRISE terrain, real sample sites. The red dashes show that 45 % of this 6.7 km walk is beyond a 2 km return budget." |
+| 19–25 s | Slope limit 20° → 15° (route lengthens by 0.2 km); tap a cell for the readout; data-confidence legend | "Every point says what supports it: 1 m terrain, 20 m terrain, or nothing." |
+| 25–30 s | Environment chart, then Data & Limits PASS badges; end card with repo URL | "Real Perseverance weather from the depot, measured validation, works offline." |
+
+Rules: only show route changes that actually happen (20°→15° does). Never say "safe". Use dataset counts from `REFERENCES.md`.

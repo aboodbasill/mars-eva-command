@@ -1,0 +1,137 @@
+{
+ "inspected_utc": "2026-11-14T01:34:18+00:00",
+ "products": {
+  "ctx_dtm": {
+   "width": 1596,
+   "height": 1512,
+   "count": 1,
+   "dtype": "float32",
+   "nodata": -3.4028226550889045e+38,
+   "res_m": [
+    20.0,
+    20.0
+   ],
+   "bounds_src_m": [
+    4573663.250853,
+    1079453.140188,
+    4605583.250853,
+    1109693.140188
+   ],
+   "crs_proj4": "+proj=eqc +lat_ts=0 +lat_0=0 +lon_0=0 +x_0=0 +y_0=0 +R=3396190 +units=m +no_defs=True",
+   "crs_wkt_name": "Equirectangular Mars 2000 Sphere IAU",
+   "tiled": false,
+   "compression": "none",
+   "overviews": [],
+   "file": "JEZ_ctx_B_soc_008_DTM_MOLAtopography_DeltaGeoid_20m_Eqc_latTs0_lon0.tif",
+   "url": "https://asc-pds-services.s3.us-west-2.amazonaws.com/mosaic/mars2020_trn/CTX/JEZ_ctx_B_soc_008_DTM_MOLAtopography_DeltaGeoid_20m_Eqc_latTs0_lon0.tif",
+   "sha256": "16a1aa66c3f48c1bca252795827db7b417876217aff0f5e1aff18027fab2327b",
+   "bytes": 9662387,
+   "access": "downloaded"
+  },
+  "ctx_ortho": {
+   "width": 5322,
+   "height": 5040,
+   "count": 1,
+   "dtype": "uint8",
+   "nodata": 0.0,
+   "res_m": [
+    6.0,
+    6.0
+   ],
+   "bounds_src_m": [
+    4573663.250853,
+    1079453.140188,
+    4605595.250853,
+    1109693.140188
+   ],
+   "crs_proj4": "+proj=eqc +lat_ts=0 +lat_0=0 +lon_0=0 +x_0=0 +y_0=0 +R=3396190 +units=m +no_defs=True",
+   "crs_wkt_name": "Equirectangular Mars 2000 Sphere IAU",
+   "tiled": false,
+   "compression": "none",
+   "overviews": [
+    2,
+    4,
+    8,
+    16,
+    32,
+    63
+   ],
+   "file": "JEZ_ctx_B_soc_008_orthoMosaic_6m_Eqc_latTs0_lon0.tif",
+   "url": "https://asc-pds-services.s3.us-west-2.amazonaws.com/mosaic/mars2020_trn/CTX/JEZ_ctx_B_soc_008_orthoMosaic_6m_Eqc_latTs0_lon0.tif",
+   "sha256": "842b457afee7c2672022b66e3f60be836c6d52e99474015bfd9ced60099b8615",
+   "bytes": 36269402,
+   "access": "downloaded"
+  },
+  "hirise_dtm": {
+   "width": 21400,
+   "height": 21488,
+   "count": 1,
+   "dtype": "float32",
+   "nodata": -3.4028226550889045e+38,
+   "res_m": [
+    1.0,
+    1.0
+   ],
+   "bounds_src_m": [
+    4577366.0,
+    1085130.0,
+    4598766.0,
+    1106618.0
+   ],
+   "crs_proj4": "+proj=eqc +lat_ts=0 +lat_0=0 +lon_0=0 +x_0=0 +y_0=0 +R=3396190 +units=m +no_defs=True",
+   "crs_wkt_name": "Equirectangular Mars 2000 Sphere IAU",
+   "tiled": false,
+   "compression": "none",
+   "overviews": [],
+   "url": "https://asc-pds-services.s3.us-west-2.amazonaws.com/mosaic/mars2020_trn/HiRISE/JEZ_hirise_soc_006_DTM_MOLAtopography_DeltaGeoid_1m_Eqc_latTs0_lon0_blend40.tif",
+   "access": "remote windowed HTTP range read (uncompressed stripped GeoTIFF)"
+  },
+  "hirise_ortho": {
+   "width": 85600,
+   "height": 85952,
+   "count": 1,
+   "dtype": "uint8",
+   "nodata": 0.0,
+   "res_m": [
+    0.25,
+    0.25
+   ],
+   "bounds_src_m": [
+    4577366.0,
+    1085130.0,
+    4598766.0,
+    1106618.0
+   ],
+   "crs_proj4": "+proj=eqc +lat_ts=0 +lat_0=0 +lon_0=0 +x_0=0 +y_0=0 +R=3396190 +units=m +no_defs=True",
+   "crs_wkt_name": "Equirectangular Mars 2000 Sphere IAU",
+   "tiled": false,
+   "compression": "none",
+   "overviews": [],
+   "url": "https://asc-pds-services.s3.us-west-2.amazonaws.com/mosaic/mars2020_trn/HiRISE/JEZ_hirise_soc_006_orthoMosaic_25cm_Eqc_latTs0_lon0_first.tif",
+   "access": "remote windowed HTTP range read (uncompressed stripped GeoTIFF)"
+  },
+  "rover_traverse": {
+   "file": "M20_traverse.json",
+   "url": "https://mars.nasa.gov/mmgis-maps/M20/Layers/json/M20_traverse.json",
+   "sha256": "6ddd0ece913d75b45d105946082f95ed84e68f4718b68d32a4421dc30877e7e6",
+   "bytes": 1723218,
+   "downloaded_utc": "2026-11-14T01:19:43+00:00"
+  },
+  "rover_waypoints": {
+   "file": "M20_waypoints.json",
+   "url": "https://mars.nasa.gov/mmgis-maps/M20/Layers/json/M20_waypoints.json",
+   "sha256": "bd143ee69241229926abd373e6305b8bbb326d6b5a7b4a8d6935262696f93dc4",
+   "bytes": 603126,
+   "downloaded_utc": "2026-11-14T01:19:34+00:00"
+  }
+ },
+ "conventions": {
+  "body": "Mars 2000 sphere, R = 3,396,190 m (from CRS of every raster)",
+  "longitude": "east-positive, 0-360 (source x = R * lon_rad; Jezero ~77.45 E)",
+  "latitude": "planetocentric (sphere: identical to planetographic on a sphere)",
+  "source_projection": "equirectangular, true scale at the equator (lat_ts = 0)",
+  "vertical_reference": "MOLA topography, \"DeltaGeoid\" elevation (m) relative to Mars areoid per product title",
+  "hirise_vs_ctx_vertical": "USGS metadata: HiRISE DTM median ~0.4 m below CTX DTM (product-wide)",
+  "hirise_vs_ctx_horizontal": "USGS metadata: 94.1% of matched features displaced < 6 m (conservative)"
+ }
+}

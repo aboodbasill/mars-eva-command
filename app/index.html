@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mars EVA Command</title>
+<meta name="description" content="Evidence-aware EVA planning demonstration at Jezero Crater, Mars (NASA Space Apps 2026).">
+<link rel="stylesheet" href="lib/leaflet.min.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="topbar" role="banner">
+  <div class="brand">
+    <h1>Mars EVA Command</h1>
+    <span class="sub">Marswalk 1 · Jezero Crater · <span id="build-id" class="mono"></span></span>
+  </div>
+  <nav class="modes" role="tablist" aria-label="Mode">
+    <button role="tab" data-mode="eva" aria-selected="true">EVA</button>
+    <button role="tab" data-mode="env" aria-selected="false">Environment</button>
+    <button role="tab" data-mode="recon" aria-selected="false">Recon</button>
+    <button role="tab" data-mode="data" aria-selected="false">Data &amp; Limits</button>
+  </nav>
+  <div class="controls">
+    <label>Slope limit
+      <select id="theta" aria-label="Maximum slope scenario"></select>
+    </label>
+    <label>Return budget
+      <select id="budget" aria-label="Return budget"></select>
+    </label>
+    <button id="print-btn" class="btn">Print briefing</button>
+    <span id="offline" class="badge" title="Offline readiness">…</span>
+  </div>
+</header>
+
+<main class="layout">
+  <aside class="left panel" aria-label="Layers">
+    <h2>Layers</h2>
+    <div id="layer-list"></div>
+    <h2>Evidence classes</h2>
+    <ul class="evidence-legend" id="evidence-legend"></ul>
+  </aside>
+
+  <section class="mapwrap" aria-label="Map">
+    <div id="map"></div>
+    <div class="map-note" id="map-note">Planning candidate, not a certified safe route. Tap the map for a terrain readout.</div>
+    <div class="legend" id="map-legend"></div>
+  </section>
+
+  <aside class="right panel" id="right" aria-live="polite"></aside>
+
+  <section class="bottom panel" id="bottom">
+    <div class="bottom-head"><h2 id="bottom-title">Route profile</h2><span id="bottom-note" class="muted"></span></div>
+    <div class="chart-box"><canvas id="chart" aria-label="Chart"></canvas></div>
+  </section>
+</main>
+
+<section id="briefing" class="briefing" aria-hidden="true"></section>
+
+<script src="lib/leaflet.min.js"></script>
+<script src="lib/chart.umd.min.js"></script>
+<script src="data/bundle.js"></script>
+<script src="data/grids.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

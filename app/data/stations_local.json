@@ -1,0 +1,218 @@
+[
+ {
+  "kind": "lander",
+  "id": "L0",
+  "name": "Hypothetical crew lander \u2014 Octavia E. Butler Landing",
+  "lon": 77.45088572,
+  "lat": 18.44462715,
+  "rover_elev_m": -2569.91,
+  "source": "M20_waypoints.json RMC 3_0 (sol 13)",
+  "position_uncertainty_m": 5.0,
+  "x": 49.80225495471774,
+  "y": -318.4740585882131,
+  "cell_rc": [
+   371,
+   781
+  ],
+  "provenance": 1,
+  "slope_5m_deg": 2.0374417304992676,
+  "elev_5m_m": -2569.85888671875,
+  "direct_return_cost_eq_m": 0.0,
+  "direct_return_physical_m": 0.0,
+  "straight_line_to_lander_m": 0.0,
+  "along_itinerary_distance_m": 6672.152954766481,
+  "outside_budget": {
+   "500": false,
+   "1000": false,
+   "2000": false,
+   "10000": false
+  }
+ },
+ {
+  "kind": "station",
+  "id": "S1",
+  "name": "Skinner Ridge outcrop \u2014 Hawksbill Gap",
+  "sample": "Swift Run (M2020-490-11) / Skyland (M2020-495-12)",
+  "sample_sol": 490,
+  "formation": "Shenandoah formation (fan front)",
+  "rock": "Sedimentary \u2014 sandstone",
+  "rationale": "Coarser-grained delta-front sandstone exposed where Perseverance climbed the fan front. Documents depositional energy and sediment source for the delta.",
+  "task": "Document bedding and grain size; photograph the abraded/cored area at hand-lens scale.",
+  "nasem": [
+   1,
+   3
+  ],
+  "lon": 77.40616768,
+  "lat": 18.45889532,
+  "rover_elev_m": -2520.852539,
+  "source": "M20_waypoints.json RMC 26_1004 (sol 477, last fix before sampling sol 490)",
+  "position_uncertainty_m": 5.0,
+  "x": -2464.603233409963,
+  "y": 527.267402372965,
+  "cell_rc": [
+   202,
+   279
+  ],
+  "provenance": 1,
+  "slope_5m_deg": 24.020639419555664,
+  "elev_5m_m": -2521.196533203125,
+  "direct_return_cost_eq_m": null,
+  "direct_return_physical_m": null,
+  "straight_line_to_lander_m": 2652.8312382635986,
+  "along_itinerary_distance_m": 2863.7972567696647,
+  "outside_budget": {
+   "500": true,
+   "1000": true,
+   "2000": true,
+   "10000": true
+  }
+ },
+ {
+  "kind": "station",
+  "id": "S2",
+  "name": "Wildcat Ridge outcrop \u2014 Hawksbill Gap",
+  "sample": "Hazeltop (M2020-509-14) / Bearwallow (M2020-516-15)",
+  "sample_sol": 509,
+  "formation": "Shenandoah formation (fan front)",
+  "rock": "Sedimentary \u2014 fine-grained, sulfate-bearing mudstone",
+  "rationale": "Fine-grained mudstone ~20 m from Skinner Ridge. Fine-grained lake/delta sediments are favoured environments for preserving organic matter and potential biosignatures.",
+  "task": "Compare fine vs coarse textures with S1; context imaging of laminations and veins.",
+  "nasem": [
+   1,
+   3
+  ],
+  "lon": 77.40592495,
+  "lat": 18.45864728,
+  "rover_elev_m": -2523.167969,
+  "source": "M20_waypoints.json RMC 26_1222 (sol 502, last fix before sampling sol 509)",
+  "position_uncertainty_m": 5.0,
+  "x": -2478.2514533271064,
+  "y": 512.5649063993523,
+  "cell_rc": [
+   205,
+   276
+  ],
+  "provenance": 1,
+  "slope_5m_deg": 9.408394813537598,
+  "elev_5m_m": -2523.201171875,
+  "direct_return_cost_eq_m": 3160.8935546875,
+  "direct_return_physical_m": 2877.583984375,
+  "straight_line_to_lander_m": 2661.1428584886394,
+  "along_itinerary_distance_m": 2895.86832458153,
+  "outside_budget": {
+   "500": true,
+   "1000": true,
+   "2000": true,
+   "10000": false
+  }
+ },
+ {
+  "kind": "station",
+  "id": "S3",
+  "name": "Hidden Harbor outcrop \u2014 Cape Nukshak",
+  "sample": "Kukaklek (M2020-623-19)",
+  "sample_sol": 623,
+  "formation": "Shenandoah formation (fan front)",
+  "rock": "Sedimentary",
+  "rationale": "Additional fan-front sedimentary stratigraphy on the Cape Nukshak campaign.",
+  "task": "Stratigraphic context photography; measure bed orientations by eye/compass.",
+  "nasem": [
+   1,
+   3
+  ],
+  "lon": 77.39915371,
+  "lat": 18.45364399,
+  "rover_elev_m": -2517.294678,
+  "source": "M20_waypoints.json RMC 30_1172 (sol 609, last fix before sampling sol 623)",
+  "position_uncertainty_m": 5.0,
+  "x": -2858.9846656737254,
+  "y": 215.99640502791814,
+  "cell_rc": [
+   264,
+   200
+  ],
+  "provenance": 1,
+  "slope_5m_deg": 7.621814727783203,
+  "elev_5m_m": -2517.281005859375,
+  "direct_return_cost_eq_m": 3456.544677734375,
+  "direct_return_physical_m": 3151.45703125,
+  "straight_line_to_lander_m": 2957.48204155108,
+  "along_itinerary_distance_m": 3412.7059864222656,
+  "outside_budget": {
+   "500": true,
+   "1000": true,
+   "2000": true,
+   "10000": false
+  }
+ },
+ {
+  "kind": "station",
+  "id": "S4",
+  "name": "Amalik outcrop \u2014 Cape Nukshak",
+  "sample": "Shuyak (M2020-575-16) / Mageik (M2020-579-17)",
+  "sample_sol": 575,
+  "formation": "Shenandoah formation (fan front)",
+  "rock": "Sedimentary",
+  "rationale": "Lower fan-front outcrop near the depot; links the delta stratigraphy to the depot area.",
+  "task": "Document outcrop contacts; compare with S3.",
+  "nasem": [
+   1,
+   3
+  ],
+  "lon": 77.4014403,
+  "lat": 18.45072631,
+  "rover_elev_m": -2526.525146,
+  "source": "M20_waypoints.json RMC 29_0 (sol 565, last fix before sampling sol 575)",
+  "position_uncertainty_m": 5.0,
+  "x": -2730.41430691768,
+  "y": 43.05180555812509,
+  "cell_rc": [
+   299,
+   225
+  ],
+  "provenance": 1,
+  "slope_5m_deg": 3.9277987480163574,
+  "elev_5m_m": -2526.41845703125,
+  "direct_return_cost_eq_m": 3294.6982421875,
+  "direct_return_physical_m": 2978.822509765625,
+  "straight_line_to_lander_m": 2803.623562705295,
+  "along_itinerary_distance_m": 3639.4826817189023,
+  "outside_budget": {
+   "500": true,
+   "1000": true,
+   "2000": true,
+   "10000": false
+  }
+ },
+ {
+  "kind": "depot",
+  "id": "D1",
+  "name": "Three Forks sample depot (inspection only)",
+  "lon": 77.40824113333333,
+  "lat": 18.45283058714286,
+  "rover_elev_m": -2545.2719047619053,
+  "tubes": 10,
+  "note": "Ten tubes were placed between sols 653 and 690. Individual tube positions are not transcribed here; the inspection point is the centroid of the rover's depot-build waypoints (VERIFY against the published depot map before any operational use).",
+  "source": "centroid of 21 M20 waypoints, sols 653-690",
+  "position_uncertainty_m": 30.8,
+  "x": -2348.0171209322366,
+  "y": 167.7821967063523,
+  "cell_rc": [
+   274,
+   302
+  ],
+  "provenance": 1,
+  "slope_5m_deg": 4.763469219207764,
+  "elev_5m_m": -2545.098876953125,
+  "direct_return_cost_eq_m": 2813.419677734375,
+  "direct_return_physical_m": 2595.8935546875,
+  "straight_line_to_lander_m": 2446.6268422446437,
+  "along_itinerary_distance_m": 4076.259377015539,
+  "outside_budget": {
+   "500": true,
+   "1000": true,
+   "2000": true,
+   "10000": false
+  }
+ }
+]

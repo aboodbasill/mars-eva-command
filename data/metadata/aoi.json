@@ -1,0 +1,43 @@
+{
+ "local_bounds_m": {
+  "xmin": -3860.0,
+  "xmax": 1060.0,
+  "ymin": -1320.0,
+  "ymax": 1540.0
+ },
+ "size_m": [
+  4920.0,
+  2860.0
+ ],
+ "margin_m": 1000,
+ "snap_m": 20.0,
+ "geographic_corners_lonlat": [
+  [
+   77.38135091567419,
+   18.427730801587288
+  ],
+  [
+   77.46885182108429,
+   18.427730801587288
+  ],
+  [
+   77.46885182108429,
+   18.475980731481496
+  ],
+  [
+   77.38135091567419,
+   18.475980731481496
+  ]
+ ],
+ "rule": "bbox(lander, stations, depot) + margin, snapped outward to the 20 m CTX lattice",
+ "grid_1m": {
+  "x0": -3860.0,
+  "y0": 1540.0,
+  "cell_m": 1.0,
+  "ncols": 4920,
+  "nrows": 2860,
+  "origin": "upper-left",
+  "pixel_convention": "area (value represents cell; centre = origin + (i+0.5)*cell)",
+  "axis": "x east, y north; row increases southward"
+ }
+}

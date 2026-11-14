@@ -1,0 +1,62 @@
+{
+ "L0": {
+  "x0": -31.0,
+  "y0": -239.0,
+  "cell_m": 0.25,
+  "ncols": 640,
+  "nrows": 640,
+  "origin": "upper-left",
+  "pixel_convention": "area (value represents cell; centre = origin + (i+0.5)*cell)",
+  "axis": "x east, y north; row increases southward"
+ },
+ "S1": {
+  "x0": -2545.0,
+  "y0": 607.0,
+  "cell_m": 0.25,
+  "ncols": 640,
+  "nrows": 640,
+  "origin": "upper-left",
+  "pixel_convention": "area (value represents cell; centre = origin + (i+0.5)*cell)",
+  "axis": "x east, y north; row increases southward"
+ },
+ "S2": {
+  "x0": -2559.0,
+  "y0": 592.0,
+  "cell_m": 0.25,
+  "ncols": 640,
+  "nrows": 640,
+  "origin": "upper-left",
+  "pixel_convention": "area (value represents cell; centre = origin + (i+0.5)*cell)",
+  "axis": "x east, y north; row increases southward"
+ },
+ "S3": {
+  "x0": -2939.0,
+  "y0": 295.0,
+  "cell_m": 0.25,
+  "ncols": 640,
+  "nrows": 640,
+  "origin": "upper-left",
+  "pixel_convention": "area (value represents cell; centre = origin + (i+0.5)*cell)",
+  "axis": "x east, y north; row increases southward"
+ },
+ "S4": {
+  "x0": -2811.0,
+  "y0": 123.0,
+  "cell_m": 0.25,
+  "ncols": 640,
+  "nrows": 640,
+  "origin": "upper-left",
+  "pixel_convention": "area (value represents cell; centre = origin + (i+0.5)*cell)",
+  "axis": "x east, y north; row increases southward"
+ },
+ "D1": {
+  "x0": -2429.0,
+  "y0": 247.0,
+  "cell_m": 0.25,
+  "ncols": 640,
+  "nrows": 640,
+  "origin": "upper-left",
+  "pixel_convention": "area (value represents cell; centre = origin + (i+0.5)*cell)",
+  "axis": "x east, y north; row increases southward"
+ }
+}

@@ -1,0 +1,65 @@
+{
+ "grid_1m": {
+  "x0": -3860.0,
+  "y0": 1540.0,
+  "cell_m": 1.0,
+  "ncols": 4920,
+  "nrows": 2860,
+  "origin": "upper-left",
+  "pixel_convention": "area (value represents cell; centre = origin + (i+0.5)*cell)",
+  "axis": "x east, y north; row increases southward"
+ },
+ "grid_5m": {
+  "x0": -3860.0,
+  "y0": 1540.0,
+  "cell_m": 5.0,
+  "ncols": 984,
+  "nrows": 572,
+  "origin": "upper-left",
+  "pixel_convention": "area (value represents cell; centre = origin + (i+0.5)*cell)",
+  "axis": "x east, y north; row increases southward"
+ },
+ "grid_20m": {
+  "x0": -3860.0,
+  "y0": 1540.0,
+  "cell_m": 20.0,
+  "ncols": 246,
+  "nrows": 143,
+  "origin": "upper-left",
+  "pixel_convention": "area (value represents cell; centre = origin + (i+0.5)*cell)",
+  "axis": "x east, y north; row increases southward"
+ },
+ "hirise_1m_valid_fraction": 1.0,
+ "slope_1m_valid_fraction": 0.9988944795042356,
+ "ctx_20m_valid_fraction": 1.0,
+ "route_cells": {
+  "hirise": 559740,
+  "ctx_only": 0,
+  "none": 3108,
+  "total": 562848
+ },
+ "slope_5m_hirise_percentiles_deg": [
+  5.47,
+  13.48,
+  28.79
+ ],
+ "slope_ctx_20m_percentiles_deg": [
+  2.85,
+  7.43,
+  20.3
+ ],
+ "hirise_minus_ctx_m": {
+  "median": -1.3148193359375,
+  "p05": -7.198462009429932,
+  "p95": 3.588244676589966,
+  "mad": 1.988525390625,
+  "count_20m_cells": 35178,
+  "sign": "HiRISE minus CTX (negative = HiRISE below CTX)"
+ },
+ "seam_check": {
+  "hirise_cells_adjacent_to_ctx_only": 0,
+  "median_slope_at_seam_deg": null,
+  "median_slope_hirise_interior_deg": 5.471263885498047
+ },
+ "aggregation": "5 m cell slope = max of 1 m Horn slopes; HiRISE-supported if valid fraction >= 0.9; otherwise CTX 20 m slope if available; otherwise blocked"
+}

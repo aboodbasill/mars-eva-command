@@ -1,0 +1,309 @@
+{
+ "block_grid": {
+  "x0": -3860.0,
+  "y0": 1540.0,
+  "cell_m": 100.0,
+  "ncols": 49,
+  "nrows": 28,
+  "origin": "upper-left",
+  "pixel_convention": "area (value represents cell; centre = origin + (i+0.5)*cell)",
+  "axis": "x east, y north; row increases southward"
+ },
+ "coverage_class_legend": {
+  "1": "HiRISE 1 m elevation support >= 90 %",
+  "2": "CTX 20 m elevation only",
+  "0": "no elevation support"
+ },
+ "weights": {
+  "science": 0.35,
+  "gap": 0.3,
+  "uncertainty": 0.15,
+  "route": 0.2,
+  "access": 0.1
+ },
+ "score_formula": "priority = w_sci*exp(-d_sci/750) + w_gap*(1-hirise_frac) + w_unc*norm(unc) + w_route*exp(-d_route/500) - w_access*norm(access_cost)",
+ "score_assumptions": "All weights/normalisations are design assumptions. Access cost is the 25 deg crew-graph cost-to-lander used as a proxy; no robot mobility model exists, so these are follow-up candidates, not validated robot routes. Unobserved regions stay eligible when the model abstains.",
+ "model": {
+  "target": "mean 5 m routing-cell slope (deg) per 100 m block, HiRISE-labelled (>=90 % support)",
+  "unit": "degree",
+  "features": [
+   "ctx_slope_mean",
+   "ctx_slope_max",
+   "ctx_slope_std",
+   "ctx_relief",
+   "ctx_detrended_std",
+   "img_std",
+   "img_grad",
+   "img_mean",
+   "themis_night"
+  ],
+  "seed": 20261114,
+  "split": {
+   "scheme": "500 m vertical strips; test = 2 central strips, calibration = next strip; 100 m buffers removed",
+   "n_train": 896,
+   "n_calibration": 84,
+   "n_test": 224,
+   "n_buffer_excluded": 168,
+   "independent_test_strips": 2,
+   "block_m": 100
+  },
+  "hyperparameters": {
+   "model": "GradientBoostingRegressor",
+   "n_estimators": 200,
+   "max_depth": 2,
+   "learning_rate": 0.05,
+   "subsample": 0.8,
+   "chosen": "a priori (no tuning on validation or test)"
+  },
+  "test": {
+   "baseline_train_mean": {
+    "mae": 3.359068170949797,
+    "rmse": 4.973036269695131,
+    "bias": -0.1453195933471148,
+    "n": 224
+   },
+   "baseline_ctx_slope_raw": {
+    "mae": 3.161980166570896,
+    "rmse": 3.6628359137708446,
+    "bias": -2.822852178957695,
+    "n": 224
+   },
+   "baseline_ctx_slope_linear": {
+    "mae": 1.8552625934637652,
+    "rmse": 2.4600074079333,
+    "bias": 0.6574104203380958,
+    "n": 224
+   },
+   "gbm": {
+    "mae": 1.4900620131463882,
+    "rmse": 2.012387580475947,
+    "bias": -0.11344998829711736,
+    "n": 224
+   }
+  },
+  "grouped_cv_train_mae": {
+   "folds": [
+    1.2632972397301172,
+    1.5420176370731675,
+    1.4571714961473354,
+    1.7627689719816917,
+    1.1835467690802282
+   ],
+   "mean": 1.441760422802508
+  },
+  "test_by_terrain_tercile": {
+   "tercile_0": {
+    "mae": 1.129423233257451,
+    "rmse": 1.6239684086480535,
+    "bias": 0.7685312276313591,
+    "n": 84
+   },
+   "tercile_1": {
+    "mae": 1.1947845602739016,
+    "rmse": 1.4796577983618815,
+    "bias": -0.45333097792330634,
+    "n": 74
+   },
+   "tercile_2": {
+    "mae": 2.2801254831953983,
+    "rmse": 2.8165851546854346,
+    "bias": -0.8548928505039967,
+    "n": 66
+   }
+  },
+  "interval": {
+   "method": "split conformal (absolute residual) on a separate calibration strip",
+   "nominal": 0.8,
+   "half_width_deg": 1.7232370483349442,
+   "test_empirical_coverage": 0.6473214285714286,
+   "n_calibration": 84,
+   "caveat": "Spatial distribution shift can invalidate calibration; coverage checked on one test region only."
+  },
+  "improvement_over_best_baseline": 0.1968457627529424,
+  "released": false,
+  "gate": "FAIL: improvement 19.7 % (need >= 10 %), coverage 0.65 (need >= 0.70)",
+  "feature_importance": {
+   "ctx_slope_mean": 0.4163,
+   "ctx_slope_max": 0.0144,
+   "ctx_slope_std": 0.0073,
+   "ctx_relief": 0.1644,
+   "ctx_detrended_std": 0.007,
+   "img_std": 0.1635,
+   "img_grad": 0.1658,
+   "img_mean": 0.0166,
+   "themis_night": 0.0445
+  }
+ },
+ "regions": [
+  {
+   "id": "R01",
+   "n_blocks": 76,
+   "area_m2": 760000.0,
+   "centroid_xy": [
+    -2262.6,
+    992.6
+   ],
+   "bbox_xy": [
+    -3860.0,
+    -1260.0,
+    1040.0,
+    1540.0
+   ],
+   "mean_hirise_frac": 0.9493750000000002,
+   "mean_none_frac": 0.05062499999999998,
+   "dist_to_science_m": 507.30303177206656,
+   "dist_to_route_m": 504.3025751050829,
+   "access_cost_eq_m": 4348.70556640625,
+   "uncertainty_deg": null,
+   "score_components": {
+    "science": 0.178,
+    "gap": 0.0152,
+    "uncertainty": 0.0,
+    "route": 0.0729,
+    "access": -0.1
+   },
+   "priority": 0.1661,
+   "size_weight_note": "log-size 4.34 shown for context; not in score",
+   "rank": 1
+  }
+ ],
+ "layers": [
+  {
+   "id": "recon_coverage",
+   "file": "recon_coverage.png",
+   "bounds": [
+    [
+     -1260.0,
+     -3860.0
+    ],
+    [
+     1540.0,
+     1040.0
+    ]
+   ],
+   "title": "Elevation-detail coverage (100 m blocks)"
+  },
+  {
+   "id": "recon_split",
+   "file": "recon_split.png",
+   "bounds": [
+    [
+     -1260.0,
+     -3860.0
+    ],
+    [
+     1540.0,
+     1040.0
+    ]
+   ],
+   "title": "Spatial split (train / calibration / test)"
+  },
+  {
+   "id": "recon_residuals",
+   "file": "recon_residuals.png",
+   "bounds": [
+    [
+     -1260.0,
+     -3860.0
+    ],
+    [
+     1540.0,
+     1040.0
+    ]
+   ],
+   "title": "Held-out residuals (prediction \u2212 HiRISE label), \u00b13\u00b0 scale"
+  }
+ ],
+ "chips": {
+  "L0": {
+   "file": "chip_L0.jpg",
+   "bounds": [
+    [
+     -399.0,
+     -31.0
+    ],
+    [
+     -239.0,
+     129.0
+    ]
+   ],
+   "resolution_m": 0.25,
+   "size_m": 160.0
+  },
+  "S1": {
+   "file": "chip_S1.jpg",
+   "bounds": [
+    [
+     447.0,
+     -2545.0
+    ],
+    [
+     607.0,
+     -2385.0
+    ]
+   ],
+   "resolution_m": 0.25,
+   "size_m": 160.0
+  },
+  "S2": {
+   "file": "chip_S2.jpg",
+   "bounds": [
+    [
+     432.0,
+     -2559.0
+    ],
+    [
+     592.0,
+     -2399.0
+    ]
+   ],
+   "resolution_m": 0.25,
+   "size_m": 160.0
+  },
+  "S3": {
+   "file": "chip_S3.jpg",
+   "bounds": [
+    [
+     135.0,
+     -2939.0
+    ],
+    [
+     295.0,
+     -2779.0
+    ]
+   ],
+   "resolution_m": 0.25,
+   "size_m": 160.0
+  },
+  "S4": {
+   "file": "chip_S4.jpg",
+   "bounds": [
+    [
+     -37.0,
+     -2811.0
+    ],
+    [
+     123.0,
+     -2651.0
+    ]
+   ],
+   "resolution_m": 0.25,
+   "size_m": 160.0
+  },
+  "D1": {
+   "file": "chip_D1.jpg",
+   "bounds": [
+    [
+     87.0,
+     -2429.0
+    ],
+    [
+     247.0,
+     -2269.0
+    ]
+   ],
+   "resolution_m": 0.25,
+   "size_m": 160.0
+  }
+ }
+}

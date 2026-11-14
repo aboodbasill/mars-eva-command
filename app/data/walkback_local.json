@@ -1,0 +1,140 @@
+[
+ {
+  "theta_max_deg": 15.0,
+  "units": "equivalent-flat-cost metres (weighted cost, not time or energy)",
+  "field_file": "walkback_15",
+  "reachable_fraction": 0.9163344277673546,
+  "contours": [
+   {
+    "budget_m": 500,
+    "area_m2": 591000.0,
+    "truncated_by_aoi": false
+   },
+   {
+    "budget_m": 1000,
+    "area_m2": 2296750.0,
+    "truncated_by_aoi": false
+   },
+   {
+    "budget_m": 2000,
+    "area_m2": 6483150.0,
+    "truncated_by_aoi": false
+   },
+   {
+    "budget_m": 10000,
+    "area_m2": 12893925.0,
+    "truncated_by_aoi": false
+   }
+  ],
+  "graph": "symmetric 8-neighbour; single Dijkstra from lander equals cost-to-lander",
+  "file": "walkback_15.png",
+  "bounds": [
+   [
+    -1320.0,
+    -3860.0
+   ],
+   [
+    1540.0,
+    1060.0
+   ]
+  ],
+  "budget_colors": {
+   "500": "#9be7ff",
+   "1000": "#4cc9f0",
+   "2000": "#4361ee",
+   "10000": "#7209b7"
+  }
+ },
+ {
+  "theta_max_deg": 20.0,
+  "units": "equivalent-flat-cost metres (weighted cost, not time or energy)",
+  "field_file": "walkback_20",
+  "reachable_fraction": 0.959550358178407,
+  "contours": [
+   {
+    "budget_m": 500,
+    "area_m2": 595525.0,
+    "truncated_by_aoi": false
+   },
+   {
+    "budget_m": 1000,
+    "area_m2": 2333850.0,
+    "truncated_by_aoi": false
+   },
+   {
+    "budget_m": 2000,
+    "area_m2": 6592775.0,
+    "truncated_by_aoi": false
+   },
+   {
+    "budget_m": 10000,
+    "area_m2": 13502025.0,
+    "truncated_by_aoi": false
+   }
+  ],
+  "graph": "symmetric 8-neighbour; single Dijkstra from lander equals cost-to-lander",
+  "file": "walkback_20.png",
+  "bounds": [
+   [
+    -1320.0,
+    -3860.0
+   ],
+   [
+    1540.0,
+    1060.0
+   ]
+  ],
+  "budget_colors": {
+   "500": "#9be7ff",
+   "1000": "#4cc9f0",
+   "2000": "#4361ee",
+   "10000": "#7209b7"
+  }
+ },
+ {
+  "theta_max_deg": 25.0,
+  "units": "equivalent-flat-cost metres (weighted cost, not time or energy)",
+  "field_file": "walkback_25",
+  "reachable_fraction": 0.9776689266018534,
+  "contours": [
+   {
+    "budget_m": 500,
+    "area_m2": 596275.0,
+    "truncated_by_aoi": false
+   },
+   {
+    "budget_m": 1000,
+    "area_m2": 2340550.0,
+    "truncated_by_aoi": false
+   },
+   {
+    "budget_m": 2000,
+    "area_m2": 6615950.0,
+    "truncated_by_aoi": false
+   },
+   {
+    "budget_m": 10000,
+    "area_m2": 13756975.0,
+    "truncated_by_aoi": false
+   }
+  ],
+  "graph": "symmetric 8-neighbour; single Dijkstra from lander equals cost-to-lander",
+  "file": "walkback_25.png",
+  "bounds": [
+   [
+    -1320.0,
+    -3860.0
+   ],
+   [
+    1540.0,
+    1060.0
+   ]
+  ],
+  "budget_colors": {
+   "500": "#9be7ff",
+   "1000": "#4cc9f0",
+   "2000": "#4361ee",
+   "10000": "#7209b7"
+  }
+ }
+]

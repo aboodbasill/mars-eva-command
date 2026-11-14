@@ -1,0 +1,319 @@
+[
+ {
+  "id": "hirise_ortho",
+  "title": "HiRISE orthomosaic",
+  "file": "hirise_ortho_1m.jpg",
+  "group": "Imagery",
+  "default": true,
+  "mission": "Mars Reconnaissance Orbiter",
+  "instrument": "HiRISE",
+  "product": "JEZ_hirise_soc_006_orthoMosaic_25cm (first)",
+  "native_resolution_m": 0.25,
+  "display_resolution_m": 1.0,
+  "evidence": "orbital_observation",
+  "units": "DN (8-bit, contrast stretched)",
+  "processing": "Remote range read of every 4th 25 cm row, 4-column mean (\u22481 m), reprojected to local eqc (bilinear), 1\u201399 % stretch",
+  "date": "HiRISE images 2007\u20132014 (mosaic released 2020; VERIFY per-image dates in product metadata)",
+  "url": "https://asc-pds-services.s3.us-west-2.amazonaws.com/mosaic/mars2020_trn/HiRISE/JEZ_hirise_soc_006_orthoMosaic_25cm_Eqc_latTs0_lon0_first.tif",
+  "doi": "10.5066/P9QJDP48",
+  "license": "Public domain (USGS); credit NASA/JPL/UArizona/USGS",
+  "limitations": "Imagery does not establish trafficability. Display is decimated; native 25 cm chips are provided at stations.",
+  "bounds": [
+   [
+    -1320.0,
+    -3860.0
+   ],
+   [
+    1540.0,
+    1060.0
+   ]
+  ]
+ },
+ {
+  "id": "ctx_ortho",
+  "title": "CTX orthomosaic",
+  "file": "ctx_ortho_6m.jpg",
+  "group": "Imagery",
+  "default": false,
+  "mission": "Mars Reconnaissance Orbiter",
+  "instrument": "CTX",
+  "product": "JEZ_ctx_B_soc_008_orthoMosaic_6m",
+  "native_resolution_m": 6.0,
+  "display_resolution_m": 6.0,
+  "evidence": "orbital_observation",
+  "units": "DN (8-bit)",
+  "processing": "Reprojected to local eqc (bilinear), 1\u201399 % stretch",
+  "date": "CTX images 2007\u20132018 (VERIFY)",
+  "url": "https://asc-pds-services.s3.us-west-2.amazonaws.com/mosaic/mars2020_trn/CTX/JEZ_ctx_B_soc_008_orthoMosaic_6m_Eqc_latTs0_lon0.tif",
+  "doi": "10.5066/P9GV1ND3",
+  "license": "Public domain (USGS)",
+  "limitations": "Context imagery; registered to HiRISE with 94.1 % of matched features < 6 m (USGS metadata).",
+  "bounds": [
+   [
+    -1320.0,
+    -3860.0
+   ],
+   [
+    1540.0,
+    1060.0
+   ]
+  ]
+ },
+ {
+  "id": "hillshade",
+  "title": "Hillshade (HiRISE DTM)",
+  "file": "hillshade_1m.jpg",
+  "group": "Terrain",
+  "default": false,
+  "mission": "Mars Reconnaissance Orbiter",
+  "instrument": "HiRISE stereo",
+  "product": "JEZ_hirise_soc_006_DTM_1m_blend40",
+  "native_resolution_m": 1.0,
+  "display_resolution_m": 1.0,
+  "evidence": "orbital_observation",
+  "derived": true,
+  "units": "relative illumination",
+  "processing": "Horn 3\u00d73 gradient on 1 m local DTM; sun azimuth 315\u00b0, altitude 45\u00b0; voids black",
+  "url": "https://asc-pds-services.s3.us-west-2.amazonaws.com/mosaic/mars2020_trn/HiRISE/JEZ_hirise_soc_006_DTM_MOLAtopography_DeltaGeoid_1m_Eqc_latTs0_lon0_blend40.tif",
+  "doi": "10.5066/P9REJ9JN",
+  "license": "CC0 / public domain (USGS)",
+  "date": "DTM mosaic released 2020",
+  "limitations": "Visualisation only.",
+  "bounds": [
+   [
+    -1320.0,
+    -3860.0
+   ],
+   [
+    1540.0,
+    1060.0
+   ]
+  ]
+ },
+ {
+  "id": "slope",
+  "title": "Slope classes (5 m routing cells)",
+  "file": "slope_classes_5m.png",
+  "group": "Terrain",
+  "default": false,
+  "mission": "Mars Reconnaissance Orbiter",
+  "instrument": "HiRISE stereo / CTX stereo",
+  "product": "derived",
+  "native_resolution_m": 1.0,
+  "display_resolution_m": 5.0,
+  "evidence": "orbital_observation",
+  "derived": true,
+  "units": "degrees",
+  "processing": "5 m cell = max of 1 m Horn slopes (HiRISE, \u226590 % support) else CTX 20 m slope; classes \u226520\u00b0 hatched",
+  "classes": [
+   {
+    "range": "0\u201310\u00b0",
+    "color": "#1a9850"
+   },
+   {
+    "range": "10\u201315\u00b0",
+    "color": "#91cf60"
+   },
+   {
+    "range": "15\u201320\u00b0",
+    "color": "#fee08b"
+   },
+   {
+    "range": "20\u201325\u00b0",
+    "color": "#fc8d59"
+   },
+   {
+    "range": "> 25\u00b0",
+    "color": "#d73027"
+   }
+  ],
+  "url": "https://asc-pds-services.s3.us-west-2.amazonaws.com/mosaic/mars2020_trn/HiRISE/JEZ_hirise_soc_006_DTM_MOLAtopography_DeltaGeoid_1m_Eqc_latTs0_lon0_blend40.tif",
+  "doi": "10.5066/P9REJ9JN",
+  "license": "CC0 / public domain",
+  "date": "derived in this build",
+  "limitations": "Terrain slope at DTM scale; does not resolve individual rocks or steps smaller than ~1\u20132 m.",
+  "bounds": [
+   [
+    -1320.0,
+    -3860.0
+   ],
+   [
+    1540.0,
+    1060.0
+   ]
+  ]
+ },
+ {
+  "id": "provenance",
+  "title": "Elevation provenance / data confidence",
+  "file": "provenance_5m.png",
+  "group": "Evidence",
+  "default": true,
+  "mission": "Mars Reconnaissance Orbiter",
+  "instrument": "HiRISE / CTX",
+  "product": "derived support mask",
+  "native_resolution_m": 5.0,
+  "display_resolution_m": 5.0,
+  "evidence": "derived",
+  "units": "class",
+  "classes": [
+   {
+    "code": 1,
+    "label": "Derived, high-res (HiRISE 1 m DTM)",
+    "color": "#3fb6c4",
+    "pattern": "solid (light)"
+   },
+   {
+    "code": 2,
+    "label": "Derived, low-res (CTX 20 m DTM only)",
+    "color": "#f2a541",
+    "pattern": "diagonal hatch"
+   },
+   {
+    "code": 0,
+    "label": "No elevation data",
+    "color": "#e5383b",
+    "pattern": "cross hatch"
+   }
+  ],
+  "processing": "HiRISE-supported if \u226590 % of 1 m slopes in the 5 m cell are valid",
+  "date": "derived in this build",
+  "url": "https://asc-pds-services.s3.us-west-2.amazonaws.com/mosaic/mars2020_trn/HiRISE/JEZ_hirise_soc_006_DTM_MOLAtopography_DeltaGeoid_1m_Eqc_latTs0_lon0_blend40.tif",
+  "license": "derived",
+  "limitations": "Support is property-specific: imagery coverage does not imply elevation coverage.",
+  "bounds": [
+   [
+    -1320.0,
+    -3860.0
+   ],
+   [
+    1540.0,
+    1060.0
+   ]
+  ]
+ },
+ {
+  "id": "themis_night",
+  "title": "THEMIS night IR (qualitative)",
+  "file": "themis_night_20m.jpg",
+  "group": "Thermal",
+  "default": false,
+  "mission": "2001 Mars Odyssey",
+  "instrument": "THEMIS",
+  "product": "nili_THEMIS_NightIR_Controlled_oct2018 (SIM 3464 bundle)",
+  "native_resolution_m": 100.0,
+  "display_resolution_m": 20.0,
+  "evidence": "orbital_observation",
+  "units": "DN (relative brightness)",
+  "processing": "Reprojected from MTM 77.5\u00b0E to local eqc; 1\u201399 % stretch",
+  "date": "mosaic Oct 2018 (multi-year compilation)",
+  "url": "https://pubs.usgs.gov/sim/3464/sim3464_database.zip",
+  "doi": "10.3133/sim3464",
+  "license": "Public domain (USGS)",
+  "limitations": "Qualitative: brighter at night generally indicates higher thermal inertia (rockier/indurated). Not calibrated temperature, not a route forecast. Native ~100 m.",
+  "bounds": [
+   [
+    -1320.0,
+    -3860.0
+   ],
+   [
+    1540.0,
+    1060.0
+   ]
+  ]
+ },
+ {
+  "id": "geology",
+  "title": "Geologic units (SIM 3464)",
+  "file": "geology_local.json",
+  "kind": "vector",
+  "group": "Geology",
+  "default": false,
+  "mission": "USGS Planetary Geologic Mapping (on MRO CTX base)",
+  "instrument": "photogeologic mapping",
+  "product": "SIM 3464 GeoUnits_v1",
+  "native_resolution_m": null,
+  "scale": "1:75,000",
+  "evidence": "interpretive",
+  "units": "geologic unit",
+  "known_offset_m": "100\u2013200 m (semi-controlled CTX base; USGS readme)",
+  "processing": "MTM 77.5\u00b0E \u2192 local eqc; clipped; simplified 2 m",
+  "date": "published 2020 (Sun & Stack)",
+  "url": "https://pubs.usgs.gov/sim/3464/",
+  "doi": "10.3133/sim3464",
+  "license": "Public domain (USGS)",
+  "legend": [
+   {
+    "unit": "Aeb",
+    "name": "Eolian bedform unit",
+    "color": "#8dd3c7"
+   },
+   {
+    "unit": "NHjf2",
+    "name": "Jezero fan 2 unit",
+    "color": "#ffffb3"
+   },
+   {
+    "unit": "Njf",
+    "name": "Jezero floor unit",
+    "color": "#bebada"
+   },
+   {
+    "unit": "Nle",
+    "name": "Lower etched unit",
+    "color": "#fb8072"
+   },
+   {
+    "unit": "Nue",
+    "name": "Upper etched unit",
+    "color": "#80b1d3"
+   },
+   {
+    "unit": "cr",
+    "name": "Crater rim unit",
+    "color": "#fdb462"
+   }
+  ],
+  "limitations": "Scientific interpretation at 1:75,000 with 100\u2013200 m registration offsets; never used for routing.",
+  "bounds": [
+   [
+    -1320.0,
+    -3860.0
+   ],
+   [
+    1540.0,
+    1060.0
+   ]
+  ]
+ },
+ {
+  "id": "rover",
+  "title": "Perseverance traverse & waypoints",
+  "file": "rover_local.json",
+  "kind": "vector",
+  "group": "Rover",
+  "default": true,
+  "mission": "Mars 2020",
+  "instrument": "rover localization",
+  "product": "M20_traverse.json / M20_waypoints.json",
+  "native_resolution_m": null,
+  "evidence": "direct_surface_measurement",
+  "units": "position",
+  "processing": "lon/lat (Mars 2000 sphere) \u2192 local eqc",
+  "date": "sols 13\u2013736",
+  "downloaded": "2026-11-14T01:19:34+00:00",
+  "url": "https://mars.nasa.gov/mmgis-maps/M20/Layers/json/M20_waypoints.json",
+  "license": "NASA/JPL-Caltech (credit required)",
+  "limitations": "Plausibility reference, not astronaut ground truth. Legacy endpoint; archive copy recommended (PDS Analyst's Notebook).",
+  "bounds": [
+   [
+    -1320.0,
+    -3860.0
+   ],
+   [
+    1540.0,
+    1060.0
+   ]
+  ]
+ }
+]

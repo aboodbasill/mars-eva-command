@@ -1,0 +1,345 @@
+{
+ "build_id": "mec-0c3b87bf104e",
+ "generated_utc": "2026-11-14T02:01:20+00:00",
+ "method_note": "All values computed by pipeline/08_validate.py from this build.",
+ "projection": {
+  "round_trip_error_m": 0.0,
+  "lander_waypoint_vs_plan_reference_m": 6.471402172588399,
+  "plan_reference": {
+   "lat": 18.4447,
+   "lon": 77.4508
+  },
+  "lander_waypoint": [
+   77.45088572,
+   18.44462715
+  ],
+  "max_relative_distance_error_local_vs_great_circle": 2.364601739723059e-05,
+  "site_pairs": 15,
+  "source_projection_ew_scale_error": 0.05418490196799586,
+  "pass": true,
+  "note": "Round trip tests mathematical consistency only; registration is tested in section 2."
+ },
+ "registration_rover_elevation": {
+  "waypoints_in_aoi": 268,
+  "hirise_minus_rover_m": {
+   "count": 268,
+   "median": -0.0017016992187564028,
+   "p05": -0.05784569667962387,
+   "p95": 0.05260939238319223,
+   "mad": 0.012527564941365199
+  },
+  "ctx_minus_rover_m": {
+   "count": 267,
+   "median": 0.4305156875002467,
+   "p05": -2.6372317949221267,
+   "p95": 4.738741017260554
+  },
+  "limitation": "Rover elevations come from localization against orbital maps, so this tests our reprojection and registration chain (a mis-registered grid would show large, spatially structured residuals), not independent DTM accuracy."
+ },
+ "raster_alignment": {
+  "grids": {
+   "dtm_hirise_1m.tif": {
+    "origin": [
+     -3860.0,
+     1540.0
+    ],
+    "cell": 1.0,
+    "shape": [
+     2860,
+     4920
+    ],
+    "crs": "+proj=eqc +lat_ts=18.45 +lat_0=18.45 +lon_0=77.45 +x_0=0 +y_0=0 +R=3396190 +units=m +no_defs=True"
+   },
+   "slope_hirise_1m.tif": {
+    "origin": [
+     -3860.0,
+     1540.0
+    ],
+    "cell": 1.0,
+    "shape": [
+     2860,
+     4920
+    ],
+    "crs": "+proj=eqc +lat_ts=18.45 +lat_0=18.45 +lon_0=77.45 +x_0=0 +y_0=0 +R=3396190 +units=m +no_defs=True"
+   },
+   "dtm_ctx_20m.tif": {
+    "origin": [
+     -3860.0,
+     1540.0
+    ],
+    "cell": 20.0,
+    "shape": [
+     143,
+     246
+    ],
+    "crs": "+proj=eqc +lat_ts=18.45 +lat_0=18.45 +lon_0=77.45 +x_0=0 +y_0=0 +R=3396190 +units=m +no_defs=True"
+   },
+   "slope_5m.tif": {
+    "origin": [
+     -3860.0,
+     1540.0
+    ],
+    "cell": 5.0,
+    "shape": [
+     572,
+     984
+    ],
+    "crs": "+proj=eqc +lat_ts=18.45 +lat_0=18.45 +lon_0=77.45 +x_0=0 +y_0=0 +R=3396190 +units=m +no_defs=True"
+   },
+   "provenance_5m.tif": {
+    "origin": [
+     -3860.0,
+     1540.0
+    ],
+    "cell": 5.0,
+    "shape": [
+     572,
+     984
+    ],
+    "crs": "+proj=eqc +lat_ts=18.45 +lat_0=18.45 +lon_0=77.45 +x_0=0 +y_0=0 +R=3396190 +units=m +no_defs=True"
+   },
+   "elev_5m.tif": {
+    "origin": [
+     -3860.0,
+     1540.0
+    ],
+    "cell": 5.0,
+    "shape": [
+     572,
+     984
+    ],
+    "crs": "+proj=eqc +lat_ts=18.45 +lat_0=18.45 +lon_0=77.45 +x_0=0 +y_0=0 +R=3396190 +units=m +no_defs=True"
+   }
+  },
+  "common_origin": true,
+  "common_extent_m": true,
+  "common_crs": true,
+  "pass": true
+ },
+ "hirise_vs_ctx": {
+  "median": -1.3148193359375,
+  "p05": -7.198462009429932,
+  "p95": 3.588244676589966,
+  "mad": 1.988525390625,
+  "count_20m_cells": 35178,
+  "sign": "HiRISE minus CTX (negative = HiRISE below CTX)",
+  "usgs_product_wide_reference_m": -0.4,
+  "note": "USGS reports HiRISE ~0.4 m below CTX product-wide; a local AOI can differ."
+ },
+ "rover_plausibility": {
+  "traverse_length_in_aoi_m": 17532.0,
+  "sample_spacing_m": 1.0,
+  "by_theta": {
+   "15.0": {
+    "passable_fraction": 0.9805498516997491,
+    "blocked_fraction": 0.01591375770020534,
+    "unknown_fraction": 0.0035363906000456307
+   },
+   "20.0": {
+    "passable_fraction": 0.991843486196669,
+    "blocked_fraction": 0.004620123203285421,
+    "unknown_fraction": 0.0035363906000456307
+   },
+   "25.0": {
+    "passable_fraction": 0.9948665297741273,
+    "blocked_fraction": 0.0015970796258270592,
+    "unknown_fraction": 0.0035363906000456307
+   }
+  },
+  "max_mapped_slope_sampled_deg": 27.735204696655273,
+  "p99_mapped_slope_sampled_deg": 15.998286247253418,
+  "hirise_supported_fraction": 0.9964636093999544,
+  "wording": "Maximum mapped 5 m-cell terrain slope sampled along the recorded path (subject to positional and grid support), not the maximum slope the rover physically crossed. A rover is not an astronaut."
+ },
+ "route_constraints": {
+  "routes": [
+   {
+    "scenario": "theta15",
+    "feasible": true,
+    "cells_over_theta": 0,
+    "cells_without_support": 0,
+    "corner_cuts": 0,
+    "recomputed_cost": 7648.785897806756,
+    "reported_cost": 7648.785897806759,
+    "cost_matches": true,
+    "pass": true
+   },
+   {
+    "scenario": "theta20",
+    "feasible": true,
+    "cells_over_theta": 0,
+    "cells_without_support": 0,
+    "corner_cuts": 0,
+    "recomputed_cost": 7460.908893375242,
+    "reported_cost": 7460.908893375243,
+    "cost_matches": true,
+    "pass": true
+   },
+   {
+    "scenario": "theta25",
+    "feasible": true,
+    "cells_over_theta": 0,
+    "cells_without_support": 0,
+    "corner_cuts": 0,
+    "recomputed_cost": 7473.860912596205,
+    "reported_cost": 7473.860912596205,
+    "cost_matches": true,
+    "pass": true
+   }
+  ],
+  "monotonic_weighted_cost": [
+   {
+    "leg": "S2->S3",
+    "looser": 25.0,
+    "tighter": 20.0,
+    "cost_looser": 654.3766943870517,
+    "cost_tighter": 654.3766943870517,
+    "ok": true,
+    "length_looser_m": 516.8376618407357,
+    "length_tighter_m": 516.8376618407357
+   },
+   {
+    "leg": "S3->S4",
+    "looser": 25.0,
+    "tighter": 20.0,
+    "cost_looser": 266.97158519551897,
+    "cost_tighter": 266.97158519551897,
+    "ok": true,
+    "length_looser_m": 226.7766952966369,
+    "length_tighter_m": 226.7766952966369
+   },
+   {
+    "leg": "S4->D1",
+    "looser": 25.0,
+    "tighter": 20.0,
+    "cost_looser": 517.3855752207264,
+    "cost_tighter": 517.3855752207264,
+    "ok": true,
+    "length_looser_m": 436.7766952966369,
+    "length_tighter_m": 436.7766952966369
+   },
+   {
+    "leg": "D1->L0",
+    "looser": 25.0,
+    "tighter": 20.0,
+    "cost_looser": 2813.419612417788,
+    "cost_tighter": 2813.419612417788,
+    "ok": true,
+    "length_looser_m": 2595.8935777509423,
+    "length_tighter_m": 2595.8935777509423
+   },
+   {
+    "leg": "S2->S3",
+    "looser": 20.0,
+    "tighter": 15.0,
+    "cost_looser": 654.3766943870517,
+    "cost_tighter": 664.2965946921541,
+    "ok": true,
+    "length_looser_m": 516.8376618407357,
+    "length_tighter_m": 522.6955262170047
+   },
+   {
+    "leg": "S3->S4",
+    "looser": 20.0,
+    "tighter": 15.0,
+    "cost_looser": 266.97158519551897,
+    "cost_tighter": 266.97158519551897,
+    "ok": true,
+    "length_looser_m": 226.7766952966369,
+    "length_tighter_m": 226.7766952966369
+   },
+   {
+    "leg": "S4->D1",
+    "looser": 20.0,
+    "tighter": 15.0,
+    "cost_looser": 517.3855752207264,
+    "cost_tighter": 517.3855752207264,
+    "ok": true,
+    "length_looser_m": 436.7766952966369,
+    "length_tighter_m": 436.7766952966369
+   },
+   {
+    "leg": "D1->L0",
+    "looser": 20.0,
+    "tighter": 15.0,
+    "cost_looser": 2813.419612417788,
+    "cost_tighter": 2813.419612417788,
+    "ok": true,
+    "length_looser_m": 2595.8935777509423,
+    "length_tighter_m": 2595.8935777509423
+   }
+  ],
+  "monotonic_skipped": [
+   {
+    "leg": "L0->S1",
+    "looser": 25.0,
+    "tighter": 20.0,
+    "reason": "endpoint snapped to different cells; monotonicity applies only to identical endpoints"
+   },
+   {
+    "leg": "S1->S2",
+    "looser": 25.0,
+    "tighter": 20.0,
+    "reason": "endpoint snapped to different cells; monotonicity applies only to identical endpoints"
+   },
+   {
+    "leg": "L0->S1",
+    "looser": 20.0,
+    "tighter": 15.0,
+    "reason": "endpoint snapped to different cells; monotonicity applies only to identical endpoints"
+   },
+   {
+    "leg": "S1->S2",
+    "looser": 20.0,
+    "tighter": 15.0,
+    "reason": "endpoint snapped to different cells; monotonicity applies only to identical endpoints"
+   }
+  ],
+  "pass": true
+ },
+ "return_field": {
+  "fields": [
+   {
+    "theta_max_deg": 15.0,
+    "cost_at_lander": 0.0,
+    "truncated_budgets": [],
+    "min_neighbour_cost_m": 5.09224796295166
+   },
+   {
+    "theta_max_deg": 20.0,
+    "cost_at_lander": 0.0,
+    "truncated_budgets": [],
+    "min_neighbour_cost_m": 5.09224796295166
+   },
+   {
+    "theta_max_deg": 25.0,
+    "cost_at_lander": 0.0,
+    "truncated_budgets": [],
+    "min_neighbour_cost_m": 5.09224796295166
+   }
+  ],
+  "pass": true
+ },
+ "environment": {
+  "bins": 480,
+  "bins_with_value": 381,
+  "bins_null_kept_null": 99,
+  "all_have_units": true,
+  "sols": [
+   656,
+   663,
+   670,
+   677,
+   684
+  ],
+  "zero_count_bins_with_value": 0,
+  "pass": true
+ },
+ "unit_tests": {
+  "command": "python -m pytest -q tests",
+  "summary": "45 passed in 0.76s",
+  "exit_code": 0,
+  "pass": true
+ },
+ "overall_pass": true
+}
