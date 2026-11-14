@@ -10,7 +10,7 @@ Rules checked 14 Nov 2026 against the official [Project Submission Guide](https:
 
 **Project name:** Mars EVA Command — Marswalk 1
 
-**Link to Final Project:** https://aboodbasill.github.io/mars-eva-command/ (source: https://github.com/aboodbasill/mars-eva-command)
+**Link to Final Project:** https://aboodbasill.github.io/mars-eva-command/ (source: https://github.com/aboodbasill/mars-eva-command). Judges can press **▶ Demo tour** in the app, or open https://aboodbasill.github.io/mars-eva-command/#tour for a 2-minute guided walkthrough.
 
 **Link to Project Demo:** 30-second video: https://aboodbasill.github.io/mars-eva-command/demo/Mars_EVA_Command_demo_30s.mp4 (silent, English on-screen text, 29 s).
 Alternative, the 7-slide deck: https://aboodbasill.github.io/mars-eva-command/demo/ (web) or https://aboodbasill.github.io/mars-eva-command/demo/Mars_EVA_Command_demo.pdf.

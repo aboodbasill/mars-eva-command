@@ -483,14 +483,24 @@
     $('#right').querySelectorAll('.station-head').forEach((el) => el.addEventListener('click', () => selectStation(el.dataset.sid)));
     $('#right').querySelectorAll('img[data-chip]').forEach((img) => img.addEventListener('click', () => showChip(img.dataset.chip)));
   }
+  function scrollPanelTo(el) {
+    const panel = el.closest('.panel');
+    if (!panel) return;
+    if (getComputedStyle(panel).overflowY === 'visible' || panel.scrollHeight <= panel.clientHeight) {
+      el.scrollIntoView({ block: 'nearest', behavior: 'smooth' });   // stacked phone layout: the page itself scrolls
+      return;
+    }
+    const top = el.getBoundingClientRect().top - panel.getBoundingClientRect().top + panel.scrollTop - 8;
+    panel.scrollTo({ top, behavior: 'smooth' });
+  }
   function selectStation(id) {
     S.selected = id;
     const s = D.stations.find((x) => x.id === id);
     if (S.mode !== 'eva') setMode('eva');
     renderEVA();
-    map.setView([s.y, s.x], Math.max(map.getZoom(), 0));
+    map.setView([s.y, s.x], Math.max(map.getZoom(), 0), { animate: false });
     const el = $(`#card-${CSS.escape(id)}`);
-    if (el) el.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    if (el) scrollPanelTo(el);
   }
   function showChip(id) {
     chipLayer.clearLayers();
@@ -770,6 +780,122 @@
     }).catch((err) => setBadge('Not offline', 'bad', String(err)));
   } else setBadge('No offline cache', 'bad', 'Service workers unavailable in this browser');
 
+  // ---------------------------------------------------------------- guided demo tour
+  // Each step sets every piece of state it depends on, so steps can be visited in any order.
+  const tour = (() => {
+    const r20 = D.routes.find((r) => r.theta_max_deg === cfg.routing.default_deg);
+    const r15 = D.routes.find((r) => r.theta_max_deg === Math.min(...cfg.routing.scenarios_deg));
+    const pr20 = D.profiles.profiles[r20.scenario_id];
+    const ex2 = r20.budget_exceedance['2000'], ex10 = r20.budget_exceedance['10000'];
+    const envm = D.environment.meda;
+    const P = envm ? envm.records.filter((x) => x.quantity === 'pressure' && x.value !== null).map((x) => x.value) : [];
+    const T = envm ? envm.records.filter((x) => x.quantity === 'air_temperature' && x.value !== null).map((x) => x.value) : [];
+    const V = D.validation;
+    const st = (id) => D.stations.find((x) => x.id === id);
+    const scenario = (theta, budget) => {
+      if (S.theta !== theta || S.budget !== budget) {
+        S.theta = theta; S.budget = budget; thSel.value = String(theta); bSel.value = String(budget);
+        drawEnvelope(); drawRoutes();
+      }
+    };
+    const base = (mode = 'eva') => { map.closePopup(); chipLayer.clearLayers(); scenario(cfg.routing.default_deg, cfg.walkback.default_budget_m); S.selected = null; setMode(mode); };
+    // a point on the climb towards S1 for the terrain readout
+    const iRead = pr20.distance_m.findIndex((d) => d > (r20.legs[0].distance_at_end_m - 350));
+    const steps = [
+      { t: 'Welcome to Mars EVA Command', hl: '.brand',
+        x: `A planning map for one hypothetical crew walk at Jezero Crater, Mars, built only from NASA and USGS data. This tour takes about two minutes. Use Next, or the arrow keys.`,
+        run: () => { base(); map.fitBounds(BOUNDS); } },
+      { t: 'The walk', hl: '#map',
+        x: `From the lander (L0) to four outcrops Perseverance actually sampled (S1–S4), then the Three Forks sample depot (D1), and back. The route is computed on 1 m HiRISE terrain under a ${cfg.routing.default_deg}° slope limit.`,
+        run: () => { base(); map.fitBounds(L.latLngBounds(r20.geometry_xy.map(yx)).pad(0.15)); } },
+      { t: 'A real finding', hl: '#right .metrics',
+        x: `The round trip is ${fmt(r20.length_m / 1000, 2)} km, and ${pct(ex2.fraction)} of it lies beyond a 2 km-equivalent return budget (the red dashed part). This plan needs a closer lander or rover support. That is a result, not a failure.`,
+        run: () => { base(); map.fitBounds(L.latLngBounds(r20.geometry_xy.map(yx)).pad(0.15)); } },
+      { t: 'Change the slope limit', hl: '#theta',
+        x: `Now at ${r15.theta_max_deg}° (the stricter lunar study value). The route detours to ${fmt(r15.length_m / 1000, 2)} km and never exceeds ${fmt(r15.max_slope_deg, 1)}°. The thin dashed line is the ${cfg.routing.default_deg}° route for comparison. Both limits are lunar numbers, shown as adjustable assumptions.`,
+        run: () => { base(); scenario(r15.theta_max_deg, cfg.walkback.default_budget_m); setMode('eva'); map.fitBounds(L.latLngBounds(r15.geometry_xy.map(yx)).pad(0.15)); } },
+      { t: 'Change the return budget', hl: '#budget',
+        x: `With the optional 10 km-equivalent budget (from NASA's suited Walkback Test), ${ex10.length_m > 0 ? pct(ex10.fraction) + ' of the walk is still outside.' : 'the whole walk fits and the red dashed segments disappear.'} The shaded area is everywhere reachable within the budget.`,
+        run: () => { base(); scenario(cfg.routing.default_deg, 10000); setMode('eva'); map.fitBounds(BOUNDS); } },
+      { t: 'Tap anywhere for a readout', hl: '.leaflet-popup',
+        x: `Every point on the map can report its slope, elevation, which data support it, the geologic unit, and the cost and distance back to the lander. Try tapping the map yourself after the tour.`,
+        run: () => { base(); const [x, y] = r20.geometry_xy[Math.max(0, iRead)]; map.setView([y, x], 0); setTimeout(() => map.fire('click', { latlng: L.latLng(y, x) }), 150); } },
+      { t: 'Science stations', hl: '#card-S2',
+        x: `${st('S2').name}: ${st('S2').rock.toLowerCase()} where Perseverance collected ${st('S2').sample.split(' (')[0]}. Each card shows the sample source, the NASEM objectives, the rover's own photo of the outcrop, and the crew task.`,
+        run: () => { base(); selectStation('S2'); } },
+      { t: '25 cm close-up', hl: '#map',
+        x: `The DTM cannot see rocks smaller than about 1–2 m, so every stop has a native 25 cm HiRISE image for the crew to judge the footing themselves. This one is ${st('S1').name}.`,
+        run: () => { base(); selectStation('S1'); showChip('S1'); } },
+      { t: 'The sample depot', hl: '#card-D1',
+        x: `Ten tubes are placed here, with positions from NASA's PDS depot archive. Orange markers are the twins of samples from this walk's stations. The crew task is inspection and documentation only.`,
+        run: () => { base(); selectStation('D1'); const t = D.depot_tubes?.tubes || []; if (t.length) map.fitBounds(L.latLngBounds(t.map((q) => [q.y, q.x])).pad(0.6)); } },
+      { t: 'Real Mars weather', hl: '#chart',
+        x: envm ? `Perseverance's MEDA instrument measured ${fmt(Math.min(...P))}–${fmt(Math.max(...P))} Pa and ${fmt(Math.min(...T) - 273.15)} to ${fmt(Math.max(...T) - 273.15)} °C while parked at the depot. The values exist only at the green rover position, not as a map, and gaps stay gaps.` : 'No validated weather subset in this build.',
+        run: () => { base('env'); } },
+      { t: 'Where robots should look next', hl: '#right',
+        x: `Recon maps the gaps in our data. Our AI slope model beat every baseline but failed its own uncertainty check, so it is not shown as fact and never affects the route.`,
+        run: () => { base('recon'); map.fitBounds(BOUNDS); } },
+      { t: 'Measured, not assumed', hl: '#right',
+        x: `Projection error is at most ${fmt(V.projection.max_relative_distance_error_local_vs_great_circle * 100, 4)} %. Elevations match ${V.registration_rover_elevation.hirise_minus_rover_m.count} rover waypoints (median ${fmt(Math.abs(V.registration_rover_elevation.hirise_minus_rover_m.median) < 0.005 ? 0 : V.registration_rover_elevation.hirise_minus_rover_m.median, 2)} m). ${pct(V.rover_plausibility.by_theta['20.0'].passable_fraction, 1)} of the rover's path is passable at 20°. Every source and assumption is listed here.`,
+        run: () => { base('data'); } },
+      { t: 'Take it with you', hl: '#print-btn',
+        x: `"Print briefing" makes a one-page mission sheet. Once the badge says "Offline ready", the app works with no network, as it would on Mars. That's the tour: thanks!`,
+        run: () => { base(); map.fitBounds(BOUNDS); } },
+    ];
+    let i = -1, box = null;
+    const unhl = () => document.querySelectorAll('.tour-hl').forEach((e) => e.classList.remove('tour-hl'));
+    function show(k) {
+      i = Math.max(0, Math.min(steps.length - 1, k));
+      const s = steps[i];
+      try { s.run(); } catch (e) { console.warn('tour step', i, e); }
+      unhl();
+      setTimeout(() => { const el = document.querySelector(s.hl); if (el) {
+          el.classList.add('tour-hl');
+          if (innerWidth <= 900) {          // stacked phone/tablet layout: bring the target above the tour box
+            const host = el.closest('.leaflet-container') ? $('#map') : el;
+            window.scrollTo({ top: Math.max(0, host.getBoundingClientRect().top + scrollY - 70), behavior: 'instant' });
+          } else if (el.closest('.panel') && !el.classList.contains('panel')) scrollPanelTo(el);
+        } }, 350);
+      box.querySelector('.tour-n').textContent = `${i + 1} / ${steps.length}`;
+      box.querySelector('.tour-t').textContent = s.t;
+      box.querySelector('.tour-x').textContent = s.x;
+      box.querySelector('.tour-prev').disabled = i === 0;
+      box.querySelector('.tour-next').textContent = i === steps.length - 1 ? 'Finish' : 'Next →';
+      box.querySelector('.tour-next').focus({ preventScroll: true });
+    }
+    function key(e) {
+      if (!box) return;
+      if (e.key === 'Escape') stop();
+      else if (e.key === 'ArrowRight') { e.preventDefault(); i === steps.length - 1 ? stop() : show(i + 1); }
+      else if (e.key === 'ArrowLeft') { e.preventDefault(); show(i - 1); }
+    }
+    function start() {
+      if (box) return show(0);
+      box = document.createElement('div');
+      box.className = 'tour';
+      box.setAttribute('role', 'dialog');
+      box.setAttribute('aria-live', 'polite');
+      box.setAttribute('aria-label', 'Demo tour');
+      box.innerHTML = `<div class="tour-head"><span class="tour-n"></span><button class="tour-x-btn" aria-label="Close tour">✕</button></div>
+        <h3 class="tour-t"></h3><p class="tour-x"></p>
+        <div class="tour-nav"><button class="btn tour-prev">← Back</button><button class="btn tour-next primary">Next →</button></div>`;
+      document.body.appendChild(box);
+      box.querySelector('.tour-prev').onclick = () => show(i - 1);
+      box.querySelector('.tour-next').onclick = () => (i === steps.length - 1 ? stop() : show(i + 1));
+      box.querySelector('.tour-x-btn').onclick = stop;
+      document.addEventListener('keydown', key);
+      show(0);
+    }
+    function stop() {
+      if (!box) return;
+      unhl(); box.remove(); box = null; document.removeEventListener('keydown', key);
+      base(); map.fitBounds(BOUNDS);
+      $('#tour-btn').focus();
+    }
+    return { start, stop, steps, show: (k) => { if (!box) start(); show(k); } };
+  })();
+  $('#tour-btn').addEventListener('click', tour.start);
+
   // ---------------------------------------------------------------- start
   renderLayerList();
   drawEnvelope();
@@ -783,5 +909,6 @@
   setMode(['eva', 'env', 'recon', 'data'].includes(H.mode) ? H.mode : 'eva');
   if (H.station && D.stations.some((x) => x.id === H.station)) selectStation(H.station);
   if (H.chip && D.recon.chips[H.chip]) showChip(H.chip);
-  window.MEC_APP = { S, map, setMode, selectStation };   // debugging hook
+  if ('tour' in H) setTimeout(tour.start, 300);       // #tour starts the guided demo
+  window.MEC_APP = { S, map, setMode, selectStation, tour };   // debugging hook
 })();
