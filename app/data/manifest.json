@@ -1,7 +1,7 @@
 {
  "schema_version": "1.0.0",
- "build_id": "mec-8381a145641c",
- "built_utc": "2026-11-14T09:23:19+00:00",
+ "build_id": "mec-6a29006b4834",
+ "built_utc": "2026-11-14T09:59:20+00:00",
  "mission": {
   "id": "marswalk-1",
   "name": "Marswalk 1",
@@ -290,7 +290,7 @@
   {
    "file": "bundle.js",
    "bytes": 665109,
-   "sha256": "e481b04a2dd4756151793ea05f95b8ec4d3fd7148732e3ed4fcf9bc57a4afa7f"
+   "sha256": "e0a19199e5804bcd97497d5a4b3ceaa0644e7ea9848bff10815d3aabe1a85d9c"
   },
   {
    "file": "chip_D1.jpg",
@@ -331,6 +331,11 @@
    "file": "environment.json",
    "bytes": 215200,
    "sha256": "75a4cd1db731a60051488640fdd420b49c538d3ac48cb13146ea17b9acfcfd73"
+  },
+  {
+   "file": "game_normal.jpg",
+   "bytes": 813934,
+   "sha256": "fa51dd2b3b698862908f2ef7d88ab59c7e119354e01614c435bc691c30446921"
   },
   {
    "file": "game_terrain.jpg",
@@ -473,5 +478,5 @@
    "sha256": "edc8b420e747b1752b34d84e3e47759fb872bc739cb72c336310d061f855542c"
   }
  ],
- "total_bytes": 16167782
+ "total_bytes": 16981716
 }

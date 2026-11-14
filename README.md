@@ -11,6 +11,9 @@ NASA Space Apps Challenge 2026 — challenge **[Interplanetary Survival Guide: M
 - **Rover:** drive the backup rover.
 - **Map (M):** the live **map** shows your safe-return zone, predictions (return margin, Go / No-go), conditions (Mars24 sun, MEDA weather reference, NASA DONKI space weather) and data sources.
 - **Controls:** WASD, mouse, Space, E, V, M, or the on-screen joystick and buttons on phones.
+- **NASA-sourced physics:** Mars gravity 3.73 m/s² (NSSDC). Suit consumption is built from NASA EVA work rates (1,000 Btu/h design, 2,200 Btu/h peak), Weir O₂ chemistry and the 8 h xEVA requirement. The map's **Model** tab lists every equation and its source.
+- **Travel & time speed** (×1 to ×40, default ×10) speeds up your movement and the clock together, so oxygen per metre stays true to NASA rates.
+- **Cinematic graphics:** HDR bloom, auto-exposure, a film-style grade, sun glare, HiRISE 1 m micro-relief and a Golombek–Rapp rock field. Pick Ultra, High or Low (phones) on the start screen.
 
 **Merged from Marswalk Planner v4.1:**
 - **Go / No-go** card: daylight via Mars24, 8 h suit limit, dust season, CMEs.
@@ -19,7 +22,7 @@ NASA Space Apps Challenge 2026 — challenge **[Interplanetary Survival Guide: M
 
 **Guided demo tour:** press **▶ Demo tour** in the app, or open https://aboodbasill.github.io/mars-eva-command/#tour. It has 13 steps (about 2 minutes), with Next/Back and arrow keys, and works on phones.
 
-Deep links open the app in a given state, e.g. `#mode=env`, `#mode=recon`, `#station=S2`, `#theta=15&budget=10000`, `#tour`. In the game: `game/#play`, `game/#play&view=fp`, `game/#play&map`.
+Deep links open the app in a given state, e.g. `#mode=env`, `#mode=recon`, `#station=S2`, `#theta=15&budget=10000`, `#tour`. In the game: `game/#play`, `game/#play&view=fp`, `game/#play&map`, `game/#play&at=S2&ltst=17.5`, `game/#play&speed=20&gfx=ultra`.
 
 > **Use of SI:** the code and docs were generated with the help of an AI coding assistant (Claude, Anthropic) from the team's own plan. All data are NASA/USGS archive data, and no imagery is AI-generated. See [SI_DISCLOSURE.md](SI_DISCLOSURE.md).
 

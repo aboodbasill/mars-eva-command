@@ -25,13 +25,15 @@ The same register ships inside the app (Data & Limits) from `pipeline/09_export.
 
 | ID | Label | Statement |
 |---|---|---|
-| G-01 | ASSUMPTION | Life support sized for about 8.5 h at a 300 W average work rate (O₂, CO₂ scrubber about 9 h, cooling water). Power covers avionics, fans and heaters, and heaters draw more below 245 K. |
+| G-01 | ASSUMPTION | Life support is sized for the NASA 8 h EVA requirement plus a 30 min reserve at the NASA design work rate of 1,000 Btu/h (293 W): O₂ 620 g, CO₂ scrubber 773 g, cooling water 3.17 kg. O₂ use follows Weir (1949) with RQ 0.9. Work rate rises from 100 kcal/h at rest to 1,000 Btu/h at the Apollo pace for the local grade, capped at 2,200 Btu/h; the 1.5 exponent is ours. Power (765 Wh) covers avionics, fans and heaters, and heaters draw more below 245 K. |
 | G-02 | ASSUMPTION | Walking pace follows the Apollo-based model (2.7 km/h flat, 1.7 at 10° uphill, 1.2 at 20°). Return-time estimates use a 2.4 km/h average plus 15 min for the airlock. |
 | G-03 | ASSUMPTION | The backup rover is unpressurised (Artemis LTV-style), drives at up to 15 km/h on slopes up to 25°, and recharges consumables while you are seated. |
 | G-04 | ASSUMPTION | The radiation dose uses the Gale RAD reference rate, ×3 within 24 h of a predicted CME. This is a game model, not a dose forecast. |
 | G-05 | LIMITED | Boulders near the player are illustrative (denser on steeper cells). The DTM cannot resolve rocks smaller than about 1–2 m. |
 | G-06 | LIMITED | The terrain colour is a false-colour tint of the grayscale HiRISE orthomosaic. |
 | G-07 | ASSUMPTION | Distance-to-home fields are stored at 10 m, taking the maximum of each 2×2 block of 5 m cells (conservative). |
+| G-08 | ASSUMPTION | "Travel & time speed" ×N (default ×10) speeds up the mission clock and the astronaut's movement together. Consumption is computed from the physical pace (1.0 m/s walk, 2.2 m/s lope) over mission time, so oxygen used per metre is the same at every setting. Gravity stays at the real 3.73 m/s². |
+| G-09 | LIMITED | Cinematic graphics (bloom, auto-exposure, colour grade, film grain, lens glare) and the sub-metre surface detail are visual effects. The 1 m micro-relief normal map comes from the HiRISE DTM, but rock shapes, dust and footprints are illustrative. |
 
 ## Findings recorded during the build
 

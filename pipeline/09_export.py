@@ -277,6 +277,18 @@ def main():
     rgb *= (0.78 + 0.35 * shade)[..., None]
     Image.fromarray(np.clip(rgb, 0, 255).astype(np.uint8), 'RGB').save(os.path.join(APPDATA, 'game_terrain.jpg'), quality=84, optimize=True)
 
+    # ---- game micro-relief normal map from the HiRISE 1 m DTM (real sub-5 m relief, high-pass) ----
+    from scipy.ndimage import gaussian_filter
+    z1 = load('dtm_hirise_1m.tif').astype(float)
+    zf = np.where(np.isfinite(z1), z1, np.nanmean(z1))
+    resid = zf - gaussian_filter(zf, 3.0)                       # remove what the 5 m mesh already carries
+    gy_, gx_ = np.gradient(resid)                               # per 1 m: rows (south), cols (east)
+    nx, ny, nz = -gx_, gy_, np.ones_like(gx_)                   # tangent frame: x = east (u), y = north (v), z = up
+    nrm = np.sqrt(nx ** 2 + ny ** 2 + nz ** 2)
+    rgb = np.stack([nx / nrm, ny / nrm, nz / nrm], -1) * 0.5 + 0.5
+    img = Image.fromarray((np.clip(rgb, 0, 1) * 255).astype(np.uint8), 'RGB').resize((w, h), Image.BILINEAR)
+    img.save(os.path.join(APPDATA, 'game_normal.jpg'), quality=88, optimize=True)
+
     # ---- compact readout grids (5 m) ----
     sq = np.where(np.isfinite(s5), np.clip(np.round(s5 * 4), 0, 254), 255).astype(np.uint8)
     grids['slope'] = {'dtype': 'uint8', 'scale': 0.25, 'nodata': 255, 'units': 'deg', 'b64': b64(sq)}

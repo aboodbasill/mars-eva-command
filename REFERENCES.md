@@ -31,6 +31,13 @@ Credit: NASA/JPL-Caltech/University of Arizona/MSSS/ASU/USGS Astrogeology Scienc
 - National Academies of Sciences, Engineering, and Medicine (2026) *A Science Strategy for the Human Exploration of Mars*. doi:10.17226/28594 (objectives 1, 3, 5, 9, 11 cited).
 - NASA (2020) *Topic 1: EVA Lunar Surface Concept of Operations* — suit walks up/down/across slopes up to 20° on traverses up to 2 km from the lander. https://www.nasa.gov/wp-content/uploads/2020/01/topic_1-_eva_lunar_surface_concept_of_operations.pdf
 - Vos, J.R., Gernhardt, M.L., Lee, L.R. (2007) *The Walkback Test*. SAE Technical Paper 2007-01-3133 — suited 10 km return-walk study (basis of the optional 10 km preset).
+- Williams, D.R., *Mars Fact Sheet*, NASA Space Science Data Coordinated Archive (NSSDC), https://nssdc.gsfc.nasa.gov/planetary/factsheet/marsfact.html — surface gravity 3.73 m/s² used by the game.
+- Waligora, J.M., Horrigan, D.J. (1975) Metabolism and heat dissipation during Apollo EVA periods. In *Biomedical Results of Apollo*, NASA SP-368, ch. 4 — measured EVA work rates (resting floor of about 100 kcal/h and the lunar-EVA averages).
+- Gernhardt, M.L., et al., NASA Human Research Program evidence on EVA operations — EMU design average 1,000 Btu/h and peaks around 2,200 Btu/h, used as W_design and W_peak.
+- NASA (2021) *Exploration EVA System Concept of Operations* (xEVA ConOps) — 8 h EVA duration and 4.3 psid suit pressure.
+- Weir, J.B. de V. (1949) New methods for calculating metabolic rate with special reference to protein metabolism. *J. Physiol.* 109, 1–9 — O₂ energy equivalent 3.941 + 1.106·RQ kcal/L.
+- Golombek, M., Rapp, D. (1997) Size-frequency distributions of rocks on Mars and Earth analog sites. *J. Geophys. Res.* 102(E2), 4117–4129 — rock model for the boulders scattered near the player.
+- NASA Lunar Terrain Vehicle (Artemis) design figure of 15 km/h top speed; Apollo LRV records for comparison.
 - Kring, D.A. (2023, interview) — early Artemis traverses on slopes < 20°, within ~2 km of the lander (phys.org, Oct 2023).
 - Peña-Asensio, E., et al. (2023) — lunar south-pole traverse planning with a 15° slope cap (basis of the 15° scenario).
 

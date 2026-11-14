@@ -44,6 +44,7 @@
     <div class="score">Science <b id="h-score">0</b></div>
   </div>
 
+  <canvas id="minimap" width="200" height="200" aria-label="Minimap"></canvas>
   <div class="hud-bottom">
     <div id="alerts"></div>
     <div id="prompt" class="hidden"></div>
@@ -75,16 +76,18 @@
       <label>Earth date (UTC)<input type="date" id="s-date"></label>
       <label>Depart (Mars local time)<select id="s-dep"></select></label>
       <label>Suit slope limit<select id="s-theta"><option value="15">15° (cautious)</option><option value="20" selected>20° (NASA suit spec)</option><option value="25">25° (aggressive)</option></select></label>
-      <label>Time speed<select id="s-speed"><option value="1">×1 real time</option><option value="10">×10</option><option value="30" selected>×30</option><option value="60">×60</option></select></label>
+      <label>Travel &amp; time speed<select id="s-speed"><option value="1">×1 real pace</option><option value="5">×5</option><option value="10" selected>×10 (recommended)</option><option value="20">×20</option><option value="40">×40</option></select></label>
+      <label>Graphics<select id="s-gfx"><option value="auto" selected>Auto</option><option value="ultra">Ultra (cinematic)</option><option value="high">High</option><option value="low">Low (phones)</option></select></label>
       <label class="chk"><input type="checkbox" id="s-rover" checked> Backup rover parked at the best stop</label>
     </div>
     <div id="s-forecast" class="forecast"></div>
+    <p class="fine">Speed ×N moves you <b>and</b> the mission clock N times faster together, so oxygen used per metre walked stays at NASA's measured rates.</p>
     <div class="actions">
       <button class="btn primary" id="s-go">Start EVA</button>
       <button class="btn" id="s-help">Controls</button>
       <a class="btn" href="../">Open planner</a>
     </div>
-    <p class="fine">Terrain, slopes, sample sites, depot tubes, weather and space weather are real NASA/USGS data. Suit consumption rates and the rocks scattered near you are game assumptions; this is a training demonstration, not a certified plan.</p>
+    <p class="fine">Terrain, slopes, sample sites, depot tubes, weather and space weather are real NASA/USGS data. Gravity and suit work rates come from NASA sources (see Map → Model); the curve between them, cooling and power terms, and the rocks scattered near you are game assumptions. This is a training demonstration, not a certified plan.</p>
   </div>
 </section>
 
@@ -104,6 +107,7 @@
       <button role="tab" data-tab="pred" aria-selected="true">Predictions</button>
       <button role="tab" data-tab="cond" aria-selected="false">Conditions</button>
       <button role="tab" data-tab="sci" aria-selected="false">Science</button>
+      <button role="tab" data-tab="model" aria-selected="false">Model</button>
       <button role="tab" data-tab="data" aria-selected="false">Data</button>
     </div>
     <div id="tab-body"></div>
