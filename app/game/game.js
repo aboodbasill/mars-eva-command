@@ -1228,7 +1228,14 @@
     });
     navigator.serviceWorker.register(sw(D.manifest.build_id), { updateViaCache: 'none' }).catch(() => {});
     fetch('../data/manifest.json?version-check=' + Date.now(), { cache: 'no-store' }).then((r) => r.ok ? r.json() : null).then((m) => {
-      if (m && m.build_id !== D.manifest.build_id) { S.updateReady = true; navigator.serviceWorker.register(sw(m.build_id), { updateViaCache: 'none' }).catch(() => {}); }
+      if (m && m.build_id !== D.manifest.build_id) { S.updateReady = true; navigator.serviceWorker.register(sw(m.build_id), { updateViaCache: 'none' }).catch(() => {});
+        // safety net: if the new build has not taken over after 25 s (an old worker or cache is stuck), clear the offline cache and reload once
+        setTimeout(async () => { let done = false; try { done = sessionStorage.getItem('mw.reset') === m.build_id; } catch (_) { /* private mode */ }
+          if (done || reloaded || S.phase === 'play' || S.phase === 'switch') return;
+          try { sessionStorage.setItem('mw.reset', m.build_id); } catch (_) { /* private mode */ }
+          for (const r of await navigator.serviceWorker.getRegistrations()) await r.unregister();
+          for (const k of await caches.keys()) await caches.delete(k);
+          location.reload(); }, 25000); }
     }).catch(() => {});
   }
   const H = Object.fromEntries(location.hash.replace(/^#/, '').split('&').filter(Boolean).map((kv) => { const [k, v] = kv.split('='); return [decodeURIComponent(k), v === undefined ? '' : decodeURIComponent(v)]; }));
