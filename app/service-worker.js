@@ -1,6 +1,6 @@
 /* SI disclosure: generated with the help of an AI coding assistant (Claude, Anthropic) from the team's plan; reviewed by the team. See SI_DISCLOSURE.md. */
 /* Versioned offline cache. "Offline ready" is reported only after every listed asset is in the cache. */
-importScripts('precache.js');
+importScripts('precache.js' + self.location.search);   // ?build=<id> so a new build never reads a stale list
 const CACHE = 'mec-' + self.MEC_BUILD;
 const ASSETS = self.MEC_ASSETS.concat(['precache.js', 'service-worker.js']);
 
@@ -25,6 +25,10 @@ self.addEventListener('activate', (event) => {
 
 self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
+  if (new URL(event.request.url).searchParams.has('version-check')) {   // always ask the network for the newest build id
+    event.respondWith(fetch(event.request, { cache: 'no-store' }));
+    return;
+  }
   event.respondWith((async () => {
     const cache = await caches.open(CACHE);
     const hit = await cache.match(event.request, { ignoreSearch: true });

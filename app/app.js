@@ -739,11 +739,19 @@
       badge.onclick = () => location.reload();
       badge.onkeydown = (e) => { if (e.key === 'Enter' || e.key === ' ') location.reload(); };
     });
-    navigator.serviceWorker.register('service-worker.js').then(() => navigator.serviceWorker.ready).then((reg) => {
+    const swUrl = (id) => `service-worker.js?build=${encodeURIComponent(id)}`;
+    navigator.serviceWorker.register(swUrl(D.manifest.build_id), { updateViaCache: 'none' }).then(() => navigator.serviceWorker.ready).then((reg) => {
+      // Ask the network (bypassing the offline cache) whether a newer build is published; if so, install it now.
+      fetch(`data/manifest.json?version-check=${Date.now()}`, { cache: 'no-store' }).then((r) => r.json()).then((m) => {
+        if (m.build_id && m.build_id !== D.manifest.build_id) {
+          setBadge('Downloading update…', 'warn', `Newer build ${m.build_id} is being cached`);
+          navigator.serviceWorker.register(swUrl(m.build_id), { updateViaCache: 'none' });
+        }
+      }).catch(() => { /* offline: keep using the cached build */ });
       const ask = () => (navigator.serviceWorker.controller || reg.active).postMessage({ type: 'status' });
       navigator.serviceWorker.addEventListener('message', (e) => {
         if (e.data?.type !== 'status') return;
-        if (badge.textContent.startsWith('Update ready')) return;
+        if (badge.textContent.startsWith('Update ready') || badge.textContent.startsWith('Downloading')) return;
         if (e.data.ready && e.data.build === D.manifest.build_id) setBadge('Offline ready ✓', 'ok', `${e.data.cached}/${e.data.total} files cached & verified for build ${e.data.build}`);
         else { setBadge(`Caching ${e.data.cached}/${e.data.total}`, 'warn', 'Not all files are cached yet'); setTimeout(ask, 1500); }
       });
