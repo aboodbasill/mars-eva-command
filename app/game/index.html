@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Marswalk 1 — Field Simulator</title>
+<meta name="description" content="Walk a real Jezero Crater EVA in 3D on NASA HiRISE terrain: manage oxygen, power and cooling, document Perseverance sample sites and get home safely.">
+<meta name="si-disclosure" content="SI disclosure: generated with the help of an AI coding assistant (Claude, Anthropic) from the team's plan; reviewed by the team. See SI_DISCLOSURE.md.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Ccircle cx=%2216%22 cy=%2216%22 r=%2214%22 fill=%22%23c1440e%22/%3E%3C/svg%3E">
+<link rel="stylesheet" href="game.css">
+</head>
+<body>
+<canvas id="view" aria-label="3D view of Jezero Crater"></canvas>
+<div id="visor" aria-hidden="true"></div>
+<div id="crosshair" aria-hidden="true"></div>
+
+<!-- ============ HUD ============ -->
+<div id="hud" class="hidden">
+  <div class="hud-tl glass">
+    <div class="clock"><span id="h-ltst">--:--</span><small>LTST</small></div>
+    <div class="clock-sub"><span id="h-sol">Sol —</span> · <span id="h-eva">EVA 00:00</span></div>
+    <div class="clock-sub"><span id="h-sun">☀ —</span></div>
+    <button id="h-speed" class="chip" title="Time speed (T)">×30</button>
+  </div>
+
+  <div class="hud-compass glass" aria-label="Compass">
+    <div class="tape" id="tape"></div>
+    <div class="needle"></div>
+    <div class="target" id="h-target">—</div>
+  </div>
+
+  <div class="hud-tr">
+    <button class="hbtn" id="b-map" title="Map, data & predictions (M)"><span>🗺</span><b>Map</b></button>
+    <button class="hbtn" id="b-view" title="1st / 3rd person (V)"><span>👁</span><b>View</b></button>
+    <button class="hbtn" id="b-help" title="Help (H)"><span>?</span><b>Help</b></button>
+    <button class="hbtn" id="b-pause" title="Pause (P)"><span>❚❚</span><b>Pause</b></button>
+  </div>
+
+  <div class="hud-left glass" id="res" aria-label="Life support"></div>
+
+  <div class="hud-right glass">
+    <h4>Objectives</h4>
+    <ol id="objectives"></ol>
+    <div class="score">Science <b id="h-score">0</b></div>
+  </div>
+
+  <div class="hud-bottom">
+    <div id="alerts"></div>
+    <div id="prompt" class="hidden"></div>
+    <div class="status glass">
+      <div><small>Return margin</small><b id="h-margin">—</b></div>
+      <div><small>Walk home</small><b id="h-home">—</b></div>
+      <div><small>Slope</small><b id="h-slope">—</b></div>
+      <div><small>Speed</small><b id="h-speedv">—</b></div>
+      <div><small>Terrain data</small><b id="h-src">—</b></div>
+    </div>
+  </div>
+
+  <!-- touch controls -->
+  <div id="stick" class="touch-only"><div id="knob"></div></div>
+  <div class="touch-buttons touch-only">
+    <button class="tbtn" id="t-jump">Jump</button>
+    <button class="tbtn" id="t-run">Run</button>
+    <button class="tbtn big" id="t-act">Use</button>
+  </div>
+</div>
+
+<!-- ============ START SCREEN ============ -->
+<section id="start" class="screen">
+  <div class="start-card glass">
+    <div class="kicker">NASA Space Apps 2026 · Interplanetary Survival Guide: Martian Map</div>
+    <h1>Marswalk 1 <span>Field Simulator</span></h1>
+    <p class="lead">Walk a real route on <b>Jezero Crater</b> terrain measured by NASA's HiRISE camera. Document four outcrops Perseverance sampled, inspect the Three Forks sample depot, and get home before your suit runs out.</p>
+    <div class="form">
+      <label>Earth date (UTC)<input type="date" id="s-date"></label>
+      <label>Depart (Mars local time)<select id="s-dep"></select></label>
+      <label>Suit slope limit<select id="s-theta"><option value="15">15° (cautious)</option><option value="20" selected>20° (NASA suit spec)</option><option value="25">25° (aggressive)</option></select></label>
+      <label>Time speed<select id="s-speed"><option value="1">×1 real time</option><option value="10">×10</option><option value="30" selected>×30</option><option value="60">×60</option></select></label>
+      <label class="chk"><input type="checkbox" id="s-rover" checked> Backup rover parked at the best stop</label>
+    </div>
+    <div id="s-forecast" class="forecast"></div>
+    <div class="actions">
+      <button class="btn primary" id="s-go">Start EVA</button>
+      <button class="btn" id="s-help">Controls</button>
+      <a class="btn" href="../">Open planner</a>
+    </div>
+    <p class="fine">Terrain, slopes, sample sites, depot tubes, weather and space weather are real NASA/USGS data. Suit consumption rates and the rocks scattered near you are game assumptions; this is a training demonstration, not a certified plan.</p>
+  </div>
+</section>
+
+<!-- ============ MAP / DATA ============ -->
+<section id="mapview" class="screen hidden" role="dialog" aria-label="Map, conditions and predictions">
+  <div class="map-wrap glass">
+    <canvas id="map"></canvas>
+    <div class="map-legend" id="map-legend"></div>
+    <div class="map-tools">
+      <button class="chip" id="m-center">Center on me</button>
+      <button class="chip" id="m-clear">Clear waypoint</button>
+      <span class="hint">Click/tap the map to set a waypoint · scroll/pinch to zoom · drag to pan</span>
+    </div>
+  </div>
+  <aside class="map-side glass">
+    <div class="tabs" role="tablist">
+      <button role="tab" data-tab="pred" aria-selected="true">Predictions</button>
+      <button role="tab" data-tab="cond" aria-selected="false">Conditions</button>
+      <button role="tab" data-tab="sci" aria-selected="false">Science</button>
+      <button role="tab" data-tab="data" aria-selected="false">Data</button>
+    </div>
+    <div id="tab-body"></div>
+    <button class="btn primary close" id="m-close">Back to EVA (M)</button>
+  </aside>
+</section>
+
+<!-- ============ MODALS ============ -->
+<section id="modal" class="screen hidden" role="dialog" aria-modal="true">
+  <div class="modal-card glass">
+    <div id="modal-body"></div>
+    <div class="actions" id="modal-actions"></div>
+  </div>
+</section>
+
+<div id="loading" class="screen"><div class="spinner"></div><div id="load-msg">Loading Jezero terrain…</div></div>
+
+<script src="../lib/three.min.js"></script>
+<script src="../mars24.js"></script>
+<script src="../data/bundle.js"></script>
+<script src="../data/grids.js"></script>
+<script src="game.js"></script>
+</body>
+</html>

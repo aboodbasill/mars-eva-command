@@ -75,6 +75,20 @@ PROV = {1: ('#3fb6c4', 'Derived, high-res (HiRISE 1 m DTM)'), 2: ('#f2a541', 'De
 BUDGET_COL = {500: '#9be7ff', 1000: '#4cc9f0', 2000: '#4361ee', 10000: '#7209b7'}
 
 
+def coarsen2(f):
+    """10 m version of a 5 m distance field: max of each 2x2 block (conservative), unreachable only if all 4 are."""
+    H, W = (f.shape[0] // 2) * 2, (f.shape[1] // 2) * 2
+    b = f[:H, :W].reshape(H // 2, 2, W // 2, 2)
+    fin = np.where(np.isfinite(b), b, -np.inf).max(axis=(1, 3))
+    return np.where(np.isfinite(fin), fin, np.inf)
+
+
+def u16grid(f, factor=1, units='m'):
+    q = np.where(np.isfinite(f), np.clip(np.round(f), 0, 65534), 65535).astype('<u2')
+    return {'dtype': 'uint16', 'scale': 1.0, 'nodata': 65535, 'units': units, 'factor': factor,
+            'ncols': int(q.shape[1]), 'nrows': int(q.shape[0]), 'b64': b64(q)}
+
+
 def b64(arr):
     return base64.b64encode(np.ascontiguousarray(arr).tobytes()).decode()
 
@@ -236,14 +250,32 @@ def main():
         save_png(f'walkback_{th}.png', rgba)
         w['file'] = f'walkback_{th}.png'
         w['bounds'] = full_bounds
-        q = np.where(np.isfinite(f), np.clip(np.round(f), 0, 65534), 65535).astype('<u2')
-        grids[f'walkback_{th}'] = {'dtype': 'uint16', 'scale': 1.0, 'nodata': 65535, 'units': 'equivalent-flat m', 'b64': b64(q)}
+        grids[f'walkback_{th}'] = u16grid(coarsen2(f.astype(float)), 2, 'equivalent-flat m')
         fp = np.load(os.path.join(INTER, f'walkback_phys_{th}.npy'))
-        qp = np.where(np.isfinite(fp), np.clip(np.round(fp), 0, 65534), 65535).astype('<u2')
-        grids[f'walkback_phys_{th}'] = {'dtype': 'uint16', 'scale': 1.0, 'nodata': 65535, 'units': 'm', 'b64': b64(qp)}
+        grids[f'walkback_phys_{th}'] = u16grid(coarsen2(fp.astype(float)), 2)
     for w in walk:
         w['budget_colors'] = {str(k): v for k, v in BUDGET_COL.items()}
     write_json(os.path.join(APPDATA, 'walkback_local.json'), walk)
+
+    # ---- backup-rover safe-haven fields (merged from Marswalk Planner v4.1) ----
+    rover = read_json(os.path.join(INTER, 'rover.json')) if os.path.exists(os.path.join(INTER, 'rover.json')) else None
+    if rover:
+        for th_s in rover['scenarios']:
+            th = int(float(th_s))
+            f = np.load(os.path.join(INTER, f'haven_phys_{th}.npy'))
+            grids[f'haven_phys_{th}'] = u16grid(coarsen2(f.astype(float)), 2)
+
+    # ---- game terrain texture: HiRISE ortho, false-colour Mars tint x hillshade, <= 4096 px wide ----
+    ho = load('ortho_hirise_1m.tif').astype(float)
+    hs1 = load('hillshade_1m.tif')
+    w = 4096
+    h = int(round(ho.shape[0] * w / ho.shape[1]))
+    gray = np.asarray(Image.fromarray(np.nan_to_num(stretch(np.where(ho > 0, ho, np.nan)), nan=0).astype(np.uint8)).resize((w, h), Image.LANCZOS), float) / 255
+    shade = np.asarray(Image.fromarray((np.nan_to_num(hs1, nan=0.5) * 255).astype(np.uint8)).resize((w, h), Image.BILINEAR), float) / 255
+    stops_c = np.array([[0.0, 58, 34, 22], [0.45, 150, 88, 52], [0.75, 205, 140, 92], [1.0, 238, 205, 165]])
+    rgb = np.stack([np.interp(gray, stops_c[:, 0], stops_c[:, k]) for k in (1, 2, 3)], -1)
+    rgb *= (0.78 + 0.35 * shade)[..., None]
+    Image.fromarray(np.clip(rgb, 0, 255).astype(np.uint8), 'RGB').save(os.path.join(APPDATA, 'game_terrain.jpg'), quality=84, optimize=True)
 
     # ---- compact readout grids (5 m) ----
     sq = np.where(np.isfinite(s5), np.clip(np.round(s5 * 4), 0, 254), 255).astype(np.uint8)
@@ -339,7 +371,8 @@ def main():
     validation = read_json(os.path.join(INTER, 'validation.json'))
     env = read_json(os.path.join(META, 'environment_meda.json')) if os.path.exists(os.path.join(META, 'environment_meda.json')) else None
     ctx = read_json(os.path.join(META, 'environment_context.json'))
-    environment = {'meda': env, 'context': ctx}
+    swx_p = os.path.join(META, 'spaceweather.json')
+    environment = {'meda': env, 'context': ctx, 'spaceweather': read_json(swx_p) if os.path.exists(swx_p) else None}
     write_json(os.path.join(APPDATA, 'layers.json'), layers)
     write_json(os.path.join(APPDATA, 'routes_local.json'), routes)
     write_json(os.path.join(APPDATA, 'stations_local.json'), stations)
@@ -357,7 +390,7 @@ def main():
     for f in sorted(os.listdir(APPDATA)):
         if f not in ('bundle.js', 'manifest.json'):
             h.update(f.encode()); h.update(sha256(os.path.join(APPDATA, f)).encode())
-    for f in ('index.html', 'app.js', 'style.css', 'service-worker.js'):
+    for f in ('index.html', 'app.js', 'style.css', 'service-worker.js', 'mars24.js', 'game/index.html', 'game/game.js', 'game/game.css'):
         h.update(sha256(os.path.join(ROOT, 'app', f)).encode())
     h.update(json.dumps([layers, routes, stations, rec['model'], ASSUMPTIONS], sort_keys=True, default=str).encode())
     bid = 'mec-' + h.hexdigest()[:12]
@@ -379,9 +412,9 @@ def main():
         'si_acknowledgement': cfg['si_acknowledgement'],
     }
     pov = read_json(os.path.join(META, 'pov.json')) if os.path.exists(os.path.join(META, 'pov.json')) else {}
-    bundle = {'manifest': manifest, 'pov': pov, 'depot_tubes': depot_tubes, 'layers': layers, 'routes': routes, 'stations': stations, 'profiles': profiles,
+    bundle = {'manifest': manifest, 'pov': pov, 'depot_tubes': depot_tubes, 'rover': rover, 'layers': layers, 'routes': routes, 'stations': stations, 'profiles': profiles,
               'walkback': walk, 'environment': environment, 'validation': validation, 'recon': rec,
-              'geology': read_json(os.path.join(APPDATA, 'geology_local.json')), 'rover': read_json(os.path.join(APPDATA, 'rover_local.json'))}
+              'geology': read_json(os.path.join(APPDATA, 'geology_local.json')), 'rover_track': read_json(os.path.join(APPDATA, 'rover_local.json'))}
     with open(os.path.join(APPDATA, 'bundle.js'), 'w') as fh:
         fh.write('window.MEC_DATA=' + json.dumps(bundle, separators=(',', ':'), allow_nan=False) + ';\n')
     files = sorted(f for f in os.listdir(APPDATA) if f != 'manifest.json')
@@ -390,7 +423,8 @@ def main():
     write_json(os.path.join(APPDATA, 'manifest.json'), manifest)
     # asset list for the service worker (versioned by build id)
     app_root = os.path.join(ROOT, 'app')
-    static = ['./', 'index.html', 'app.js', 'style.css', 'lib/leaflet.min.js', 'lib/leaflet.min.css', 'lib/chart.umd.min.js']
+    static = ['./', 'index.html', 'app.js', 'style.css', 'mars24.js', 'lib/leaflet.min.js', 'lib/leaflet.min.css', 'lib/chart.umd.min.js',
+              'lib/three.min.js', 'game/', 'game/index.html', 'game/game.js', 'game/game.css']
     with open(os.path.join(app_root, 'precache.js'), 'w') as fh:
         fh.write(f"self.MEC_BUILD={json.dumps(bid)};\nself.MEC_ASSETS={json.dumps(static + ['data/' + f for f in files] + ['data/manifest.json'])};\n")
     print('exported', len(files), 'files,', round(manifest['total_bytes'] / 1e6, 2), 'MB; build', bid)

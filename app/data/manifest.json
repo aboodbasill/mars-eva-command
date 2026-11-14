@@ -1,7 +1,7 @@
 {
  "schema_version": "1.0.0",
- "build_id": "mec-689f77ed1160",
- "built_utc": "2026-11-14T04:46:01+00:00",
+ "build_id": "mec-8381a145641c",
+ "built_utc": "2026-11-14T09:23:19+00:00",
  "mission": {
   "id": "marswalk-1",
   "name": "Marswalk 1",
@@ -289,8 +289,8 @@
  "assets": [
   {
    "file": "bundle.js",
-   "bytes": 661474,
-   "sha256": "c7cceafee1bd1a531680975b8b6b58108eb58ebaa9ae4f6aa02caffcda6d7d76"
+   "bytes": 665109,
+   "sha256": "e481b04a2dd4756151793ea05f95b8ec4d3fd7148732e3ed4fcf9bc57a4afa7f"
   },
   {
    "file": "chip_D1.jpg",
@@ -329,8 +329,13 @@
   },
   {
    "file": "environment.json",
-   "bytes": 211815,
-   "sha256": "85ea811a9cbbe7fdf2d397997162e727b989d7b4babddeb24ec801ff36c4d70b"
+   "bytes": 215200,
+   "sha256": "75a4cd1db731a60051488640fdd420b49c538d3ac48cb13146ea17b9acfcfd73"
+  },
+  {
+   "file": "game_terrain.jpg",
+   "bytes": 2197755,
+   "sha256": "48b8d8b8093969ad3ab1976fcee7accab7b0fb41632f75de9d248f8b938b9e44"
   },
   {
    "file": "geology_local.json",
@@ -339,8 +344,8 @@
   },
   {
    "file": "grids.js",
-   "bytes": 12014498,
-   "sha256": "96c71cbb70a28d79b0fbd73470c3fb1c2cc44613031976fec6e87fe4bc35c632"
+   "bytes": 6386582,
+   "sha256": "eb4796a76e2a6ea5ccee9853ff2678da0069a4291584b88da40fa9c1999e12b2"
   },
   {
    "file": "hillshade_1m.jpg",
@@ -445,7 +450,7 @@
   {
    "file": "validation.json",
    "bytes": 8702,
-   "sha256": "224596112636587cf4292ad8bf91c4e753c8a4cb700937e8f0f6b00197e1ab0a"
+   "sha256": "0a5bbcfd7a48890f3b2efc2dda6c3393a961129c00293c46f10f1c6937424a81"
   },
   {
    "file": "walkback_15.png",
@@ -468,5 +473,5 @@
    "sha256": "edc8b420e747b1752b34d84e3e47759fb872bc739cb72c336310d061f855542c"
   }
  ],
- "total_bytes": 19590923
+ "total_bytes": 16167782
 }

@@ -7497,5 +7497,107 @@
     "Planetary-protection zones (no authoritative map in this build)."
    ]
   }
- ]
+ ],
+ "spaceweather": {
+  "source": "NASA CCMC DONKI via api.nasa.gov (WSA-ENLIL simulations, CME, FLR, SEP)",
+  "fetched_utc": "2026-11-14T09:02:32+00:00",
+  "window": [
+   "2026-10-15",
+   "2026-11-14"
+  ],
+  "cme_count": 86,
+  "cme_mars": [
+   {
+    "arrival_utc": "2026-10-27T12:00Z",
+    "glancing_blow": false,
+    "minor_impact": true,
+    "cme_start_utc": "2026-10-23T04:18Z",
+    "speed_km_s": 597.0,
+    "cme_id": "2026-10-23T04:18:00-CME-001",
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/WSA-ENLIL/49216/-1"
+   },
+   {
+    "arrival_utc": "2026-10-30T18:00Z",
+    "glancing_blow": true,
+    "minor_impact": false,
+    "cme_start_utc": "2026-10-26T09:48Z",
+    "speed_km_s": 681.0,
+    "cme_id": "2026-10-26T09:48:00-CME-001",
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/WSA-ENLIL/49252/-1"
+   },
+   {
+    "arrival_utc": "2026-10-30T18:00Z",
+    "glancing_blow": false,
+    "minor_impact": true,
+    "cme_start_utc": "2026-10-26T09:00Z",
+    "speed_km_s": 873.0,
+    "cme_id": "2026-10-26T09:00:00-CME-001",
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/WSA-ENLIL/49259/-1"
+   },
+   {
+    "arrival_utc": "2026-10-31T11:00Z",
+    "glancing_blow": false,
+    "minor_impact": true,
+    "cme_start_utc": "2026-10-26T18:48Z",
+    "speed_km_s": 616.0,
+    "cme_id": "2026-10-26T18:48:00-CME-001",
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/WSA-ENLIL/49280/-1"
+   },
+   {
+    "arrival_utc": "2026-11-01T01:00Z",
+    "glancing_blow": false,
+    "minor_impact": true,
+    "cme_start_utc": "2026-10-25T19:24Z",
+    "speed_km_s": 275.0,
+    "cme_id": "2026-10-25T19:24:00-CME-001",
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/WSA-ENLIL/49248/-1"
+   },
+   {
+    "arrival_utc": "2026-11-01T02:00Z",
+    "glancing_blow": false,
+    "minor_impact": true,
+    "cme_start_utc": "2026-10-26T01:26Z",
+    "speed_km_s": 285.0,
+    "cme_id": "2026-10-26T01:26:00-CME-001",
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/WSA-ENLIL/49274/-1"
+   },
+   {
+    "arrival_utc": "2026-11-04T08:00Z",
+    "glancing_blow": false,
+    "minor_impact": true,
+    "cme_start_utc": "2026-10-29T10:36Z",
+    "speed_km_s": 287.0,
+    "cme_id": "2026-10-29T10:36:00-CME-001",
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/WSA-ENLIL/49326/-1"
+   },
+   {
+    "arrival_utc": "2026-11-07T06:00Z",
+    "glancing_blow": true,
+    "minor_impact": false,
+    "cme_start_utc": "2026-11-01T19:00Z",
+    "speed_km_s": 357.0,
+    "cme_id": "2026-11-01T19:00:00-CME-001",
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/WSA-ENLIL/49360/-1"
+   },
+   {
+    "arrival_utc": "2026-11-13T12:00Z",
+    "glancing_blow": true,
+    "minor_impact": false,
+    "cme_start_utc": "2026-11-09T18:15Z",
+    "speed_km_s": 726.0,
+    "cme_id": "2026-11-09T18:15:00-CME-001",
+    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/WSA-ENLIL/49473/-1"
+   }
+  ],
+  "flares": null,
+  "sep": null,
+  "endpoint_status": {
+   "WSAEnlilSimulations": "cached response fetched 2026-11-14T09:02:16+00:00 (live request failed: HTTP 429)",
+   "CME": "cached response fetched 2026-11-14T09:02:16+00:00 (live request failed: HTTP 429)",
+   "FLR": "HTTP 429",
+   "SEP": "HTTP 429"
+  },
+  "rule": "A CME predicted to arrive at Mars within 24 h of the EVA is flagged (raises particle radiation, can disturb radio). WSA-ENLIL arrival-time errors are typically several hours.",
+  "evidence_class": "scientific_model_estimate"
+ }
 }

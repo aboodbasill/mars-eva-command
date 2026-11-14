@@ -37,6 +37,9 @@ Mars Trek is a global and regional viewer, and the challenge text says so. We ad
 ### "Why Jezero, and why these stops?"
 It is the best-mapped human-scale terrain on Mars: 1 m terrain, 25 cm images, a USGS geologic map, and years of rover ground truth. The stops are four outcrops Perseverance actually sampled (Herd et al. 2025, PNAS), tied to NASEM objectives 1 (life and habitability) and 3 (geologic record). The depot holds the paired samples from three of them. The tube positions come from the PDS depot archive.
 
+### "Is the game just decoration?"
+No. It runs on the same data as the planner: real HiRISE heights, our slope grid, the cost-to-home fields, the real stop and tube positions, the Mars24 sun for the chosen date, MEDA temperatures and DONKI CMEs. It turns the plan into a rehearsal: the return margin you see while walking is computed from the same fields as the planner's Go / No-go. Suit consumption rates are declared assumptions.
+
 ### "What would you do next?"
 - Mars-specific suit mobility data instead of lunar slope limits.
 - A time and consumables model.

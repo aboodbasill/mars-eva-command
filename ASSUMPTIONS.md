@@ -21,9 +21,22 @@ The same register ships inside the app (Data & Limits) from `pipeline/09_export.
 | V-02 | LIMITED | Imagery dates: the USGS metadata gives a content period of 2006–2020. Source images are HiRISE PSP_002387 … ESP_048908 and CTX F05_037607 … J22_053233, all listed in the product XML. Per-image dates can be looked up by these IDs in PDS. |
 | V-03 | CONFIRMED (partly) | Challenge "Interplanetary Survival Guide: Martian Map". Two Resources-tab items are used (USGS-NASA Planetary Geologic Mapping Program; Perseverance Raw Images). Per the 2026 guide, submission closes Sun 15 Nov 23:59 local event time. **Still to confirm: your Local Lead's own cutoff.** |
 
+## Simulator (game) assumptions
+
+| ID | Label | Statement |
+|---|---|---|
+| G-01 | ASSUMPTION | Life support sized for about 8.5 h at a 300 W average work rate (O₂, CO₂ scrubber about 9 h, cooling water). Power covers avionics, fans and heaters, and heaters draw more below 245 K. |
+| G-02 | ASSUMPTION | Walking pace follows the Apollo-based model (2.7 km/h flat, 1.7 at 10° uphill, 1.2 at 20°). Return-time estimates use a 2.4 km/h average plus 15 min for the airlock. |
+| G-03 | ASSUMPTION | The backup rover is unpressurised (Artemis LTV-style), drives at up to 15 km/h on slopes up to 25°, and recharges consumables while you are seated. |
+| G-04 | ASSUMPTION | The radiation dose uses the Gale RAD reference rate, ×3 within 24 h of a predicted CME. This is a game model, not a dose forecast. |
+| G-05 | LIMITED | Boulders near the player are illustrative (denser on steeper cells). The DTM cannot resolve rocks smaller than about 1–2 m. |
+| G-06 | LIMITED | The terrain colour is a false-colour tint of the grayscale HiRISE orthomosaic. |
+| G-07 | ASSUMPTION | Distance-to-home fields are stored at 10 m, taking the maximum of each 2×2 block of 5 m cells (conservative). |
+
 ## Findings recorded during the build
 
 - The MEDA `DER_ANCILLARY` column `SOLAR_LONGITUDE_ANGLE` is defined in its PDS4 label as **solar azimuth** in the rover frame. It is not Ls. Ls is computed from label UTC times instead (Allison & McEwen 2000, which reproduces the paper's worked example to 0.001°).
 - A unit test caught Horn's kernel assigning slope 0 to a void centre cell. Fixed: voids are never flat.
+- The first JS Mars24 port had a solar-azimuth sign error (noon pointed north). A unit test caught it, and it is fixed. v4.1 reports the same class of bug.
 - MEDA barocap 1 and barocap 2 differ by a median of about 9.4 Pa on every processed sol. This is disclosed on the data card.
 - Median HiRISE − CTX in this AOI is −1.31 m (USGS product-wide figure: about −0.4 m). A local AOI can legitimately differ.

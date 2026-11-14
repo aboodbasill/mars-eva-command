@@ -31,7 +31,7 @@
     const u8 = new Uint8Array(bin.length);
     for (let i = 0; i < bin.length; i++) u8[i] = bin.charCodeAt(i);
     const arr = g.dtype === 'uint16' ? new Uint16Array(u8.buffer) : u8;
-    return { arr, scale: g.scale, offset: g.offset || 0, nodata: g.nodata, units: g.units };
+    return { arr, scale: g.scale, offset: g.offset || 0, nodata: g.nodata, units: g.units, factor: g.factor || 1, ncols: g.ncols, nrows: g.nrows };
   }
   const grids = {};
   for (const [k, g] of Object.entries(G.grids)) grids[k] = decode(g);
@@ -39,7 +39,9 @@
   function cellValue(name, r, c) {
     const g = grids[name];
     if (!g || r < 0 || c < 0 || r >= g5.nrows || c >= g5.ncols) return null;
-    const v = g.arr[r * g5.ncols + c];
+    const f = g.factor, nc = g.ncols || g5.ncols, rr = Math.floor(r / f), cc = Math.floor(c / f);
+    if (rr >= (g.nrows || g5.nrows) || cc >= nc) return null;
+    const v = g.arr[rr * nc + cc];
     if (g.nodata !== null && v === g.nodata) return null;
     return v * g.scale + g.offset;
   }
@@ -84,8 +86,8 @@
       }
     } else if (l.kind === 'vector' && l.id === 'rover') {
       obj = L.layerGroup();
-      for (const s of D.rover.traverse) L.polyline(s.xy.map(yx), { pane: 'vectors', color: '#ffffff', weight: 2, opacity: 0.85, dashArray: '1 4' }).addTo(obj);
-      for (const w of D.rover.waypoints) L.circleMarker([w.y, w.x], { pane: 'vectors', radius: 2.5, color: '#fff', weight: 1, fillOpacity: 0.6 })
+      for (const s of D.rover_track.traverse) L.polyline(s.xy.map(yx), { pane: 'vectors', color: '#ffffff', weight: 2, opacity: 0.85, dashArray: '1 4' }).addTo(obj);
+      for (const w of D.rover_track.waypoints) L.circleMarker([w.y, w.x], { pane: 'vectors', radius: 2.5, color: '#fff', weight: 1, fillOpacity: 0.6 })
         .bindTooltip(`Perseverance waypoint · sol ${w.sol} · RMC ${esc(w.rmc)}<br>${w.lat.toFixed(5)}°N ${w.lon.toFixed(5)}°E`).addTo(obj);
     } else if (l.kind === 'vector' && l.id === 'depot_tubes') {
       obj = L.layerGroup();
@@ -163,7 +165,7 @@
   // ---------------------------------------------------------------- envelope (computed from the cost field)
   function envelopeCanvas(theta, budget) {
     const g = grids[`walkback_${Math.round(theta)}`];
-    const { ncols, nrows } = g5;
+    const ncols = g.ncols || g5.ncols, nrows = g.nrows || g5.nrows;
     const cv = document.createElement('canvas');
     cv.width = ncols; cv.height = nrows;
     const ctx = cv.getContext('2d');
@@ -470,6 +472,7 @@
         ${ex.length_m > 0 ? `<li>Finding: the full itinerary cannot stay within ${fmt(S.budget)} m-eq of the lander. Options: a closer hypothetical lander, a pressurised rover, or fewer stops.</li>` : ''}</ul>
         <div class="muted small">Weighted cost is not time, energy, oxygen or injury probability. Raw-profile ascent ${fmt(r.ascent_raw_m)} m shows DTM noise inflation.</div></div>`;
     }
+    h += goNoGoCard();
     h += `<h2>Scenario comparison</h2><table><thead><tr><th>θmax</th><th class="num">Length</th><th class="num">Cost</th><th class="num">Max°</th><th class="num">CTX</th><th class="num">Out ${fmt(S.budget / 1000, 1)}k</th></tr></thead><tbody>
       ${D.routes.map((x) => `<tr${x.theta_max_deg === S.theta ? ' style="color:var(--accent)"' : ''}><td>${x.theta_max_deg}°</td>${x.feasible
         ? `<td class="num">${fmt(x.length_m / 1000, 2)} km</td><td class="num">${fmt(x.weighted_cost / 1000, 2)}</td><td class="num">${fmt(x.max_slope_deg, 1)}</td><td class="num">${pct(x.ctx_only_fraction, 1)}</td><td class="num">${pct(x.budget_exceedance[String(S.budget)].fraction)}</td>`
@@ -479,7 +482,57 @@
     $('#right').innerHTML = h;
     bindCards();
   }
+  // ---- Go / No-go for a planned EVA (merged from Marswalk Planner v4.1: daylight via Mars24, backup rover, DONKI)
+  const GN = { date: new Date().toISOString().slice(0, 10), dep: 8, rover: false, stopMin: 25 };
+  const paceKmh = (g) => g <= 3 ? 2.7 : g <= 10 ? 2.7 + (1.7 - 2.7) * (g - 3) / 7 : 1.7 + (1.2 - 1.7) * Math.min(1.5, (g - 10) / 10);
+  function plannedWalkH(r) {
+    const p = D.profiles.profiles[r.scenario_id]; let hrs = 0;
+    for (let i = 10; i < p.distance_m.length; i += 10) { const dd = p.distance_m[i] - p.distance_m[i - 10], dz = p.elevation_smoothed_m[i] - p.elevation_smoothed_m[i - 10]; hrs += dd / 1000 / paceKmh(Math.atan2(dz, dd) * 180 / Math.PI); }
+    return hrs;
+  }
+  function goNoGo() {
+    const r = route(); if (!r || !r.feasible || !window.Mars24) return null;
+    const M24 = window.Mars24, sol = M24.at(new Date(GN.date + 'T12:00:00Z')).sol, t0 = M24.utcForLtst(sol, GN.dep), st = M24.at(t0), sun = M24.sunTimes(t0);
+    const walkH = plannedWalkH(r), nStops = r.station_order.length - 2, evaH = walkH + nStops * GN.stopMin / 60 + 0.5, back = GN.dep + evaH;
+    const rv = D.rover?.scenarios?.[S.theta.toFixed(1)];
+    const worstHome = GN.rover && rv ? rv.max_walkhome_with_rover_eq_m : r.max_return_cost_eq_m;
+    const cmes = (D.environment.spaceweather?.cme_mars || []).filter((c) => { const a = new Date(c.arrival_utc).getTime(); return a >= t0.getTime() - 24 * 3600e3 && a <= t0.getTime() + (evaH + 24) * 3600e3; });
+    const issues = []; let lvl = 'go';
+    const add = (l, t) => { issues.push([l, t]); if (l === 'nogo') lvl = 'nogo'; else if (lvl === 'go') lvl = 'cond'; };
+    if (sun.sunsetLtst !== null && back > sun.sunsetLtst) add('nogo', `Back at ${M24.fmtH(back)}, after sunset (${M24.fmtH(sun.sunsetLtst)}).`);
+    else if (sun.sunsetLtst !== null && back > sun.sunsetLtst - 1) add('cond', 'Less than 1 h of daylight to spare.');
+    if (worstHome > S.budget) add('cond', `Worst walk home along the route ${fmt(worstHome)} m-eq exceeds the ${fmt(S.budget)} m-eq budget${GN.rover ? ' even with the rover' : ' (try the backup rover)'}.`);
+    if (evaH > 8) add('cond', `EVA ${fmt(evaH, 1)} h exceeds the 8 h suit requirement.`);
+    if (r.max_slope_deg > S.theta - 1) add('cond', `Steepest ground ${fmt(r.max_slope_deg, 1)}° is within 1° of the ${S.theta}° limit.`);
+    if (st.dustSeason) add('cond', 'Dust-storm season (Ls 180–360°).');
+    if (cmes.length) add('cond', `${cmes.length} CME(s) predicted at Mars within 24 h of the EVA (NASA DONKI).`);
+    return { st, sun, walkH, evaH, back, worstHome, rv, cmes, issues, lvl };
+  }
+  function goNoGoCard() {
+    const g = goNoGo(); if (!g) return '';
+    const M24 = window.Mars24, txt = { go: 'GO', cond: 'CONDITIONAL', nogo: 'NO-GO' }[g.lvl];
+    return `<h2>Go / No-go ${LABEL('ASSUMPTION')}</h2><div class="card">
+      <div class="gn-inputs"><label>Earth date<input type="date" id="gn-date" value="${GN.date}"></label>
+        <label>Depart (LTST)<select id="gn-dep">${Array.from({ length: 20 }, (_, i) => 6 + i * 0.5).map((h) => `<option value="${h}" ${h === GN.dep ? 'selected' : ''}>${M24.fmtH(h)}</option>`).join('')}</select></label>
+        <label style="flex-direction:row;align-items:center;gap:6px;color:var(--text)"><input type="checkbox" id="gn-rover" ${GN.rover ? 'checked' : ''}> Backup rover${g.rv ? ` at ${esc(g.rv.park_stop)}` : ''}</label></div>
+      <div class="gonogo ${g.lvl}">${txt}</div>
+      ${g.issues.length ? `<ul class="warn-list small">${g.issues.map(([l, t]) => `<li style="color:${l === 'nogo' ? 'var(--bad)' : 'var(--warn)'}">${esc(t)}</li>`).join('')}</ul>` : '<p class="small muted">No warnings.</p>'}
+      <dl class="kv small"><dt>Sol / season</dt><dd>${g.st.sol} · Ls ${fmt(g.st.Ls, 1)}° ${esc(g.st.season)}</dd>
+        <dt>Sunrise / sunset</dt><dd>${M24.fmtH(g.sun.sunriseLtst)} / ${M24.fmtH(g.sun.sunsetLtst)} LTST</dd>
+        <dt>Walking time (Apollo pace)</dt><dd>${fmt(g.walkH, 1)} h</dd><dt>EVA total</dt><dd>${fmt(g.evaH, 1)} h → back ${M24.fmtH(g.back)}</dd>
+        <dt>Worst walk home</dt><dd>${fmt(g.worstHome)} m-eq${g.rv ? ` (rover: ${fmt(g.rv.max_walkhome_with_rover_eq_m)})` : ''}</dd>
+        <dt>Radio delay</dt><dd>${fmt(g.st.lightMin, 1)} min</dd><dt>CMEs near EVA (DONKI)</dt><dd>${g.cmes.length}</dd></dl>
+      <div class="small muted">Sun: Mars24 (validated to ±5 s against MEDA labels). Pace and stop times are assumptions; the 8 h limit is NASA's suit requirement.</div>
+      <a class="btn play-btn" style="margin-top:8px" href="game/">🎮 Walk this EVA in 3D</a></div>`;
+  }
+  function bindGoNoGo() {
+    const d = $('#gn-date'); if (!d) return;
+    d.onchange = () => { GN.date = d.value; renderEVA(); };
+    $('#gn-dep').onchange = (e) => { GN.dep = +e.target.value; renderEVA(); };
+    $('#gn-rover').onchange = (e) => { GN.rover = e.target.checked; renderEVA(); };
+  }
   function bindCards() {
+    bindGoNoGo();
     $('#right').querySelectorAll('.station-head').forEach((el) => el.addEventListener('click', () => selectStation(el.dataset.sid)));
     $('#right').querySelectorAll('img[data-chip]').forEach((img) => img.addEventListener('click', () => showChip(img.dataset.chip)));
   }

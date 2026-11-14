@@ -1,6 +1,6 @@
 # Validation log — build `mec-bf4d58300dfa`
 
-Generated 2026-11-14T03:33:18+00:00 by `pipeline/08_validate.py`. All numbers below are measured from this build. Nothing was pre-filled.
+Generated 2026-11-14T09:23:14+00:00 by `pipeline/08_validate.py`. All numbers below are measured from this build. Nothing was pre-filled.
 
 ## 1. Projection
 
@@ -56,6 +56,6 @@ Generated 2026-11-14T03:33:18+00:00 by `pipeline/08_validate.py`. All numbers be
 
 ## 9. Unit tests
 
-- `python -m pytest -q tests` → 45 passed in 0.67s
+- `python -m pytest -q tests` → 45 passed in 0.88s
 
 **Overall pass: True**
