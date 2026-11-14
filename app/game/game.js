@@ -6,7 +6,9 @@
  * Coordinates: pipeline local metres x east / y north; Three.js X = x − x_lander, Z = −(y − y_lander), Y = up. */
 (function () {
   'use strict';
-  const D = window.MEC_DATA, G = window.MEC_GRIDS, M24 = window.Mars24, RT = window.MarsRoute, AU = window.SuitAudio;
+  const D = window.MEC_DATA, G = window.MEC_GRIDS, M24 = window.Mars24, RT = window.MarsRoute, HZ = window.MarsHazard;
+  const HZS = { audio: null };
+  const AU = Object.assign({}, window.SuitAudio, { start() { window.SuitAudio.start(); if (HZS.audio) HZS.audio.start(); } });
   const GA = D.game || {};
   const $ = (s) => document.querySelector(s);
   const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -71,7 +73,10 @@
   const PERS = GA.perseverance?.site || null;
 
   // ============================================================================================ settings & quality
-  const SET = { speed: store.get('speed', 30), gfx: store.get('gfx', 'auto'), view: store.get('view', 'tp'), sound: store.get('sound', true), guide: true };
+  const SET = { speed: store.get('speed', 30), gfx: store.get('gfx', 'auto'), view: store.get('view', 'tp'), sound: store.get('sound', true), guide: true,
+    alarmVol: store.get('alarmVol', 0.8), alarmMute: store.get('alarmMute', false), hzPreset: store.get('hzPreset', 0),
+    reduced: store.get('reduced', matchMedia('(prefers-reduced-motion: reduce)').matches) };
+  const HZ_PRESETS = [[50, 20, 5, 'Demo'], [80, 35, 10, 'Conservative'], [30, 12, 3, 'Minimal']];   // gameplay settings, not NASA safety distances
   const QUAL = {
     ultra: { step: 1, post: true, bloom: true, shadow: 4096, detail: true, rocksR: 120, pebbles: 1800, dust: 900, aa: 4, dpr: 1.5 },
     high: { step: 1, post: true, bloom: true, shadow: 2048, detail: true, rocksR: 90, pebbles: 1100, dust: 500, aa: 2, dpr: 1.25 },
@@ -108,6 +113,35 @@
     res: { o2: CAP.o2kg, co2: 0, h2o: CAP.h2okg, wh: CAP.wh, integ: 1, dose: 0 }, wAvg: PHYS.W_design, jumpW: 0, alertKey: '',
   };
   const PL = { start: null, dest: null, active: 'dest', dep: 9, plan: null };
+
+  // ============================================================================================ HAZARD SYSTEM (app/game/hazard.js)
+  const hzLevels = (i) => { const p = HZ_PRESETS[i] || HZ_PRESETS[0]; return { caution: p[0], warning: p[1], critical: p[2] }; };
+  const hazard = new HZ.HazardDetector({ slopeU8: grids.slope.u8, slopeScale: 0.25, slopeNodata: 255, provU8: grids.provenance.u8, elev, nc: NC, nr: NR, cell: CELL, x0: g5.x0, y0: g5.y0 },
+    { theta: S.theta, levels: hzLevels(SET.hzPreset) });
+  const alertMgr = new HZ.HazardAlertManager({ levels: hzLevels(SET.hzPreset) });
+  const hzAudio = HZS.audio = new HZ.HazardAudio({ volume: SET.alarmVol, muted: SET.alarmMute });
+  const hzHud = new HZ.HazardHUD($('#hz'), { reducedMotion: SET.reduced });
+  const HZRUN = { t: 0, list: [], state: null, msg: null };
+  function setHzLevels(L) { hazard.cfg.levels = L; alertMgr.cfg.levels = L; }
+  function hazardTick(dt, t) {
+    HZRUN.t += dt; const p = Lc(P.X, P.Z);
+    if (HZRUN.t >= 1 / HZ.CONFIG.queryHz) { HZRUN.t = 0; HZRUN.list = hazard.query(p.x, p.y); }        // spatial query at 5 Hz, not every frame
+    const yaw = S.mode === 'drive' ? P.rover.yaw : P.camYaw;
+    const st = alertMgr.update(HZRUN.list, dt, { heading: -yaw }); const msg = alertMgr.message(st, S.theta);
+    HZRUN.state = st; HZRUN.msg = msg; hzHud.render(st, msg, t); document.body.classList.toggle('hz-on', st.level > 0);
+    if (!S.paused) hzAudio.update(st, t);
+  }
+  function hazardOff() { alertMgr.state = {}; alertMgr.level = 0; HZRUN.list = []; hzHud.render({ level: 0, others: [] }, null, 0); document.body.classList.remove('hz-on'); hzAudio.level = 0; }
+  let hzCanvas = null;
+  function hazardCanvas() {   // map/minimap overlay: steep (red), sharp steps (orange), no data (grey)
+    if (hzCanvas && hzCanvas.theta === S.theta) return hzCanvas;
+    const cv = document.createElement('canvas'); cv.width = NC; cv.height = NR; const ctx = cv.getContext('2d'), im = ctx.createImageData(NC, NR);
+    const put = (i, r, g, b, a) => { const o = i * 4; im.data[o] = r; im.data[o + 1] = g; im.data[o + 2] = b; im.data[o + 3] = a; };
+    for (const i of hazard.static.relief) put(i, 255, 140, 40, 150);
+    for (let i = 0; i < NC * NR; i++) { const s2 = hazard.slopeAt(i); if (s2 !== null && s2 > S.theta) put(i, 225, 45, 30, 170); }
+    for (const i of hazard.static.nodata) put(i, 150, 150, 150, 200);
+    ctx.putImageData(im, 0, 0); cv.theta = S.theta; hzCanvas = cv; return cv;
+  }
 
   // ============================================================================================ renderer
   const canvas = $('#view');
@@ -664,6 +698,7 @@
     PL.plan = null; flagS.visible = !!PL.start; flagD.visible = !!PL.dest;
     if (PL.start) place(flagS, PL.start.x, PL.start.y); if (PL.dest) place(flagD, PL.dest.x, PL.dest.y);
     if (!PL.start || !PL.dest) { buildRibbon(null); return; }
+    if (hazard.theta !== S.theta) hazard.setTheta(S.theta);
     const [r0, c0] = rcOf(PL.start.x, PL.start.y), [r1, c1] = rcOf(PL.dest.x, PL.dest.y);
     const a = RT.snap(routeGrid, r0, c0, S.theta, 40), b = RT.snap(routeGrid, r1, c1, S.theta, 40);
     if (!a || !b) { PL.plan = { error: !a ? 'Start is on ground steeper than the suit limit' : 'Destination is on ground steeper than the suit limit' }; buildRibbon(null); return; }
@@ -679,8 +714,8 @@
     if (dark) { level = 'nogo'; issues.push(`You would return after sunset (${M24.fmtH(sun.sunsetLtst)})`); }
     if (cmeNear(departUtc()).length) { if (level === 'go') level = 'cond'; issues.push('NASA DONKI: a CME reaches Mars within 24 h'); }
     if (res.maxSlope > S.theta - 2) { if (level === 'go') level = 'cond'; issues.push(`Route reaches ${fmt(res.maxSlope, 1)}°, close to the ${S.theta}° suit limit`); }
-    const pts = cells.map(xyOfIdx);
-    PL.plan = { cells, pts, out, back, total, o2g, margin, arrive, sun, st, level, issues, maxSlope: res.maxSlope, ms: performance.now() - t0, snapS: a.dispM, snapD: b.dispM };
+    const pts = cells.map(xyOfIdx); hazard.setRoute(cells); const hzr = hazard.scanRoute(pts);
+    PL.plan = { hzr, cells, pts, out, back, total, o2g, margin, arrive, sun, st, level, issues, maxSlope: res.maxSlope, ms: performance.now() - t0, snapS: a.dispM, snapD: b.dispM };
     buildRibbon(RT.simplify(pts, 1.5));
   }
   function departUtc() { const sol = M24.at(new Date()).sol; return M24.utcForLtst(sol, PL.dep).getTime(); }
@@ -694,6 +729,7 @@
       body = `<dl class="stats"><dt>Walk out</dt><dd>${km(p.out.len)} · ${hm(p.out.h)}</dd><dt>Round trip</dt><dd>${hm(p.total)}</dd>
         <dt>Oxygen needed</dt><dd>${fmt(p.o2g)} of ${fmt(CAP.o2kg * 1000)} g</dd><dt>Steepest slope</dt><dd>${fmt(p.maxSlope, 1)}°</dd>
         <dt>Back at</dt><dd>${M24.fmtH(p.arrive)} · sunset ${M24.fmtH(p.sun.sunsetLtst)}</dd></dl>
+        ${hzRouteHtml(p.hzr)}
         <div class="verdict ${p.level}">${v}${p.issues.length ? `<small>${p.issues.map(esc).join('<br>')}</small>` : '<small>Within suit, daylight and slope limits</small>'}</div>`;
     } else if (p?.error) body = `<div class="verdict nogo">No route<small>${esc(p.error)}</small></div>`;
     $('#planner').innerHTML = `<button class="back" id="pl-back">‹ Globe</button>
@@ -712,6 +748,11 @@
     $('#pl-back').onclick = () => toGlobe();
     $('#pl-go').onclick = () => beginEVA();
     hintPlan();
+  }
+  function hzRouteHtml(h) {
+    if (!h) return ''; const row = (k, name) => { const r = h[k]; if (!r) return `<dt>${name}</dt><dd>none nearby</dd>`;
+      return `<dt>${name}</dt><dd>closest ${fmt(r.closest)} m${r.withinWarnM > 0 ? ` · ${km(r.withinWarnM)} within ${hazard.cfg.levels.warning} m` : ''}</dd>`; };
+    return `<dl class="stats"><dt style="grid-column:1/-1;color:var(--ink)">Hazards along this route</dt>${row('steep', `Slope > ${S.theta}° (DEM)`)}${row('relief', 'Sharp steps ≥ 4 m (DEM)')}${row('nodata', 'No terrain data')}</dl>`;
   }
   function hintPlan() { $('#plan-hint').textContent = PL.active === 'start' ? 'Click the ground or a marker to set your start' : 'Click the ground or a marker to set your destination'; }
   // site input
@@ -734,7 +775,7 @@
   function setPhase(ph) {
     S.phase = ph; document.body.className = document.body.className.replace(/phase-\w+/g, '').trim() + ` phase-${ph}` + (TOUCH ? ' touch' : '') + (S.view === 'fp' ? ' fp' : '');
     $('#globe-ui').classList.toggle('hidden', ph !== 'globe'); $('#plan-ui').classList.toggle('hidden', ph !== 'site'); $('#hud').classList.toggle('hidden', ph !== 'play');
-    showGlobeMarks(ph === 'globe'); if (ph !== 'site' && ph !== 'play') hideLabels();
+    showGlobeMarks(ph === 'globe'); if (ph !== 'site' && ph !== 'play') hideLabels(); if (ph !== 'play') hazardOff();
   }
   function flashFx(peak = 0.5, ms = 380) { const fx = $('#fx'); fx.style.transition = 'none'; fx.style.opacity = peak; requestAnimationFrame(() => { fx.style.transition = `opacity ${ms}ms ease-out`; fx.style.opacity = 0; }); }
   const seqs = []; // simple timeline runner
@@ -801,6 +842,7 @@
     if (k === ' ') { e.preventDefault(); jump(); }
     if (k === 'e') interact(); if (k === 'v') toggleView(); if (k === 'm') toggleMap(true); if (k === 'escape' || k === 'p') toggleMenu(true);
     if (k === 'f') toggleAuto(); if (k === 't') cycleSpeed(); if (k === 'r') { SET.guide = !SET.guide; if (ribbon) ribbon.visible = SET.guide; flash(SET.guide ? 'Route guide on' : 'Route guide off', 'info'); }
+    if (k === 'n') setAlarmMute(!SET.alarmMute);
     if (k === 'l') { S.headlamp = !S.headlamp; flash(S.headlamp ? 'Helmet lights on' : 'Helmet lights auto', 'info'); }
     if (k === 'shift') P.run = true;
     if (['w', 'a', 's', 'd', 'arrowup', 'arrowdown', 'arrowleft', 'arrowright'].includes(k)) S.lastManual = performance.now();
@@ -825,7 +867,9 @@
     let dx = (e.clientX - cx) / R, dy = (e.clientY - cy) / R; const m = Math.hypot(dx, dy); if (m > 1) { dx /= m; dy /= m; } joy.x = dx; joy.y = -dy; S.lastManual = performance.now(); knob.style.transform = `translate(${dx * 36}px, ${dy * 36}px)`; }
   const hold = (id, on) => { $(id).addEventListener('pointerdown', (e) => { e.preventDefault(); AU.start(); on(); }); };
   hold('#t-run', () => { P.run = !P.run; $('#t-run').classList.toggle('on', P.run); }); hold('#t-use', () => interact()); hold('#t-auto', () => toggleAuto());
-  $('#b-map').onclick = () => toggleMap(true); $('#b-menu').onclick = () => toggleMenu(true);
+  $('#b-map').onclick = () => toggleMap(true); $('#b-menu').onclick = () => toggleMenu(true); $('#b-alarm').onclick = () => { AU.start(); setAlarmMute(!SET.alarmMute); };
+  function setAlarmMute(m) { SET.alarmMute = m; store.set('alarmMute', m); hzAudio.setMuted(m); $('#b-alarm').classList.toggle('muted', m); flash(m ? 'Hazard alarm muted (visual warnings stay on)' : 'Hazard alarm on', 'info', 2); }
+  $('#b-alarm').classList.toggle('muted', SET.alarmMute);
   function toggleAuto() { S.auto = !S.auto; $('#t-auto').classList.toggle('on', S.auto); flash(S.auto ? 'Following the planned route' : 'Manual walking', 'info', 2); }
   function cycleSpeed() { const o = [10, 30, 60]; S.speed = o[(o.indexOf(S.speed) + 1) % o.length]; SET.speed = S.speed; store.set('speed', S.speed); flash(`Time and travel ×${S.speed}`, 'info'); }
   function toggleView() { S.view = S.view === 'tp' ? 'fp' : 'tp'; SET.view = S.view; store.set('view', S.view); document.body.classList.toggle('fp', S.view === 'fp'); if (S.view === 'tp' && document.pointerLockElement) document.exitPointerLock(); }
@@ -1048,11 +1092,11 @@
       drawTape(heading, brg); $('#target').innerHTML = `${S.leg === 'out' ? 'Destination' : 'Return'} · <b>${esc(tgt.name)}</b> · ${km(dist)}`; }
     const n = nearest(); $('#prompt').classList.toggle('hidden', !n); if (n) $('#prompt').innerHTML = `<kbd>${TOUCH ? 'Use' : 'E'}</kbd>${esc(n.text)}`;
     const al = [];
-    if (P.blocked) al.push(['bad', S.mode === 'drive' ? `Too steep for the rover (>${PHYS.roverSlope}°)` : `Too steep for the suit (>${S.theta}°)`]);
+    if (P.blocked && S.mode === 'drive') al.push(['bad', `Too steep for the rover (>${PHYS.roverSlope}°)`]);
     if (P.edge) al.push(['warn', 'Edge of the mapped area']);
     if (m !== null && m < 0) al.push(['bad', 'Past the point of no return — head for the nearest safe haven']); else if (m !== null && m < 0.75) al.push(['warn', `Turn back within ${hm(m)}`]);
     if (fO2 < 0.15) al.push(['bad', 'Oxygen critical']); if (S.res.integ < 0.999) al.push(['bad', 'Suit leak']);
-    if (st.elev < 0) al.push(['warn', `Night · ${fmt(T - 273.15)} °C`]); if (cmeNear(S.sim).length) al.push(['warn', 'CME arriving within 24 h (NASA DONKI)']);
+    if (st.elev < 0) al.push(['warn', `Night · ${fmt(T - 273.15)} °C (MEDA historical reference)`]); if (cmeNear(S.sim).length) al.push(['warn', 'CME forecast to reach Mars within 24 h (NASA DONKI model)']);
     if (S.updateReady) al.push(['info', 'Update ready — reload when convenient']);
     const tn = performance.now(); for (let i = flashes.length - 1; i >= 0; i--) if (flashes[i].until < tn) flashes.splice(i, 1);
     for (const f of flashes.slice(-1)) al.push([f.kind, f.text]);
@@ -1076,6 +1120,7 @@
     mmc.translate(c, c); mmc.rotate(-hr); mmc.scale(s, s);
     if (ortho.complete && ortho.naturalWidth) { mmc.globalAlpha = 0.9; mmc.drawImage(ortho, AOI.xmin - p.x, -(AOI.ymax - p.y), AOI.xmax - AOI.xmin, AOI.ymax - AOI.ymin); mmc.globalAlpha = 1;
       mmc.globalCompositeOperation = 'multiply'; mmc.fillStyle = '#d99a6c'; mmc.fillRect(-R * 1.5, -R * 1.5, R * 3, R * 3); mmc.globalCompositeOperation = 'source-over'; }
+    { const hc = hazardCanvas(); mmc.globalAlpha = 0.55; mmc.imageSmoothingEnabled = false; mmc.drawImage(hc, AOI.xmin - p.x, -(AOI.ymax - p.y), AOI.xmax - AOI.xmin, AOI.ymax - AOI.ymin); mmc.imageSmoothingEnabled = true; mmc.globalAlpha = 1; }
     const to = (x, y) => [x - p.x, -(y - p.y)];
     if (S.legPath && SET.guide) { mmc.strokeStyle = '#e0863a'; mmc.lineWidth = 3.2 / s; mmc.lineJoin = 'round'; mmc.beginPath(); S.legPath.forEach((q, i) => { const l = Lc(q.X, q.Z); const [u, v] = to(l.x, l.y); i ? mmc.lineTo(u, v) : mmc.moveTo(u, v); }); mmc.stroke(); }
     if (S.trail.length > 1) { mmc.strokeStyle = 'rgba(233,228,218,.75)'; mmc.lineWidth = 1.6 / s; mmc.setLineDash([4 / s, 4 / s]); mmc.beginPath(); S.trail.forEach(([X, Z], i) => { const l = Lc(X, Z); const [u, v] = to(l.x, l.y); i ? mmc.lineTo(u, v) : mmc.moveTo(u, v); }); mmc.stroke(); mmc.setLineDash([]); }
@@ -1104,10 +1149,14 @@
       ['Time & travel', () => { cycleSpeed(); renderMenu(); }, `×${S.speed}`],
       ['Graphics', () => { const o = ['auto', 'ultra', 'high', 'low']; SET.gfx = o[(o.indexOf(SET.gfx) + 1) % o.length]; store.set('gfx', SET.gfx); setQuality(qName(SET.gfx)); renderMenu(); }, SET.gfx === 'auto' ? `Auto (${qName('auto')})` : SET.gfx],
       ['Sound', () => { SET.sound = !SET.sound; store.set('sound', SET.sound); AU.setOn(SET.sound); renderMenu(); }, SET.sound ? 'On' : 'Off'],
+      ['Hazard alarm', () => { setAlarmMute(!SET.alarmMute); renderMenu(); }, SET.alarmMute ? 'Muted' : 'On'],
+      ['Alarm volume', () => { const o = [0.8, 0.5, 0.25]; SET.alarmVol = o[(o.indexOf(SET.alarmVol) + 1) % o.length]; store.set('alarmVol', SET.alarmVol); hzAudio.setVolume(SET.alarmVol); hzAudio.start(); hzAudio._play('warning'); renderMenu(); }, `${Math.round(SET.alarmVol * 100)} %`],
+      ['Alert distances', () => { SET.hzPreset = (SET.hzPreset + 1) % HZ_PRESETS.length; store.set('hzPreset', SET.hzPreset); setHzLevels(hzLevels(SET.hzPreset)); renderMenu(); }, `${HZ_PRESETS[SET.hzPreset].slice(0, 3).join(' / ')} m · ${HZ_PRESETS[SET.hzPreset][3]}`],
+      ['Reduced motion', () => { SET.reduced = !SET.reduced; store.set('reduced', SET.reduced); hzHud.reduced = SET.reduced; renderMenu(); }, SET.reduced ? 'On' : 'Off'],
       ['Model & sources', () => { toggleMenu(false); showModel(); }], ['sep'],
       ['Abandon EVA', () => { toggleMenu(false); backToPlanner(); }, '', 'danger']];
     $('#menu-items').innerHTML = items.map((it, i) => it[0] === 'sep' ? '<div class="sep"></div>' : `<button data-i="${i}" class="${it[3] || ''}">${esc(it[0])}${it[2] ? `<small>${esc(it[2])}</small>` : ''}</button>`).join('')
-      + `<div class="controls">${TOUCH ? 'Stick: walk · drag: look · Auto: follow the route · Use: interact' : 'WASD walk · Shift run · Space jump · F follow route · E use · V camera · T time speed · R route guide · L lights · M map · Esc menu'}</div>`;
+      + `<div class="controls">${TOUCH ? 'Stick: walk · drag: look · Auto: follow the route · Use: interact' : 'WASD walk · Shift run · Space jump · F follow route · E use · V camera · T time speed · R route guide · L lights · N hazard alarm · M map · Esc menu'}</div>`;
     $('#menu-items').querySelectorAll('button').forEach((b) => b.onclick = () => { AU.click(); items[+b.dataset.i][1](); });
   }
   function setQuality(name) {
@@ -1135,7 +1184,7 @@
   // full map with NASA data layers
   const mapCv = $('#map'), mctx = mapCv.getContext('2d');
   const IMGS = {}; const img = (f) => IMGS[f] || (IMGS[f] = Object.assign(new Image(), { src: '../data/' + f, onload: () => { if (!$('#mapview').classList.contains('hidden')) drawMap(); } }));
-  const MV = { s: 1, ox: 0, oy: 0, lay: { optical: true, thermal: false, slope: false, safe: true, geology: false, track: true } };
+  const MV = { s: 1, ox: 0, oy: 0, lay: { optical: true, thermal: false, slope: false, hazards: true, safe: true, geology: false, track: true } };
   function toggleMap(open) { $('#mapview').classList.toggle('hidden', !open);
     if (open) { if (document.pointerLockElement) document.exitPointerLock(); setPaused(true); sizeMap(); centerMap(); renderMapSide(); drawMap(); } else if ($('#modal').classList.contains('hidden')) setPaused(false); }
   function sizeMap() { const r = mapCv.parentElement.getBoundingClientRect(); mapCv.width = r.width * devicePixelRatio; mapCv.height = r.height * devicePixelRatio; }
@@ -1156,6 +1205,7 @@
     if (MV.lay.optical) lay('hirise_ortho_1m.jpg'); else lay('ctx_ortho_6m.jpg');
     if (MV.lay.thermal) lay('themis_night_20m.jpg', 0.75);
     if (MV.lay.slope) lay('slope_classes_5m.png', 0.6, false);
+    if (MV.lay.hazards) { c.globalAlpha = 0.75; c.imageSmoothingEnabled = false; c.drawImage(hazardCanvas(), x0, y0, ww, hh); c.imageSmoothingEnabled = true; c.globalAlpha = 1; }
     if (MV.lay.safe) { c.imageSmoothingEnabled = false; c.drawImage(safeZone(), x0, y0, ww, hh); c.imageSmoothingEnabled = true; }
     if (MV.lay.geology) { c.lineWidth = 1.5 * k; for (const f of D.geology?.features || []) { const col = D.geology.colors?.[f.unit] || '#c9b'; c.strokeStyle = col; c.fillStyle = col + '33';
       const polys = f.geometry.type === 'Polygon' ? [f.geometry.coordinates] : f.geometry.coordinates; for (const poly of polys) { c.beginPath(); poly[0].forEach(([x, y], i) => { const [sx, sy] = toScr(x, y); i ? c.lineTo(sx, sy) : c.moveTo(sx, sy); }); c.closePath(); c.fill(); c.stroke(); } } }
@@ -1172,7 +1222,7 @@
   function renderMapSide() {
     const pr = predict(), st = pr.st, T = airTemp(st), Pm = medaAt('P', st.lmst), near = cmeNear(S.sim);
     const v = { go: 'Go', cond: 'Caution', nogo: 'Return now' }[pr.level];
-    const L = [['optical', 'Optical', 'HiRISE 25 cm→1 m · MRO', '#bbb'], ['thermal', 'Thermal', 'THEMIS night IR · Odyssey', '#ddd'], ['slope', 'Slope', 'HiRISE DTM 5 m', '#86a94a'],
+    const L = [['optical', 'Optical', 'HiRISE 25 cm→1 m · MRO', '#bbb'], ['thermal', 'Thermal', 'THEMIS night IR · Odyssey', '#ddd'], ['slope', 'Slope', 'HiRISE DTM 5 m', '#86a94a'], ['hazards', 'Terrain hazards', 'Steep · steps · no data', '#e12d1e'],
       ['safe', 'Beyond safe return', 'From your O₂ now', '#782014'], ['geology', 'Geology', 'USGS SIM 3464', '#a885d6'], ['track', 'Perseverance track', 'NASA M20 waypoints', '#5aa4c8']];
     $('#map-side').innerHTML = `<div class="verdict ${pr.level}">${v}<small>Turn back in ${pr.margin === null ? '—' : hm(pr.margin)} · walk home ${pr.h ? km(pr.h.phys) : '—'}</small></div>
       <h3>Suit</h3><dl class="stats"><dt>Oxygen</dt><dd>${fmt(S.res.o2 * 1000)} / ${fmt(CAP.o2kg * 1000)} g</dd><dt>CO₂ absorbed</dt><dd>${fmt(S.res.co2 * 1000)} g</dd><dt>Power</dt><dd>${fmt(S.res.wh)} Wh</dd>
@@ -1206,7 +1256,7 @@
       labelT += dt; if (labelT > 0.03) { labelT = 0; updateLabels(); } }
     else if (S.phase === 'switch') { for (const f of [flagS, flagD]) f.scale.setScalar(1); night = updatePlay(0, false); }
     else if (S.phase === 'play') { for (const f of [flagS, flagD]) f.scale.setScalar(1);
-      if (!S.paused && !S.over) step(dt); night = updatePlay(S.paused ? 0 : dt);
+      if (!S.paused && !S.over) step(dt); night = updatePlay(S.paused ? 0 : dt); if (!S.over) hazardTick(S.paused ? 0 : dt, t);
       hudT += dt; if (hudT > 0.15) { hudT = 0; updateHUD(); } labelT += dt; if (labelT > 0.05) { labelT = 0; updateLabels(); }
       AU.update(dt, S.wNow || PHYS.W_rest, 0.5, S.paused || S.over); }
     render(scene, camera, t, sunWorld, night);
@@ -1248,6 +1298,8 @@
     if (H.view === 'fp' || H.view === 'tp') S.view = H.view;
     if (H.theta && [15, 20, 25].includes(+H.theta)) S.theta = +H.theta;
     if (H.ltst && Number.isFinite(+H.ltst)) PL.dep = +H.ltst;
+    if (H.hz) { const v = H.hz.split(',').map(Number); if (v.length === 3 && v.every((x) => x > 0) && v[0] > v[1] && v[1] > v[2]) setHzLevels({ caution: v[0], warning: v[1], critical: v[2] }); }
+    if ('rm' in H) { SET.reduced = true; hzHud.reduced = true; } if ('mute' in H) setAlarmMute(true);
     buildGlobe(); $('#boot-msg').textContent = 'Building Jezero terrain';
     setTimeout(() => {
       buildWorld(); applyRendererMode();
@@ -1263,7 +1315,7 @@
         } else { setPhase('globe'); if ('jezero' in H) selectSite((GA.globe_sites || [])[0]); }
       };
       if (manager.done) go(); else { const prev = manager.onLoad; manager.onLoad = () => { prev(); go(); }; setTimeout(() => { if (S.phase === 'boot') go(); }, 15000); }
-      window.MEC_GAME = { S, P, PL, GL, SC, scene, sun, post, ribbonMat, get terrain() { return terrain; }, get ribbon() { return ribbon; }, PHYS, CAP, camera, get astro() { return astro; }, predict, lifeHours, metabolic, groundY, Lc, W, toggleMap, interact, endGame, setQuality, beginEVA, computePlan, pickPOI, selectSite, enterSite, toggleAuto };
+      window.MEC_GAME = { S, P, PL, GL, SC, hazard, alertMgr, hzAudio, hzHud, HZRUN, setHzLevels, scene, sun, post, ribbonMat, get terrain() { return terrain; }, get ribbon() { return ribbon; }, PHYS, CAP, camera, get astro() { return astro; }, predict, lifeHours, metabolic, groundY, Lc, W, toggleMap, interact, endGame, setQuality, beginEVA, computePlan, pickPOI, selectSite, enterSite, toggleAuto };
     }, 30);
     offline(); loop();
   } catch (e) { $('#boot-msg').textContent = 'Could not start 3D: ' + e.message; console.error(e); }

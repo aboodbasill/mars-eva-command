@@ -403,7 +403,7 @@ def main():
         if f not in ('bundle.js', 'manifest.json'):
             h.update(f.encode()); h.update(sha256(os.path.join(APPDATA, f)).encode())
     for f in ('index.html', 'app.js', 'style.css', 'service-worker.js', 'mars24.js', 'game/index.html', 'game/game.js', 'game/game.css',
-              'game/route.js', 'game/audio.js'):
+              'game/route.js', 'game/audio.js', 'game/hazard.js'):
         h.update(sha256(os.path.join(ROOT, 'app', f)).encode())
     h.update(json.dumps([layers, routes, stations, rec['model'], ASSUMPTIONS], sort_keys=True, default=str).encode())
     bid = 'mec-' + h.hexdigest()[:12]
@@ -439,7 +439,7 @@ def main():
     app_root = os.path.join(ROOT, 'app')
     static = ['./', 'index.html', 'app.js', 'style.css', 'mars24.js', 'lib/leaflet.min.js', 'lib/leaflet.min.css', 'lib/chart.umd.min.js',
               'lib/three.min.js', 'lib/fonts/RobotoCondensed-latin.woff2', 'game/', 'game/index.html', 'game/game.js', 'game/game.css',
-              'game/route.js', 'game/audio.js']
+              'game/route.js', 'game/audio.js', 'game/hazard.js']
     with open(os.path.join(app_root, 'precache.js'), 'w') as fh:
         fh.write(f"self.MEC_BUILD={json.dumps(bid)};\nself.MEC_ASSETS={json.dumps(static + ['data/' + f for f in files] + ['data/manifest.json'])};\n")
     print('exported', len(files), 'files,', round(manifest['total_bytes'] / 1e6, 2), 'MB; build', bid)

@@ -40,6 +40,9 @@ It is the best-mapped human-scale terrain on Mars: 1 m terrain, 25 cm images, a 
 ### "Is the game just decoration?"
 No. It is the planner turned into a rehearsal. You pick a start and a destination on the real HiRISE terrain. The browser runs the same A* as our pipeline (a test checks that both give identical costs), and shows the walk time, the oxygen needed at NASA's 1,000 Btu/h rate, the steepest slope and a Go / No-go before you start. During the walk, the turn-back margin comes from the same cost-to-home fields as the planner. Gravity, work rates, oxygen chemistry and the 8 h limit come from NASA sources listed under Model & sources. The rocks, ground detail textures and suit sounds are declared assumptions.
 
+### "Are the hazard warnings real?"
+They come from the astronaut's real position and our NASA grids: HiRISE slope above the suit limit, sharp steps of 4 m or more in the HiRISE DEM, and cells with no terrain data. Each alert is labelled as DEM-derived or a data gap. The alert distances are gameplay settings, and weather or radiation are never shown as live hazards. A "clear" status only means nothing was found at 5 m resolution.
+
 ### "Why a globe first?"
 It uses the challenge's own resource, JPL Mars Trek, and shows the gap the challenge describes: global maps exist, but an astronaut needs one hyper-local route. You go from the whole planet to a 5 m routing cell in about ten seconds.
 

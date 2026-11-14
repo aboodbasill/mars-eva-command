@@ -39,6 +39,7 @@ The same register ships inside the app (Data & Limits) from `pipeline/09_export.
 | G-12 | ASSUMPTION | Perseverance's 3D model is an approximation (3 m long, six 52.5 cm wheels, mast, MMRTG). It stands at its last localized position inside the study area (sol 736, NASA M20 waypoints). The globe marks its latest position in our cached waypoint file. |
 | G-13 | ASSUMPTION | Planner times use the Apollo pace on each 5 m step of the route (uphill slows you, downhill does not speed you up). Task times: 25 min per outcrop, 30 min at the depot, 15 min at Perseverance, 10 min at a free point. |
 | G-14 | ASSUMPTION | Suit sounds are synthesised. Breathing rate follows the work rate (12 breaths/min at rest, +1 per 30 W). |
+| G-15 | ASSUMPTION | Hazard alert distances (Caution 50 m, Warning 20 m, Critical 5 m by default) and the sharp-step rule (≥ 4 m in a 3 × 3 window of the 5 m DEM) are gameplay settings, not NASA safety distances. "Clear" means nothing was found in the 5 m data, not that the ground is safe. No-data cells are flagged as unverified, not as known hazards. |
 
 ## Findings recorded during the build
 
