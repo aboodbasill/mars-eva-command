@@ -1,7 +1,7 @@
 {
  "schema_version": "1.0.0",
- "build_id": "mec-93876b149f5b",
- "built_utc": "2026-11-14T04:41:29+00:00",
+ "build_id": "mec-689f77ed1160",
+ "built_utc": "2026-11-14T04:46:01+00:00",
  "mission": {
   "id": "marswalk-1",
   "name": "Marswalk 1",
@@ -290,7 +290,7 @@
   {
    "file": "bundle.js",
    "bytes": 661474,
-   "sha256": "94c9cec4659119da789806c37c5e213f9d4a215b5b87e526d9725f5f96899361"
+   "sha256": "c7cceafee1bd1a531680975b8b6b58108eb58ebaa9ae4f6aa02caffcda6d7d76"
   },
   {
    "file": "chip_D1.jpg",

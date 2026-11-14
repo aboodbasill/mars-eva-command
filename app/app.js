@@ -753,6 +753,9 @@
     const hadController = !!navigator.serviceWorker.controller;
     navigator.serviceWorker.addEventListener('controllerchange', () => {
       if (!hadController) return;            // first install: nothing stale on screen
+      const ctrl = navigator.serviceWorker.controller;
+      const ctrlBuild = ctrl ? new URL(ctrl.scriptURL).searchParams.get('build') : null;
+      if (ctrlBuild === D.manifest.build_id) { ctrl.postMessage({ type: 'status' }); return; }   // already showing this build
       setBadge('Update ready — tap to reload', 'warn', 'A newer build has been cached; reload to use it');
       badge.style.cursor = 'pointer';
       badge.setAttribute('role', 'button');
