@@ -764,6 +764,13 @@
   drawEnvelope();
   drawRoutes();
   drawStops();
-  setMode('eva');
-  window.MEC_APP = { S, map, setMode };   // debugging hook
+  // Deep links: #mode=eva|env|recon|data&theta=15|20|25&budget=500..10000&station=S1&chip=S1
+  const H = Object.fromEntries(new URLSearchParams(location.hash.slice(1)));
+  if (H.theta && cfg.routing.scenarios_deg.includes(+H.theta)) { S.theta = +H.theta; thSel.value = H.theta; }
+  if (H.budget && cfg.walkback.budgets_m.includes(+H.budget)) { S.budget = +H.budget; bSel.value = H.budget; }
+  if (H.theta || H.budget) { drawEnvelope(); drawRoutes(); }
+  setMode(['eva', 'env', 'recon', 'data'].includes(H.mode) ? H.mode : 'eva');
+  if (H.station && D.stations.some((x) => x.id === H.station)) selectStation(H.station);
+  if (H.chip && D.recon.chips[H.chip]) showChip(H.chip);
+  window.MEC_APP = { S, map, setMode, selectStation };   // debugging hook
 })();

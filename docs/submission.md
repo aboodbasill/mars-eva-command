@@ -12,7 +12,9 @@ Rules checked 14 Nov 2026 against the official [Project Submission Guide](https:
 
 **Link to Final Project:** https://aboodbasill.github.io/mars-eva-command/ (source: https://github.com/aboodbasill/mars-eva-command)
 
-**Link to Project Demo:** _upload the 30 s video or the slide deck and paste its public link here_
+**Link to Project Demo:** 30-second video: https://aboodbasill.github.io/mars-eva-command/demo/Mars_EVA_Command_demo_30s.mp4 (silent, English on-screen text, 29 s).
+Alternative, the 7-slide deck: https://aboodbasill.github.io/mars-eva-command/demo/ (web) or https://aboodbasill.github.io/mars-eva-command/demo/Mars_EVA_Command_demo.pdf.
+Add your team name to the title slide with `MEC_TEAM="Your Team" .venv/bin/python demo/build_demo.py`, then commit and push.
 
 **High-level summary.** Future Mars crews will have 3–22 minutes of one-way light delay, so they must plan their own walks. Mars EVA Command is an offline map for one hypothetical Marswalk at Jezero Crater. It goes from a crew lander at the Perseverance landing site to four sampled delta-front outcrops and the Three Forks sample depot, then back. It routes over real HiRISE 1 m terrain under adjustable slope limits, shows how far each point is from home, and shows the rover's own view of every stop. Every layer is labelled as measured, derived, interpretive, modelled or missing. Its headline finding is that the full trip is 6.7 km and 45 % of it lies outside a 2 km-equivalent return budget, which points to the need for a closer lander or rover support.
 

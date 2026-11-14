@@ -3,7 +3,9 @@
 **Human EVA Exploration Planner · Mars Environmental Intelligence · AI-Assisted Reconnaissance**
 NASA Space Apps Challenge 2026 — challenge **[Interplanetary Survival Guide: Martian Map](https://www.spaceappschallenge.org/2026/challenges/interplanetary-survival-guide-martian-map/)**. Code: Apache-2.0.
 
-**Live app:** https://aboodbasill.github.io/mars-eva-command/
+**Live app:** https://aboodbasill.github.io/mars-eva-command/ · **Demo:** [30 s video](https://aboodbasill.github.io/mars-eva-command/demo/Mars_EVA_Command_demo_30s.mp4) · [7 slides](https://aboodbasill.github.io/mars-eva-command/demo/) · [PDF](https://aboodbasill.github.io/mars-eva-command/demo/Mars_EVA_Command_demo.pdf)
+
+Deep links open the app in a given state, e.g. `#mode=env`, `#mode=recon`, `#station=S2`, `#theta=15&budget=10000`.
 
 > **Use of SI:** the code and docs were generated with the help of an AI coding assistant (Claude, Anthropic) from the team's own plan. All data are NASA/USGS archive data, and no imagery is AI-generated. See [SI_DISCLOSURE.md](SI_DISCLOSURE.md).
 
