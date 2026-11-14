@@ -38,6 +38,7 @@ def crops():
         'env': ('env', (250, 61, 1600, 1000)),
         'recon': ('recon', (250, 61, 1600, 1000)),
         'profile': ('eva', (250, 772, 1240, 1000)),
+        'game': ('game_dusk', (0, 0, 1600, 1000)),
     }
     for k, (shot, box) in spec.items():
         im = Image.open(os.path.join(SHOTS, f'{shot}.png')).convert('RGB').crop(box)
@@ -84,19 +85,20 @@ def slides_html():
       <li>Max slope {r20["max_slope_deg"]:.1f}° under a 20° limit; tightening to 15° adds {(r15["length_m"]-r20["length_m"]):.0f} m</li>
       <li><b>Finding:</b> this plan needs a closer lander or rover support</li></ul></div>
       <img class="pic" src="img/map.jpg" alt="Route map"><img class="strip" src="img/profile.jpg" alt="Elevation profile"></section>''')
-    S.append(f'''<section class="s"><div class="txt"><div class="kicker">Trust every pixel</div>
+    S.append(f'''<section class="s"><div class="txt"><div class="kicker">Trust every pixel — measured, not assumed</div>
       <h1>Every stop shows what supports it</h1>
-      <ul><li>Provenance layer: 1 m HiRISE terrain vs 20 m CTX vs no data. The router avoids unsupported ground.</li>
-      <li>25 cm HiRISE close-ups and the rover's own view of each outcrop</li>
-      <li>Honest limits: DTM slope cannot see rocks smaller than about 1–2 m. This is a planning candidate, not a certified safe route.</li></ul></div>
-      <img class="pic" src="img/chip.jpg" alt="25 cm HiRISE chip at S1"></section>''')
-    S.append(f'''<section class="s"><div class="txt"><div class="kicker">Measured, not assumed</div>
-      <h1>Real weather, real checks</h1>
-      <ul><li>MEDA at the depot (sols {m["sols"][0]["sol"]}–{m["sols"][-1]["sol"]}): {min(P):.0f}–{max(P):.0f} Pa, {min(T)-273.15:.0f} to {max(T)-273.15:.0f} °C</li>
-      <li>Projection fixed first: avoids a {val["projection"]["source_projection_ew_scale_error"]*100:.1f} % distance error</li>
+      <ul><li>Provenance layer: 1 m HiRISE vs 20 m CTX vs no data; 25 cm close-ups and the rover's own view of each outcrop</li>
+      <li>Real MEDA weather at the depot: {min(P):.0f}–{max(P):.0f} Pa, {min(T)-273.15:.0f} to {max(T)-273.15:.0f} °C</li>
       <li>Terrain vs {reg["count"]} rover waypoints: median {reg["median"]:+.2f} m · {rv["passable_fraction"]*100:.1f} % of the rover's path passable at 20°</li>
-      <li>{n_tests} automated tests pass · our AI model failed its own release gate, so it is not shown as fact</li></ul></div>
-      <img class="pic" src="img/env.jpg" alt="Environment mode"></section>''')
+      <li>{n_tests} automated tests · our AI model failed its own release gate, so it is not shown as fact</li></ul></div>
+      <img class="pic" src="img/chip.jpg" alt="25 cm HiRISE chip at S1"></section>''')
+    S.append(f'''<section class="s"><div class="txt"><div class="kicker">Rehearse it in 3D</div>
+      <h1>Walk the plan before you walk Mars</h1>
+      <ul><li>First- or third-person on the real HiRISE terrain, under the Mars24 sun for the chosen sol</li>
+      <li>Oxygen, CO₂, power and cooling from <b>NASA EVA work rates</b> (1,000 Btu/h design) and Mars gravity 3.73 m/s²</li>
+      <li>Live return margin from the same cost-to-home fields as the planner's Go / No-go</li>
+      <li>Runs offline in a browser, phones included</li></ul></div>
+      <img class="pic" src="img/game.jpg" alt="3D field simulator at golden hour"></section>''')
     S.append(f'''<section class="s title"><img class="bg" src="img/chip.jpg" alt=""><div class="veil"></div><div class="tc">
       <div class="kicker">Try it — works offline</div><h1>Mars EVA Command</h1>
       <div class="links big">{APP_URL}</div><div class="links">{REPO_URL}</div>

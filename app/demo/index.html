@@ -37,19 +37,20 @@
       <ul><li>Lander → 4 sampled delta-front outcrops → Three Forks depot → lander</li>
       <li>Max slope 19.6° under a 20° limit; tightening to 15° adds 202 m</li>
       <li><b>Finding:</b> this plan needs a closer lander or rover support</li></ul></div>
-      <img class="pic" src="img/map.jpg" alt="Route map"><img class="strip" src="img/profile.jpg" alt="Elevation profile"></section><section class="s"><div class="txt"><div class="kicker">Trust every pixel</div>
+      <img class="pic" src="img/map.jpg" alt="Route map"><img class="strip" src="img/profile.jpg" alt="Elevation profile"></section><section class="s"><div class="txt"><div class="kicker">Trust every pixel — measured, not assumed</div>
       <h1>Every stop shows what supports it</h1>
-      <ul><li>Provenance layer: 1 m HiRISE terrain vs 20 m CTX vs no data. The router avoids unsupported ground.</li>
-      <li>25 cm HiRISE close-ups and the rover's own view of each outcrop</li>
-      <li>Honest limits: DTM slope cannot see rocks smaller than about 1–2 m. This is a planning candidate, not a certified safe route.</li></ul></div>
-      <img class="pic" src="img/chip.jpg" alt="25 cm HiRISE chip at S1"></section><section class="s"><div class="txt"><div class="kicker">Measured, not assumed</div>
-      <h1>Real weather, real checks</h1>
-      <ul><li>MEDA at the depot (sols 656–684): 716–769 Pa, -83 to -18 °C</li>
-      <li>Projection fixed first: avoids a 5.4 % distance error</li>
+      <ul><li>Provenance layer: 1 m HiRISE vs 20 m CTX vs no data; 25 cm close-ups and the rover's own view of each outcrop</li>
+      <li>Real MEDA weather at the depot: 716–769 Pa, -83 to -18 °C</li>
       <li>Terrain vs 268 rover waypoints: median -0.00 m · 99.2 % of the rover's path passable at 20°</li>
-      <li>45 automated tests pass · our AI model failed its own release gate, so it is not shown as fact</li></ul></div>
-      <img class="pic" src="img/env.jpg" alt="Environment mode"></section><section class="s title"><img class="bg" src="img/chip.jpg" alt=""><div class="veil"></div><div class="tc">
+      <li>45 automated tests · our AI model failed its own release gate, so it is not shown as fact</li></ul></div>
+      <img class="pic" src="img/chip.jpg" alt="25 cm HiRISE chip at S1"></section><section class="s"><div class="txt"><div class="kicker">Rehearse it in 3D</div>
+      <h1>Walk the plan before you walk Mars</h1>
+      <ul><li>First- or third-person on the real HiRISE terrain, under the Mars24 sun for the chosen sol</li>
+      <li>Oxygen, CO₂, power and cooling from <b>NASA EVA work rates</b> (1,000 Btu/h design) and Mars gravity 3.73 m/s²</li>
+      <li>Live return margin from the same cost-to-home fields as the planner's Go / No-go</li>
+      <li>Runs offline in a browser, phones included</li></ul></div>
+      <img class="pic" src="img/game.jpg" alt="3D field simulator at golden hour"></section><section class="s title"><img class="bg" src="img/chip.jpg" alt=""><div class="veil"></div><div class="tc">
       <div class="kicker">Try it — works offline</div><h1>Mars EVA Command</h1>
       <div class="links big">https://aboodbasill.github.io/mars-eva-command/</div><div class="links">https://github.com/aboodbasill/mars-eva-command</div>
-      <p class="small">All imagery is NASA/USGS spacecraft or rover data. Code made with an AI coding assistant from the team's plan (see SI_DISCLOSURE.md). Build mec-689f77ed1160.</p></div></section><script>const n=parseInt((location.hash.match(/slide=(\d+)/)||[])[1]||0,10);
+      <p class="small">All imagery is NASA/USGS spacecraft or rover data. Code made with an AI coding assistant from the team's plan (see SI_DISCLOSURE.md). Build mec-6a29006b4834.</p></div></section><script>const n=parseInt((location.hash.match(/slide=(\d+)/)||[])[1]||0,10);
       if(n){document.body.classList.add('one');document.querySelectorAll('.s')[n-1].classList.add('on');}</script></body></html>
